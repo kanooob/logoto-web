@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Logoto: Discord Bot to Automatically Change Logo and Server Name</title>
+    <meta name="description" content="Discover Logoto, the ultimate Discord bot to automate and schedule your server's icon and name changes. Easily manage everything with /setup and /add-an-event!">
+    <link rel="canonical" href="https://logoto.onrender.com/index-en">
+
+    <link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/">
+    <link rel="alternate" hreflang="en" href="https://logoto.onrender.com/index-en">
+    <link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://logoto.onrender.com/index-en">
+    <meta property="og:title" content="Logoto: Discord Automation Bot">
+    <meta property="og:description" content="Schedule your Discord server's logo and name changes automatically for your events.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
+    <meta property="og:locale" content="en_US">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Logoto: Discord Automation Bot">
+    <meta name="twitter:description" content="Automate your server's logo and name updates for seasonal and special events.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
+
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Logoto",
+      "description": "Discord bot to automate and schedule server logo and name changes.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Discord",
+      "inLanguage": "en-US",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            background-color: #36393f;
+            color: #ffffff;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .lang-header {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .lang-link {
+            color: #7289da;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            background-color: #2f3136;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .lang-link:hover {
+            background-color: #4f545c;
+        }
+
+        .container { max-width: 600px; width: 100%; margin-top: auto; margin-bottom: auto; }
+        .icon {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #7289da;
+            margin-bottom: 10px;
+        }
+        p.description {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #dcddde;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffffff;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary { background-color: #5865f2; }
+        .btn-primary:hover { background-color: #4f5bda; }
+        .btn-secondary { background-color: #4f545c; }
+        .btn-secondary:hover { background-color: #5d6269; }
+        
+        @media (min-width: 600px) {
+            .button-container {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+
+        footer {
+            background-color: #2f3136;
+            padding: 15px 20px;
+            color: #99aab5;
+            font-size: 0.9rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.2s;
+        }
+        footer a:hover {
+            color: #7289da;
+            text-decoration: underline;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <header class="lang-header">
+            <a href="/" class="lang-link">Français 🇫🇷</a>
+        </header>
+
+        <main class="container">
+            <img src="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png" 
+                 alt="Logoto icon, the automatic Discord bot for server logo and name changes" 
+                 class="icon">
+            
+            <h1>Logoto: Automate Your Discord Server's Logo and Name</h1>
+            
+            <p class="description">
+                Logoto is the ultimate <strong>Discord bot</strong> designed to <strong>automate your server's icon</strong> and <strong>name changes</strong>. 
+                Easily schedule your modifications for special events, seasons, or community celebrations, effortlessly!
+            </p>
+            
+            <div class="button-container">
+                <a href="https://discord.com/oauth2/authorize?client_id=1431383390162124920" 
+                   class="btn btn-primary" 
+                   target="_blank"
+                   rel="noopener noreferrer"> Add to Discord
+                </a>
+                
+                <a href="/help-en" class="btn btn-secondary">
+                    View Help & Commands
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>This site is hosted on Render. Logoto is a personal project.</p>
+        <div class="footer-links">
+            <a href="/tos">Terms of Service (ToS)</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">Source Code</a>
+        </div>
+    </footer>
+</body>
+</html>
