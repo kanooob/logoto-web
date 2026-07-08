@@ -25,9 +25,9 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// 4. Gestion de l'erreur 404 si la page n'existe pas
+// 4. Gestion de l'erreur 404 : Renvoie ton fichier 404.html personnalisé
 app.use((req, res) => {
-    res.status(404).send("<h1>Erreur 404 : Page introuvable</h1>");
+    res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
 app.listen(PORT, () => {
