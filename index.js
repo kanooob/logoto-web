@@ -2,17 +2,34 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-// Render fournit automatiquement le port via le process.env
 const PORT = process.env.PORT || 8080;
 
-// Servir tous les fichiers statiques (html, css, js, images) du dossier 'public'
+// 1. Sert d'abord les fichiers statiques normalement (CSS, Images, JS)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Redirection par défaut vers ton index.html si la route n'est pas spécifiée
-app.get('*', (req, res) => {
+// 2. Permet d'accéder aux pages sans taper ".html" dans l'URL (ex: site.com/page2)
+app.get('/:page', (req, res, next) => {
+    const pageName = req.params.page;
+    const filePath = path.join(__dirname, 'public', `${pageName}.html`);
+    
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            // Si le fichier HTML n'existe pas, on passe à la suite (Erreur 404)
+            next();
+        }
+    });
+});
+
+// 3. Page d'accueil par défaut (site.com/)
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// 4. Gestion de l'erreur 404 si la page n'existe pas
+app.use((req, res) => {
+    res.status(404).send("<h1>Erreur 404 : Page introuvable</h1>");
+});
+
 app.listen(PORT, () => {
-    console.log(`Site en ligne sur le port ${PORT}`);
+    console.log(`Serveur lancé sur le port ${PORT}`);
 });
