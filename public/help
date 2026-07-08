@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Logoto Help & Commands | Configure your Discord Bot</title>
+    <meta name="description" content="Official guide for the Logoto Discord bot. Discover all commands (/setup, /help, /add-an-event) to automate your Discord server's logo and name changes.">
+    <link rel="canonical" href="https://logoto.onrender.com/help-en">
+
+    <link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/help">
+    <link rel="alternate" hreflang="en" href="https://logoto.onrender.com/help-en">
+    <link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/help">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://logoto.onrender.com/help-en">
+    <meta property="og:title" content="Help & Commands | Logoto Discord Bot">
+    <meta property="og:description" content="Complete tutorial to configure your Discord server's automatic logo and name changes.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
+    <meta property="og:locale" content="en_US">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Help & Commands | Logoto Discord Bot">
+    <meta name="twitter:description" content="Complete tutorial to configure your Discord server's automation.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
+
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Logoto Bot Configuration Guide and Commands",
+      "description": "Learn how to configure and use all Logoto commands to automate your Discord server logo and name updates.",
+      "image": "https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png",
+      "inLanguage": "en-US",
+      "author": {
+        "@type": "Organization",
+        "name": "Logoto",
+        "url": "https://logoto.onrender.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Logoto",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png"
+        }
+      }
+    }
+    </script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #36393f; 
+            color: #dcddde; 
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content-wrapper { flex-grow: 1; padding: 40px 20px; }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #2f3136;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Top Navigation Header */
+        header {
+            margin-bottom: 35px;
+            border-bottom: 1px solid #4f545c;
+            padding-bottom: 15px;
+        }
+        .lang-switch { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            gap: 15px; 
+            flex-wrap: wrap; 
+        }
+        
+        h1 { color: #7289da; padding-bottom: 10px; font-size: 2.2rem; margin-top: 10px; }
+        h2 { color: #5865f2; margin-top: 35px; border-bottom: 1px solid #4f545c; padding-bottom: 5px; }
+        p, li { font-size: 1.1rem; color: #dcddde; }
+        code { background-color: #484c52; padding: 3px 6px; border-radius: 4px; font-family: Consolas, monospace; color: #f2f2f2; }
+        .note { background-color: #3c3a2e; border-left: 5px solid #ffc107; padding: 15px; margin-top: 25px; border-radius: 4px; color: #ffffff; }
+        .note strong { color: #ffc107; }
+        .command-list { list-style-type: none; padding: 0; }
+        .command-list li { margin-bottom: 10px; background-color: #3a3d42; padding: 12px; border-radius: 5px; }
+        
+        /* Text Links style */
+        .container a { text-decoration: underline; color: #7289da; }
+        
+        /* Buttons */
+        .btn { 
+            display: inline-block; 
+            padding: 10px 20px; 
+            border-radius: 6px; 
+            text-decoration: none !important; 
+            font-size: 0.95rem; 
+            font-weight: bold; 
+            color: #ffffff !important; 
+            transition: transform 0.2s, background-color 0.2s; 
+            border: none; 
+            cursor: pointer; 
+        }
+        .btn:hover { transform: translateY(-1px); }
+        .btn-primary { background-color: #5865f2; }
+        .btn-primary:hover { background-color: #4f5bda; }
+        .btn-secondary { background-color: #4f545c; }
+        .btn-secondary:hover { background-color: #5d6269; }
+        
+        footer { background-color: #2f3136; padding: 15px 20px; color: #99aab5; font-size: 0.9rem; width: 100%; box-sizing: border-box; text-align: center; margin-top: auto; }
+        footer a { color: #ffffff; text-decoration: none; margin: 0 10px; }
+        footer a:hover { color: #7289da; text-decoration: underline; }
+        .footer-links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 5px; }
+        hr { border: 0; border-top: 1px solid #4f545c; margin: 40px 0; }
+        ol { padding-left: 20px; }
+        ol li { margin-bottom: 15px; }
+        ol ul { list-style-type: disc; padding-left: 20px; }
+
+        @media (max-width: 480px) {
+            .lang-switch { flex-direction: column; align-items: stretch; text-align: center; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="content-wrapper">
+        <div class="container">
+            
+            <header>
+                <div class="lang-switch">
+                    <a href="/index-en" class="btn btn-secondary">← Back to Home</a>
+                    <a href="/help" class="btn btn-primary">Afficher en Français 🇫🇷</a>
+                </div>
+            </header>
+
+            <main>
+                <h1>Logoto Help - Automate your Logo & Name! 🇬🇧</h1>
+                <p>I am the bot specialized in automating the change of your server's logo AND name, without requiring complex configurations or lines of code after the initial setup.</p>
+
+                <h2>Commands</h2>
+                <ul class="command-list">
+                    <li><code>/setup</code> : First command to run. Automatically creates the required category and channels (Logoto, log-logoto) for a quick start.</li>
+                    <li><code>/add-an-event</code> : Automatically creates a scheduling channel with the correct format for your future events (Logo or Name).</li>
+                    <li><code>/help</code> : Displays the bot commands list (or this documentation page!).</li>
+                    <li><code>/info</code> : Returns all useful information regarding the current state and status of the bot.</li>
+                    <li><code>/ping</code> : Get the real-time latency between the bot and the Discord API.</li>
+                    <li><code>/invite</code> : Get the official invitation link to add Logoto to your own server.</li>
+                    <li><code>/support</code> : Join our support server to ask questions or get assistance.</li>
+                </ul>
+
+                <hr>
+
+                <h2>Automatic Logo Change System</h2>
+                <p>The bot monitors specific text channels to schedule and execute server avatar changes. You can use the <code>/add-an-event</code> command or create them manually:</p>
+
+                <ol>
+                    <li>
+                        <strong>Create the Scheduling Channel (Logo):</strong>
+                        <ul>
+                            <li>The channel name must strictly follow this format: <code>l-[DAY]-[MONTH]</code> (or generated via <code>/add-an-event</code>).</li>
+                            <li>EXAMPLE: To schedule an automatic logo for Halloween (October 31st): <code>l-31-10</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Prepare the Logo:</strong>
+                        <ul>
+                            <li>Upload your desired image to any channel on your server, right-click it, and copy its <strong>direct link</strong> (URL).</li>
+                            <li>The link must point to a valid image format (PNG, JPEG).</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Schedule the Change:</strong>
+                        <ul>
+                            <li>Edit the <strong>Channel Topic</strong> of the text channel created in step 1.</li>
+                            <li>Paste the <strong>direct image link</strong> directly into the topic of this channel.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Result:</strong>
+                        <ul>
+                            <li>The bot will automatically change the server's profile picture on the specified day and month!</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <hr>
+
+                <h2>Automatic Name Change System</h2>
+                <p>The principle is identical for automatically changing your Discord server's display name on a key date:</p>
+
+                <ol>
+                    <li>
+                        <strong>Create the Scheduling Channel (Name):</strong>
+                        <ul>
+                            <li>The text channel name must follow this format: <code>n-[DAY]-[MONTH]</code> (or generated via <code>/add-an-event</code>).</li>
+                            <li>EXAMPLE: To schedule a name change on January 1st: <code>n-1-1</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Schedule the Change:</strong>
+                        <ul>
+                            <li>Edit the <strong>Channel Topic</strong> of the created channel.</li>
+                            <li>Type the exact <strong>new full name</strong> that the server should take inside the channel topic.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Result:</strong>
+                        <ul>
+                            <li>The bot will automatically apply the new name on the specified date!</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="note">
+                    <strong>IMPORTANT NOTE:</strong> For the automatic daily verifications and changes to run properly, the channel named <code>log-logoto</code> <strong>must absolutely exist</strong> on your server. 
+                    <br><br>
+                    The bot uses this channel to send its daily technical loading messages (<code>l-Loading</code> or <code>n-Loading</code>), which trigger the server configurations refresh. The <code>/setup</code> command takes care of creating it cleanly for you.
+                </div>
+            </main> 
+            
+        </div>
+    </div> 
+
+    <footer>
+        <p>This site is hosted on Render. Logoto is a personal project.</p>
+        <div class="footer-links">
+            <a href="/tos">Terms of Service (ToS)</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">Source Code</a>
+        </div>
+    </footer>
+</body>
+</html>
