@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Aide et Commandes Logoto | Configurer votre Bot Discord</title>
+    <meta name="description" content="Guide officiel du bot Discord Logoto. Découvrez toutes les commandes (/setup, /help, /add-an-event) pour automatiser le changement de logo et de nom de votre serveur.">
+    <link rel="canonical" href="https://logoto.onrender.com/help">
+
+    <link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/help">
+    <link rel="alternate" hreflang="en" href="https://logoto.onrender.com/help-en">
+    <link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/help">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://logoto.onrender.com/help">
+    <meta property="og:title" content="Aide & Commandes | Logoto Bot Discord">
+    <meta property="og:description" content="Le tutoriel complet pour configurer l'automatisation des logos et noms de votre serveur Discord.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
+    <meta property="og:locale" content="fr_FR">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Aide & Commandes | Logoto Bot Discord">
+    <meta name="twitter:description" content="Le tutoriel complet pour configurer l'automatisation de votre serveur Discord.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
+
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Guide de Configuration et Commandes du Bot Logoto",
+      "description": "Apprenez à configurer et utiliser toutes les commandes de Logoto pour automatiser le changement de logo et de nom de votre serveur Discord.",
+      "image": "https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png",
+      "inLanguage": "fr-FR",
+      "author": {
+        "@type": "Organization",
+        "name": "Logoto",
+        "url": "https://logoto.onrender.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Logoto",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png"
+        }
+      }
+    }
+    </script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #36393f; 
+            color: #dcddde; 
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content-wrapper { flex-grow: 1; padding: 40px 20px; }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #2f3136;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* En-tête de navigation haut */
+        header {
+            margin-bottom: 35px;
+            border-bottom: 1px solid #4f545c;
+            padding-bottom: 15px;
+        }
+        .lang-switch { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            gap: 15px; 
+            flex-wrap: wrap; 
+        }
+        
+        h1 { color: #7289da; padding-bottom: 10px; font-size: 2.2rem; margin-top: 10px; }
+        h2 { color: #5865f2; margin-top: 35px; border-bottom: 1px solid #4f545c; padding-bottom: 5px; }
+        p, li { font-size: 1.1rem; color: #dcddde; }
+        code { background-color: #484c52; padding: 3px 6px; border-radius: 4px; font-family: Consolas, monospace; color: #f2f2f2; }
+        .note { background-color: #3c3a2e; border-left: 5px solid #ffc107; padding: 15px; margin-top: 25px; border-radius: 4px; color: #ffffff; }
+        .note strong { color: #ffc107; }
+        .command-list { list-style-type: none; padding: 0; }
+        .command-list li { margin-bottom: 10px; background-color: #3a3d42; padding: 12px; border-radius: 5px; }
+        
+        /* Style des liens par défaut dans le texte */
+        .container a { text-decoration: underline; color: #7289da; }
+        
+        /* Boutons */
+        .btn { 
+            display: inline-block; 
+            padding: 10px 20px; 
+            border-radius: 6px; 
+            text-decoration: none !important; 
+            font-size: 0.95rem; 
+            font-weight: bold; 
+            color: #ffffff !important; 
+            transition: transform 0.2s, background-color 0.2s; 
+            border: none; 
+            cursor: pointer; 
+        }
+        .btn:hover { transform: translateY(-1px); }
+        .btn-primary { background-color: #5865f2; }
+        .btn-primary:hover { background-color: #4f5bda; }
+        .btn-secondary { background-color: #4f545c; }
+        .btn-secondary:hover { background-color: #5d6269; }
+        
+        footer { background-color: #2f3136; padding: 15px 20px; color: #99aab5; font-size: 0.9rem; width: 100%; box-sizing: border-box; text-align: center; margin-top: auto; }
+        footer a { color: #ffffff; text-decoration: none; margin: 0 10px; }
+        footer a:hover { color: #7289da; text-decoration: underline; }
+        .footer-links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 5px; }
+        hr { border: 0; border-top: 1px solid #4f545c; margin: 40px 0; }
+        ol { padding-left: 20px; }
+        ol li { margin-bottom: 15px; }
+        ol ul { list-style-type: disc; padding-left: 20px; }
+
+        @media (max-width: 480px) {
+            .lang-switch { flex-direction: column; align-items: stretch; text-align: center; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="content-wrapper">
+        <div class="container">
+            
+            <header>
+                <div class="lang-switch">
+                    <a href="/" class="btn btn-secondary">← Retour à l'accueil</a>
+                    <a href="/help-en" class="btn btn-primary">English version 🇬🇧</a>
+                </div>
+            </header>
+
+            <main>
+                <h1>Aide et Commandes Logoto : Automatisez votre Logo & Nom Discord 🇫🇷</h1>
+                <p>Je suis le bot spécialisé dans l'automatisation du changement de logo et du nom de votre serveur Discord, sans nécessiter de configurations ou de lignes de code complexes.</p>
+                
+                <h2>Les Commandes du Bot Logoto</h2>
+                <ul class="command-list">
+                    <li><code>/setup</code> : Première commande à faire. Crée automatiquement la catégorie et les salons nécessaires (Logoto, log-logoto) pour un démarrage rapide.</li>
+                    <li><code>/add-an-event</code> : Crée automatiquement un salon de planification au bon format pour vos événements futurs (Logo ou Nom).</li>
+                    <li><code>/help</code> : Affiche la liste des commandes du bot (ou cette page de documentation !).</li>
+                    <li><code>/info</code> : Renvoie toutes les informations utiles concernant l'état actuel et le statut du bot.</li>
+                    <li><code>/ping</code> : Obtenez la latence en temps réel entre le bot et l'API Discord.</li>
+                    <li><code>/invite</code> : Obtenez le lien d'invitation officiel pour ajouter Logoto sur votre propre serveur.</li>
+                    <li><code>/support</code> : Rejoignez notre serveur de support pour poser vos questions ou obtenir de l'aide.</li>
+                </ul>
+
+                <hr>
+
+                <h2>Système de Changement de Logo Automatique</h2>
+                <p>Le bot surveille la présence de salons textuels spécifiques pour planifier et exécuter les changements d'avatar du serveur. Vous pouvez utiliser la commande <code>/add-an-event</code> ou faire la création manuellement :</p>
+
+                <ol>
+                    <li>
+                        <strong>Créez le Salon de Planification (Logo) :</strong>
+                        <ul>
+                            <li>Le salon doit suivre scrupuleusement le format : <code>l-[JOUR]-[MOIS]</code> (ou généré via <code>/add-an-event</code>).</li>
+                            <li>EXEMPLE : Pour programmer un logo automatique pour Halloween (31 octobre) : <code>l-31-10</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Préparez le Logo :</strong>
+                        <ul>
+                            <li>Envoyez l'image souhaitée dans n'importe quel salon de votre serveur, faites un clic droit dessus et copiez son <strong>lien direct</strong> (URL).</li>
+                            <li>Le lien doit pointer vers un format d'image valide (PNG, JPEG).</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Planifiez le Changement :</strong>
+                        <ul>
+                            <li>Modifiez le <strong>Sujet du Salon</strong> (Channel Topic) du salon textuel créé à l'étape 1.</li>
+                            <li>Collez le <strong>lien direct de l'image</strong> directement dans le sujet de ce salon.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Résultat :</strong>
+                        <ul>
+                            <li>Le bot changera automatiquement la photo de profil du serveur au jour et au mois indiqués !</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <hr>
+
+                <h2>Système de Changement de Nom Automatique</h2>
+                <p>Le principe est identique pour modifier automatiquement le nom d'affichage de votre serveur Discord à une date précise :</p>
+
+                <ol>
+                    <li>
+                        <strong>Créez le Salon de Planification (Nom) :</strong>
+                        <ul>
+                            <li>Le salon doit suivre le format : <code>n-[JOUR]-[MOIS]</code> (ou généré via <code>/add-an-event</code>).</li>
+                            <li>EXEMPLE : Pour planifier un changement de nom le 1er Janvier : <code>n-1-1</code></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Planifiez le Changement :</strong>
+                        <ul>
+                            <li>Modifiez le <strong>Sujet du Salon</strong> (Channel Topic) du salon créé.</li>
+                            <li>Écrivez textuellement le <strong>nouveau nom complet</strong> que devra prendre le serveur dans le sujet.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Résultat :</strong>
+                        <ul>
+                            <li>Le bot appliquera automatiquement le nouveau nom au jour et au mois spécifiés !</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="note">
+                    <strong>NOTE IMPORTANTE :</strong> Pour que les vérifications et les changements automatiques s'exécutent correctement, le salon nommé <code>log-logoto</code> <strong>doit impérativement exister</strong> sur votre serveur. 
+                    <br><br>
+                    Le bot utilise ce salon pour envoyer ses messages techniques quotidiens de chargement (<code>l-Loading</code> ou <code>n-Loading</code>), ce qui déclenche la mise à jour des configurations du serveur. La commande <code>/setup</code> s'occupe de le créer proprement pour vous.
+                </div>
+            </main> 
+            
+        </div>
+    </div> 
+
+    <footer>
+        <p>Ce site est hébergé sur Render. Logoto est un projet personnel.</p>
+        <div class="footer-links">
+            <a href="/tos">Conditions d'Utilisation (ToS)</a>
+            <a href="/privacy">Politique de Confidentialité</a>
+            <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">Code Source</a>
+        </div>
+    </footer>
+</body>
+</html>
