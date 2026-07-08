@@ -2,7 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
-  <!-- Page d'accueil -->
   <url>
     <loc>https://logoto.onrender.com/</loc>
     <lastmod>2026-07-08</lastmod>
@@ -10,7 +9,6 @@
     <priority>1.0</priority>
   </url>
 
-  <!-- Page d'aide (Français) -->
   <url>
     <loc>https://logoto.onrender.com/help</loc>
     <lastmod>2026-07-08</lastmod>
@@ -20,7 +18,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://logoto.onrender.com/help-en"/>
   </url>
 
-  <!-- Page d'aide (Anglais) -->
   <url>
     <loc>https://logoto.onrender.com/help-en</loc>
     <lastmod>2026-07-08</lastmod>
@@ -30,19 +27,17 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://logoto.onrender.com/help-en"/>
   </url>
 
-  <!-- Conditions d'Utilisation (ToS) -->
   <url>
     <loc>https://logoto.onrender.com/tos</loc>
     <lastmod>2026-07-08</lastmod>
-    <changefreq>months</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
-  <!-- Politique de Confidentialité (Privacy) -->
   <url>
     <loc>https://logoto.onrender.com/privacy</loc>
     <lastmod>2026-07-08</lastmod>
-    <changefreq>months</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
