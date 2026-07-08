@@ -6,16 +6,16 @@
     
     <title>Logoto : Bot Discord pour Changer Logo et Nom Automatiquement</title>
     <meta name="description" content="Découvrez Logoto, le bot Discord d'automatisation pour planifier le changement du logo et du nom de votre serveur. Gérez tout facilement avec /setup et /add-an-event !">
-    <link rel="canonical" href="https://logoto.onrender.com/">
+    <link rel="canonical" href="https://logoto.onrender.com/fr">
     
     <meta name="google-site-verification" content="u2mt1kkF8HLYxuULsxpdU7e8dJKFjj0ItJ6IPLcs23s">
 
-    <link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/">
-    <link rel="alternate" hreflang="en" href="https://logoto.onrender.com/index-en">
-    <link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/">
+    <link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr">
+    <link rel="alternate" hreflang="en" href="https://logoto.onrender.com/fr">
+    <link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/fr">
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://logoto.onrender.com/">
+    <meta property="og:url" content="https://logoto.onrender.com/fr">
     <meta property="og:title" content="Logoto : Bot d'Automatisation Discord">
     <meta property="og:description" content="Planifiez le changement de logo et de nom de votre serveur Discord pour vos événements.">
     <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
@@ -77,17 +77,18 @@
         }
 
         .lang-link {
-            color: #7289da;
+            color: #8c935d; /* Couleur Logoto */
             text-decoration: none;
             font-weight: bold;
             font-size: 0.95rem;
             background-color: #2f3136;
             padding: 8px 15px;
             border-radius: 5px;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, color 0.2s;
         }
         .lang-link:hover {
             background-color: #4f545c;
+            color: #ffffff;
         }
 
         .container { max-width: 600px; width: 100%; margin-top: auto; margin-bottom: auto; }
@@ -100,7 +101,7 @@
         }
         h1 {
             font-size: 2.5rem;
-            color: #7289da;
+            color: #8c935d; /* Couleur Logoto */
             margin-bottom: 10px;
         }
         p.description {
@@ -126,8 +127,8 @@
             transition: transform 0.2s, background-color 0.2s;
         }
         .btn:hover { transform: translateY(-2px); }
-        .btn-primary { background-color: #5865f2; }
-        .btn-primary:hover { background-color: #4f5bda; }
+        .btn-primary { background-color: #8c935d; } /* Couleur Logoto */
+        .btn-primary:hover { background-color: #767d4e; } /* Version survol plus sombre */
         .btn-secondary { background-color: #4f545c; }
         .btn-secondary:hover { background-color: #5d6269; }
         
@@ -153,7 +154,7 @@
             transition: color 0.2s;
         }
         footer a:hover {
-            color: #7289da;
+            color: #8c935d; /* Couleur Logoto */
             text-decoration: underline;
         }
         .footer-links {
@@ -168,7 +169,7 @@
 <body>
     <div class="main-content">
         <header class="lang-header">
-            <a href="/index-en" class="lang-link">English 🇬🇧</a>
+            <a href="/" class="lang-link">English 🇬🇧</a>
         </header>
 
         <main class="container">
@@ -179,8 +180,8 @@
             <h1>Logoto : Automatisez le Logo et le Nom de votre Serveur Discord</h1>
             
             <p class="description">
-                Logoto est le <strong>bot Discord</strong> qu'il vous faut pour <strong>automatiser le changement de l'icône</strong> et du <strong>nom de votre serveur</strong>. 
-                Planifiez vos modifications pour des événements spéciaux, des saisons ou des célébrations, sans effort !
+                Logoto is the ultimate <strong>Discord bot</strong> designed to <strong>automate your server's icon</strong> and <strong>name changes</strong>. 
+                Easily schedule your modifications for special events, seasons, or community celebrations, effortlessly!
             </p>
             
             <div class="button-container">
@@ -190,7 +191,7 @@
                    rel="noopener noreferrer"> Ajouter à Discord
                 </a>
                 
-                <a href="/help" class="btn btn-secondary">
+                <a href="/aide" class="btn btn-secondary">
                     Voir l'aide et les commandes
                 </a>
             </div>
