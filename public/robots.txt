@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /blocks.xml
+Disallow: /index.js
+Disallow: /404
+
+Sitemap: https://logoto.onrender.com/sitemap.xml
