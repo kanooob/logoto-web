@@ -7,11 +7,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 let serverCount = "0";
-const SECRET_KEY = process.env.SECRET_KEY; // "12345678" sert de secours si process.env n'est pas configuré
+const SECRET_KEY = process.env.SECRET_KEY;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// URL mise à jour pour correspondre exactement au bloc de ton bot : /api/serveur-counte
 app.post('/api/serveur-counte', (req, res) => {
     const clientKey = req.headers['key'];
     
@@ -19,11 +18,29 @@ app.post('/api/serveur-counte', (req, res) => {
         return res.status(404).json({ error: "Cle secrete invalide" });
     }
     
-    if (req.body && req.body.server) {
-        serverCount = String(req.body.server);
+    let incomingCount = null;
+
+    if (req.body) {
+        if (req.body.server) {
+            incomingCount = req.body.server;
+        } else if (typeof req.body === 'object' && Object.keys(req.body).length > 0) {
+            incomingCount = Object.keys(req.body)[0];
+        } else if (typeof req.body === 'string') {
+            incomingCount = req.body;
+        }
+    }
+
+    if (incomingCount && String(incomingCount).includes('[object Object]')) {
+        incomingCount = null;
+    }
+
+    if (incomingCount !== null && incomingCount !== undefined) {
+        serverCount = String(incomingCount).trim();
+        console.log(`[Bot] Compteur mis à jour avec succès : ${serverCount}`);
         return res.json({ success: true, message: "Compteur mis a jour", current: serverCount });
     }
     
+    console.log("Corps brut reçu (Échec) :", req.body);
     res.status(400).json({ error: "Donnees manquantes" });
 });
 
