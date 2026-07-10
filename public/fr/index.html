@@ -392,7 +392,7 @@
         </div>
 
         <div class="badge-servers">
-            ⚡ Utilisé sur plus de XX serveurs
+            ⚡ Utilisé sur <span id="server-count">plusieurs</span> serveurs
         </div>
     </main>
 
@@ -406,6 +406,25 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Requête AJAX pour aller chercher la valeur en temps réel
+        fetch('/api/stats')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.server) {
+                    const countSpan = document.getElementById('server-count');
+                    // Si le serveur renvoie un nombre pur, on peut ajuster le texte autour
+                    if (!isNaN(data.server)) {
+                        countSpan.textContent = `plus de ${data.server}`;
+                    } else {
+                        // S'il renvoie "Plusieurs", on affiche juste la chaîne de caractères
+                        countSpan.textContent = data.server.toLowerCase();
+                    }
+                }
+            })
+            .catch(err => console.error("Impossible de charger les statistiques :", err));
+    </script>
 
 </body>
 </html>
