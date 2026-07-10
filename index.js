@@ -7,16 +7,17 @@ const PORT = process.env.PORT || 8080;
 // 1. Sert d'abord les fichiers statiques normalement (CSS, Images, JS)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 3. Page d'accueil par défaut (site.com/)
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// 3. Page d'accueil par défaut (site.com/) et redirection /index.html
+// Détecte la langue du navigateur et redirige vers /fr ou /en
+app.get(['/', '/index.html'], (req, res) => {
+    const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
+    res.redirect(`/${targetLang}`);
 });
 
-// 2. MODIFIÉ : Permet d'accéder aux pages ET sous-pages sans taper ".html" (ex: site.com/page2 ou site.com/fr/help)
+// 2. Permet d'accéder aux pages ET sous-pages sans taper ".html" (ex: site.com/fr/help)
 app.get('/*', (req, res, next) => {
     let reqPath = req.params[0] || req.path;
 
-    // Si l'URL se termine par un "/", on cherche un fichier index.html dans ce dossier (ex: /fr/ -> /fr/index.html)
     if (reqPath.endsWith('/')) {
         reqPath += 'index';
     }
@@ -25,11 +26,9 @@ app.get('/*', (req, res, next) => {
     
     res.sendFile(filePath, (err) => {
         if (err) {
-            // Si le fichier précis n'existe pas, on tente de voir si c'est un dossier sans "/" (ex: /fr -> /fr/index.html)
             const indexPath = path.join(__dirname, 'public', reqPath, 'index.html');
             res.sendFile(indexPath, (err2) => {
                 if (err2) {
-                    // Si rien ne correspond, on passe à la suite (Erreur 404)
                     next();
                 }
             });
