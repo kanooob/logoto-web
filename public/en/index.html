@@ -392,7 +392,7 @@
         </div>
 
         <div class="badge-servers">
-            ⚡ Used on over XX servers
+            ⚡ Used on <span id="server-count">many</span> servers
         </div>
     </main>
 
@@ -406,6 +406,22 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        fetch('/api/stats')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.server) {
+                    const countSpan = document.getElementById('server-count');
+                    if (!isNaN(data.server)) {
+                        countSpan.textContent = `over ${data.server}`;
+                    } else {
+                        countSpan.textContent = data.server.toLowerCase();
+                    }
+                }
+            })
+            .catch(err => console.error("Unable to load stats:", err));
+    </script>
 
 </body>
 </html>
