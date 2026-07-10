@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 let serverCount = "0";
-const SECRET_KEY = "12345678"; // "12345678" sert de secours si process.env n'est pas configuré
+const SECRET_KEY = process.env.SECRET_KEY; // "12345678" sert de secours si process.env n'est pas configuré
 
 app.use(express.static(path.join(__dirname, 'public')));
 
