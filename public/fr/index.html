@@ -5,17 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logoto - Automatisez l'image de votre serveur</title>
     
-    <!-- Favicon officiel -->
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
     
-    <!-- Métadonnées pour l'affichage/l'intégration sur Discord -->
     <meta property="og:title" content="LOGOTO - Automatisez l'image de votre serveur">
     <meta property="og:description" content="Générez et changez automatiquement le logo, la bannière et le nom de votre serveur Discord en un clic.">
     <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
     <meta name="theme-color" content="#8c935d">
 
     <style>
-        /* Palette de couleurs validée & enrichie */
         :root {
             --blanc: #F2F3F5;
             --vert-olive: #8c935d;
@@ -41,7 +38,6 @@
             overflow-x: hidden;
         }
 
-        /* Barre de navigation responsive */
         header {
             display: flex;
             justify-content: space-between;
@@ -171,7 +167,6 @@
             transform: translateY(-1px);
         }
 
-        /* Section Principale (Hero) + Animations */
         main {
             flex: 1;
             display: flex;
@@ -205,7 +200,6 @@
             line-height: 1.6;
         }
 
-        /* Boutons d'action */
         .cta-container {
             display: flex;
             gap: 20px;
@@ -244,7 +238,6 @@
             transform: translateY(-2px);
         }
 
-        /* Badge Serveurs */
         .badge-servers {
             border: 1px solid rgba(140, 147, 93, 0.4);
             background-color: rgba(140, 147, 93, 0.1);
@@ -257,7 +250,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Footer sémantique */
         footer {
             background-color: var(--gris-footer);
             padding: 20px 50px;
@@ -290,7 +282,6 @@
             color: var(--vert-olive-clair);
         }
 
-        /* Keyframes pour l'animation d'entrée */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -302,7 +293,6 @@
             }
         }
 
-        /* RESPONSIVE DESIGN (Tablette & Smartphone) */
         @media (max-width: 768px) {
             header {
                 padding: 20px;
@@ -408,17 +398,16 @@
     </footer>
 
     <script>
-        // Requête AJAX pour aller chercher la valeur en temps réel
         fetch('/api/stats')
             .then(response => response.json())
             .then(data => {
                 if (data && data.server) {
                     const countSpan = document.getElementById('server-count');
-                    // Si le serveur renvoie un nombre pur, on peut ajuster le texte autour
-                    if (!isNaN(data.server)) {
+                    if (data.server === "fallback") {
+                        countSpan.textContent = "plusieurs";
+                    } else if (!isNaN(data.server)) {
                         countSpan.textContent = `plus de ${data.server}`;
                     } else {
-                        // S'il renvoie "Plusieurs", on affiche juste la chaîne de caractères
                         countSpan.textContent = data.server.toLowerCase();
                     }
                 }
