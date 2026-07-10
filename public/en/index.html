@@ -413,7 +413,9 @@
             .then(data => {
                 if (data && data.server) {
                     const countSpan = document.getElementById('server-count');
-                    if (!isNaN(data.server)) {
+                    if (data.server === "fallback") {
+                        countSpan.textContent = "many";
+                    } else if (!isNaN(data.server)) {
                         countSpan.textContent = `over ${data.server}`;
                     } else {
                         countSpan.textContent = data.server.toLowerCase();
