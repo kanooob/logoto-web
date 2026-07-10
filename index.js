@@ -7,14 +7,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 let serverCount = "0";
-const SECRET_KEY = "ta_cle_secrete_ici";
+const SECRET_KEY = process.env.SECRET_KEY;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/serveur-counte', (req, res) => {
     const clientKey = req.headers['key'];
-    if (!clientKey || clientKey !== SECRET_KEY) {
-        return res.status(401).json({ error: "Cle secrete invalide" });
+    if (!SECRET_KEY || !clientKey || clientKey !== SECRET_KEY) {
+        return res.status(404).json({ error: "Cle secrete invalide" });
     }
     if (req.body && req.body.server) {
         serverCount = String(req.body.server);
@@ -24,6 +24,13 @@ app.post('/serveur-counte', (req, res) => {
 });
 
 app.get('/api/stats', (req, res) => {
+    const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
+    
+    if (!serverCount || serverCount === "0") {
+        const fallbackText = targetLang === 'fr' ? "Plusieurs" : "Many";
+        return res.json({ server: fallbackText });
+    }
+    
     res.json({ server: serverCount });
 });
 
