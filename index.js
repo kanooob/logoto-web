@@ -7,19 +7,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 let serverCount = "0";
-const SECRET_KEY = process.env.SECRET_KEY;
+const SECRET_KEY = process.env.SECRET_KEY || "12345678"; // "12345678" sert de secours si process.env n'est pas configuré
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.post('/serveur-counte', (req, res) => {
+// URL mise à jour pour correspondre exactement au bloc de ton bot : /api/serveur-counte
+app.post('/api/serveur-counte', (req, res) => {
     const clientKey = req.headers['key'];
+    
     if (!SECRET_KEY || !clientKey || clientKey !== SECRET_KEY) {
         return res.status(404).json({ error: "Cle secrete invalide" });
     }
+    
     if (req.body && req.body.server) {
         serverCount = String(req.body.server);
         return res.json({ success: true, message: "Compteur mis a jour", current: serverCount });
     }
+    
     res.status(400).json({ error: "Donnees manquantes" });
 });
 
