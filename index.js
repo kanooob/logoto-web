@@ -2,11 +2,36 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+let serverCount = "0";
+const SECRET_KEY = "ta_cle_secrete_ici";
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.post('/serveur-counte', (req, res) => {
+    const clientKey = req.headers['key'];
+    if (!clientKey || clientKey !== SECRET_KEY) {
+        return res.status(401).json({ error: "Cle secrete invalide" });
+    }
+    if (req.body && req.body.server) {
+        serverCount = String(req.body.server);
+        return res.json({ success: true, message: "Compteur mis a jour", current: serverCount });
+    }
+    res.status(400).json({ error: "Donnees manquantes" });
+});
+
+app.get('/api/stats', (req, res) => {
+    res.json({ server: serverCount });
+});
+
 app.get(['/', '/index.html'], (req, res) => {
     const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
     res.redirect(`/${targetLang}`);
 });
+
 app.get('/*', (req, res, next) => {
     let reqPath = req.params[0] || req.path;
     if (reqPath.endsWith('/')) {
@@ -24,9 +49,11 @@ app.get('/*', (req, res, next) => {
         }
     });
 });
+
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
+
 app.listen(PORT, () => {
     console.log(`Serveur lance sur le port ${PORT}`);
 });
