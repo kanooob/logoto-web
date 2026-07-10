@@ -18,9 +18,11 @@ app.post('/api/serveur-counte', (req, res) => {
         return res.status(404).json({ error: "Cle secrete invalide" });
     }
     
-    let incomingCount = null;
+    // Correction ici : On regarde d'abord dans les paramètres d'URL (req.query.server)
+    let incomingCount = req.query.server;
 
-    if (req.body) {
+    // Si ce n'est pas dans l'URL, on fouille le body (ton ancien code)
+    if (!incomingCount && req.body) {
         if (req.body.server) {
             incomingCount = req.body.server;
         } else if (typeof req.body === 'object' && Object.keys(req.body).length > 0) {
@@ -40,7 +42,7 @@ app.post('/api/serveur-counte', (req, res) => {
         return res.json({ success: true, message: "Compteur mis a jour", current: serverCount });
     }
     
-    console.log("Corps brut reçu (Échec) :", req.body);
+    console.log("Corps brut et URL reçus (Échec) :", req.body, req.query);
     res.status(400).json({ error: "Donnees manquantes" });
 });
 
