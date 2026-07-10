@@ -24,13 +24,9 @@ app.post('/serveur-counte', (req, res) => {
 });
 
 app.get('/api/stats', (req, res) => {
-    const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
-    
     if (!serverCount || serverCount === "0") {
-        const fallbackText = targetLang === 'fr' ? "Plusieurs" : "Many";
-        return res.json({ server: fallbackText });
+        return res.json({ server: "fallback" });
     }
-    
     res.json({ server: serverCount });
 });
 
