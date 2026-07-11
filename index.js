@@ -64,16 +64,36 @@ app.get('/api/stats', (req, res) => {
     });
 });
 
+// Redirection d'accueil selon la langue
 app.get(['/', '/index.html'], (req, res) => {
     const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
     res.redirect(`/${targetLang}`);
 });
 
+// Redirection de la documentation selon la langue
 app.get(['/help', '/help.html'], (req, res) => {
     const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
     res.redirect(`/${targetLang}/help`);
 });
 
+// ------------- NOUVELLES REDIRECTIONS LÉGALES -------------
+app.get(['/legal', '/legal.html'], (req, res) => {
+    const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
+    res.redirect(`/${targetLang}/legal`);
+});
+
+app.get(['/tos', '/tos.html'], (req, res) => {
+    const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
+    res.redirect(`/${targetLang}/legal#tos`);
+});
+
+app.get(['/privacy', '/privacy.html'], (req, res) => {
+    const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
+    res.redirect(`/${targetLang}/legal#privacy`);
+});
+// ---------------------------------------------------------
+
+// Gestion des fichiers statiques restants
 app.get('/*', (req, res, next) => {
     let reqPath = req.params[0] || req.path;
     if (reqPath.endsWith('/')) {
@@ -92,6 +112,7 @@ app.get('/*', (req, res, next) => {
     });
 });
 
+// Gestion de la page 404
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
