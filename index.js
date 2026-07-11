@@ -12,13 +12,14 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Ta route POST ultra-robuste qui fonctionne parfaitement
 app.post('/api/serveur-counte', (req, res) => {
     const clientKey = req.headers['key'];
-
+    
     if (!SECRET_KEY || !clientKey || clientKey !== SECRET_KEY) {
         return res.status(404).json({ error: "Cle secrete invalide" });
     }
-
+    
     let incomingCount = req.query.server;
 
     if (!incomingCount && req.body) {
@@ -38,29 +39,33 @@ app.post('/api/serveur-counte', (req, res) => {
     if (incomingCount !== null && incomingCount !== undefined) {
         serverCount = String(incomingCount).trim();
         
-        // On met à jour l'heure dès que le bot envoie ses stats
+        // CORRECTION : On met à jour l'heure dès que le bot envoie ses stats avec succès
         lastUpdate = Date.now(); 
 
         console.log(`[Bot] Compteur mis à jour avec succès : ${serverCount}`);
         return res.json({ success: true, message: "Compteur mis a jour", current: serverCount });
     }
-
+    
     console.log("Corps brut et URL reçus (Échec) :", req.body, req.query);
     res.status(400).json({ error: "Donnees manquantes" });
 });
 
+// La route GET améliorée (Le meilleur des deux mondes)
 app.get('/api/stats', (req, res) => {
-    if (!serverCount || serverCount === "0") {
-        return res.json({ server: "fallback", online: false });
-    }
-
-    // Calcul de l'inactivité (10 minutes = 600 000 ms)
+    // 1. Calcul de l'inactivité (10 minutes = 600 000 ms)
     const tenMinutes = 10 * 60 * 1000;
     const isOnline = (Date.now() - lastUpdate) < tenMinutes;
 
+    // 2. Gestion propre du fallback sans bloquer la réponse
+    let currentServer = serverCount;
+    if (!serverCount || serverCount === "0") {
+        currentServer = "fallback";
+    }
+
+    // 3. On renvoie l'objet complet attendu par tes pages FR et EN
     res.json({ 
-        server: serverCount,
-        online: isOnline // Renvoie true si le bot a ping il y a moins de 10 min
+        server: currentServer,
+        online: isOnline 
     });
 });
 
