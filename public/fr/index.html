@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logoto - Automatisez l'image de votre serveur</title>
-    
+
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
-    
+
     <meta property="og:title" content="LOGOTO - Automatisez l'image de votre serveur">
     <meta property="og:description" content="Générez et changez automatiquement le logo, la bannière et le nom de votre serveur Discord en un clic.">
     <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
@@ -352,14 +352,14 @@
             <img src="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png" alt="Logo LOGOTO" class="logo-img">
             <div class="logo-text">Logoto</div>
         </a>
-        
+
         <nav aria-label="Navigation principale">
             <ul class="nav-links">
                 <li><a href="/fr" class="active">Accueil</a></li>
                 <li><a href="/fr/help">Documentation</a></li>
                 <li><a href="https://discord.com/TPXFVYVnXe">Support</a></li>
             </ul>
-            
+
             <div class="nav-right">
                 <div class="lang-container">
                     <button class="lang-select" aria-label="Changer de langue. Langue actuelle : Français">FR ↓</button>
@@ -375,14 +375,14 @@
     <main>
         <h1>Le meilleur bot Discord <br><span>d'automatisation de l'identité visuelle</span></h1>
         <p class="subtitle">Automatisez en un clic le logo, la bannière, l'image d'invitation et le nom de votre serveur Discord.</p>
-        
+
         <div class="cta-container">
             <a href="https://discord.com/oauth2/authorize?client_id=1431383390162124920" class="btn btn-primary">Ajouter à Discord</a>
             <a href="/fr/help" class="btn btn-secondary">En savoir plus</a>
         </div>
 
         <div class="badge-servers">
-            ⚡ Utilisé sur <span id="server-count">plusieurs</span> serveurs
+            <span id="status-emoji">⚡ </span>Utilisé sur <span id="server-count">plusieurs</span> serveurs
         </div>
     </main>
 
@@ -401,18 +401,30 @@
         fetch('/api/stats')
             .then(response => response.json())
             .then(data => {
-                if (data && data.server) {
+                if (data) {
                     const countSpan = document.getElementById('server-count');
-                    if (data.server === "fallback") {
-                        countSpan.textContent = "plusieurs";
-                    } else if (!isNaN(data.server)) {
+                    const emojiSpan = document.getElementById('status-emoji');
+                    
+                    // Gestion du compteur
+                    if (data.server && data.server !== "fallback") {
                         countSpan.textContent = `plus de ${data.server}`;
                     } else {
-                        countSpan.textContent = data.server.toLowerCase();
+                        countSpan.textContent = "plusieurs";
+                    }
+
+                    // Gestion de l'easter egg (status en ligne/hors ligne)
+                    if (data.online === false) {
+                        emojiSpan.textContent = "☁️ ";
+                    } else {
+                        emojiSpan.textContent = "⚡ ";
                     }
                 }
             })
-            .catch(err => console.error("Impossible de charger les statistiques :", err));
+            .catch(err => {
+                console.error("Impossible de charger les statistiques :", err);
+                // Si l'API est injoignable, on met l'émoji hors ligne par défaut
+                document.getElementById('status-emoji').textContent = "☁️ ";
+            });
     </script>
 
 </body>
