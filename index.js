@@ -7,12 +7,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 let serverCount = "0";
-let lastUpdate = Date.now(); // Enregistre l'heure du dernier ping (initialisé au démarrage)
+let lastUpdate = Date.now(); // Enregistre l'heure du dernier ping
 const SECRET_KEY = process.env.SECRET_KEY;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Ta route POST ultra-robuste qui fonctionne parfaitement
+// Route POST - Inchangée et robuste
 app.post('/api/serveur-counte', (req, res) => {
     const clientKey = req.headers['key'];
     
@@ -38,9 +38,7 @@ app.post('/api/serveur-counte', (req, res) => {
 
     if (incomingCount !== null && incomingCount !== undefined) {
         serverCount = String(incomingCount).trim();
-        
-        // CORRECTION : On met à jour l'heure dès que le bot envoie ses stats avec succès
-        lastUpdate = Date.now(); 
+        lastUpdate = Date.now(); // Met à jour le timestamp d'activité
 
         console.log(`[Bot] Compteur mis à jour avec succès : ${serverCount}`);
         return res.json({ success: true, message: "Compteur mis a jour", current: serverCount });
@@ -50,22 +48,19 @@ app.post('/api/serveur-counte', (req, res) => {
     res.status(400).json({ error: "Donnees manquantes" });
 });
 
-// La route GET améliorée (Le meilleur des deux mondes)
+// Route GET - Retour à la logique d'origine avec l'ajout d'online
 app.get('/api/stats', (req, res) => {
-    // 1. Calcul de l'inactivité (10 minutes = 600 000 ms)
+    // Calcul de l'inactivité (10 minutes = 600 000 ms)
     const tenMinutes = 10 * 60 * 1000;
     const isOnline = (Date.now() - lastUpdate) < tenMinutes;
 
-    // 2. Gestion propre du fallback sans bloquer la réponse
-    let currentServer = serverCount;
     if (!serverCount || serverCount === "0") {
-        currentServer = "fallback";
+        return res.json({ server: "fallback", online: isOnline });
     }
 
-    // 3. On renvoie l'objet complet attendu par tes pages FR et EN
     res.json({ 
-        server: currentServer,
-        online: isOnline 
+        server: serverCount,
+        online: isOnline
     });
 });
 
