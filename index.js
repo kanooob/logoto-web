@@ -58,6 +58,11 @@ app.get(['/', '/index.html'], (req, res) => {
     res.redirect(`/${targetLang}`);
 });
 
+app.get(['/help', '/help.html'], (req, res) => {
+    const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
+    res.redirect(`/${targetLang}/help`);
+});
+
 app.get('/*', (req, res, next) => {
     let reqPath = req.params[0] || req.path;
     if (reqPath.endsWith('/')) {
