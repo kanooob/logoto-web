@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logoto - Automate your server's image</title>
-    
+
     <!-- Official Favicon -->
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
-    
+
     <!-- Metadata for Discord / Twitter embeds -->
     <meta property="og:title" content="LOGOTO - Automate your server's image">
     <meta property="og:description" content="Automatically generate and update your Discord server's logo, banner, and name in a single click.">
@@ -362,14 +362,14 @@
             <img src="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png" alt="LOGOTO Logo" class="logo-img">
             <div class="logo-text">Logoto</div>
         </a>
-        
+
         <nav aria-label="Main navigation">
             <ul class="nav-links">
                 <li><a href="/en" class="active">Home</a></li>
                 <li><a href="/en/help">Documentation</a></li>
                 <li><a href="https://discord.com/invite/TPXFVYVnXe">Support</a></li>
             </ul>
-            
+
             <div class="nav-right">
                 <div class="lang-container">
                     <button class="lang-select" aria-label="Change language. Current language: English">EN ↓</button>
@@ -385,14 +385,14 @@
     <main>
         <h1>The best Discord bot <br><span>to automate your visual identity</span></h1>
         <p class="subtitle">Automatically update your Discord server's logo, banner, invite image, and name in a single click.</p>
-        
+
         <div class="cta-container">
             <a href="https://discord.com/oauth2/authorize?client_id=1431383390162124920" class="btn btn-primary">Add to Discord</a>
             <a href="/en/help" class="btn btn-secondary">Learn more</a>
         </div>
 
         <div class="badge-servers">
-            ⚡ Used on <span id="server-count">many</span> servers
+            <span id="status-emoji">⚡ </span>Used on <span id="server-count">many</span> servers
         </div>
     </main>
 
@@ -411,18 +411,30 @@
         fetch('/api/stats')
             .then(response => response.json())
             .then(data => {
-                if (data && data.server) {
+                if (data) {
                     const countSpan = document.getElementById('server-count');
-                    if (data.server === "fallback") {
-                        countSpan.textContent = "many";
-                    } else if (!isNaN(data.server)) {
+                    const emojiSpan = document.getElementById('status-emoji');
+                    
+                    // Handle server count text
+                    if (data.server && data.server !== "fallback") {
                         countSpan.textContent = `over ${data.server}`;
                     } else {
-                        countSpan.textContent = data.server.toLowerCase();
+                        countSpan.textContent = "many";
+                    }
+
+                    // Handle status easter egg
+                    if (data.online === false) {
+                        emojiSpan.textContent = "☁️ ";
+                    } else {
+                        emojiSpan.textContent = "⚡ ";
                     }
                 }
             })
-            .catch(err => console.error("Unable to load stats:", err));
+            .catch(err => {
+                console.error("Unable to load stats:", err);
+                // Default to offline emoji if API request fails
+                document.getElementById('status-emoji').textContent = "☁️ ";
+            });
     </script>
 
 </body>
