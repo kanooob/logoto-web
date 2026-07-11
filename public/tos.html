@@ -3,460 +3,590 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logoto - Legal</title>
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
+    <title>Informations Légales - Logoto</title>
+    <meta name="description" content="Conditions Générales d'Utilisation (CGU) et Politique de Confidentialité du bot Discord Logoto.">
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --blanc: #F2F3F5;
+            --vert-olive: #8c935d;
+            --vert-olive-dark: #767d4f;
+            --vert-olive-clair: #a3ab72;
+            --gris-discord: #36393f; 
+            --gris-footer: #2f3136;
+            --gris-item: #3a3d42;
+            --gris-code: #484c52;
+            --note-bg: #3c3a2e;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #36393f; 
-            color: #dcddde; 
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--gris-discord);
+            color: var(--blanc);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
             line-height: 1.6;
         }
 
-        /* Barre de navigation supérieure */
-        .navbar {
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
-            background-color: #2f3136;
-            border-bottom: 1px solid #4f545c;
+            padding: 20px 50px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .navbar .logo {
+        .logo-container {
             display: flex;
             align-items: center;
+            gap: 12px;
             text-decoration: none;
-            color: #ffffff;
-            font-weight: bold;
-            font-size: 1.2rem;
+            color: inherit;
         }
 
-        .navbar .logo img {
-            height: 35px;
-            margin-right: 10px;
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover .logo-img {
+            transform: rotate(15deg) scale(1.05);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .lang-container {
+            position: relative;
+            display: inline-block;
         }
 
         .lang-select {
-            background-color: #4f545c;
-            color: #ffffff;
+            background: none;
             border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
+            color: var(--blanc);
+            font-weight: bold;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 14px;
+            padding: 10px 5px;
+            text-decoration: none;
         }
 
-        /* Layout type /help (Menu gauche + Contenu droite) */
-        .layout-container {
+        .lang-dropdown {
+            opacity: 0;
+            visibility: hidden;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            background-color: var(--gris-footer);
+            border: 1px solid var(--vert-olive);
+            border-radius: 4px;
+            min-width: 60px;
+            text-align: center;
+            z-index: 10;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+        }
+
+        .lang-dropdown a {
+            display: block;
+            color: var(--blanc);
+            padding: 8px 12px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .lang-dropdown a:hover {
+            background-color: var(--vert-olive);
+        }
+
+        .lang-container:hover .lang-dropdown,
+        .lang-container:focus-within .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .main-container {
             display: flex;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
+            flex: 1;
+            padding: 40px 50px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .sidebar {
             width: 250px;
-            flex-shrink: 0;
-        }
-
-        .sidebar-menu {
+            min-width: 250px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            position: sticky;
-            top: 40px;
-        }
-
-        .sidebar-btn {
-            background: none;
-            border: none;
-            color: #b9bbbe;
-            text-align: left;
-            padding: 10px 15px;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        .sidebar-btn:hover, .sidebar-btn.active {
-            background-color: #4f545c;
-            color: #ffffff;
-        }
-
-        /* Ligne de séparation verticale */
-        .vertical-divider {
-            width: 1px;
-            background-color: #4f545c;
-            margin: 0 40px;
+            gap: 22px;
+            padding-right: 40px;
             flex-shrink: 0;
         }
 
-        /* Zone de contenu textuel */
+        .sidebar a {
+            color: var(--blanc);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            opacity: 0.6;
+            transition: opacity 0.2s, color 0.2s, padding-left 0.2s;
+            white-space: nowrap;
+        }
+
+        .sidebar a:hover, .sidebar a.active-link {
+            opacity: 1;
+            color: var(--vert-olive-clair);
+            padding-left: 4px;
+        }
+
+        .divider {
+            width: 2px;
+            min-width: 2px;
+            background-color: rgba(242, 243, 245, 0.15);
+            align-self: stretch;
+            margin-bottom: 40px;
+            flex-shrink: 0;
+        }
+
         .content-area {
-            flex-grow: 1;
+            flex: 1;
+            min-width: 0;
+            padding-left: 40px;
+            animation: fadeIn 0.4s ease-out;
         }
 
-        .legal-section {
-            display: none;
+        .content-area h1 {
+            font-size: 34px;
+            color: var(--vert-olive-clair);
+            margin-bottom: 10px;
+            font-weight: 800;
         }
 
-        .legal-section.active {
-            display: block;
-        }
-
-        h1 {
-            color: #8c935d;
-            font-size: 2rem;
-            margin-top: 0;
-            margin-bottom: 5px;
-        }
-
-        .last-update {
-            color: #99aab5;
-            font-size: 0.9rem;
-            margin-bottom: 25px;
-        }
-
-        h2 {
-            color: #8c935d;
+        .content-area h2 {
+            font-size: 26px;
             margin-top: 35px;
-            font-size: 1.3rem;
-            border-bottom: 1px solid #4f545c;
+            margin-bottom: 15px;
+            color: var(--vert-olive-clair);
+            border-bottom: 1px solid rgba(242, 243, 245, 0.15);
             padding-bottom: 5px;
         }
 
-        h3 {
-            color: #b9bbbe;
-            font-size: 1.05rem;
+        .content-area h3 {
+            font-size: 18px;
             margin-top: 20px;
+            margin-bottom: 10px;
+            color: var(--blanc);
         }
 
-        p, li {
-            font-size: 0.95rem;
-            color: #dcddde;
-        }
-
-        a {
-            color: #8c935d;
-            text-decoration: underline;
-        }
-
-        a:hover {
-            color: #767d4e;
+        .content-area p {
+            font-size: 16px;
+            margin-bottom: 15px;
+            opacity: 0.85;
         }
 
         ol, ul {
             padding-left: 20px;
+            margin: 20px 0;
         }
 
-        li {
-            margin-bottom: 8px;
+        ol li, ul li {
+            margin-bottom: 10px;
+            font-size: 16px;
+            opacity: 0.85;
         }
 
-        .important-note {
-            background-color: #3c3a2e;
-            border-left: 5px solid #8c935d;
-            padding: 15px;
-            margin-top: 20px;
+        ul {
+            list-style-type: disc;
+        }
+
+        code {
+            background-color: var(--gris-code);
+            padding: 3px 6px;
             border-radius: 4px;
-            color: #ffffff; 
+            font-family: Consolas, monospace;
+            color: #ffffff;
+            font-weight: bold;
         }
 
-        .important-note strong {
-            color: #8c935d;
+        a {
+            color: var(--vert-olive-clair);
+            text-decoration: underline;
+        }
+
+        a:hover {
+            color: var(--vert-olive);
+        }
+
+        .note {
+            background-color: var(--note-bg);
+            border-left: 5px solid var(--vert-olive);
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 4px;
+            color: #ffffff;
+        }
+
+        .note strong {
+            color: var(--vert-olive-clair);
         }
 
         footer {
-            text-align: center;
-            margin-top: 80px;
-            padding: 20px 0;
-            border-top: 1px solid #4f545c;
-            color: #99aab5; 
-            font-size: 0.85rem;
+            background-color: var(--gris-footer);
+            padding: 25px 50px;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: var(--blanc);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--vert-olive-clair);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .main-container {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding-right: 0;
+                padding-bottom: 20px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 15px;
+                justify-content: center;
+            }
+
+            .divider {
+                width: 100%;
+                height: 2px;
+                margin-bottom: 20px;
+            }
+
+            .content-area {
+                padding-left: 0;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Barre de navigation -->
-    <nav class="navbar">
-        <a href="/" class="logo">
-            <img src="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png" alt="Logoto Logo">
-            Logoto
+    <header>
+        <a href="/" class="logo-container" id="logo-routing">
+            <img src="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png" alt="LOGOTO Logo" class="logo-img">
+            <div class="logo-text">Logoto</div>
         </a>
-        <select class="lang-select" id="langSelect" onchange="changeLanguage()">
-            <option value="fr">Français</option>
-            <option value="en">English</option>
-        </select>
-    </nav>
-
-    <!-- Conteneur principal (Layout /help) -->
-    <div class="layout-container">
         
-        <!-- Menu latéral gauche -->
-        <aside class="sidebar">
-            <div class="sidebar-menu">
-                <button class="sidebar-btn active" id="btn-tos" onclick="showTab('tos')">Conditions d'Utilisation (CGU)</button>
-                <button class="sidebar-btn" id="btn-privacy" onclick="showTab('privacy')">Politique de Confidentialité</button>
+        <nav aria-label="Langue">
+            <div class="nav-right">
+                <div class="lang-container">
+                    <button class="lang-select" id="lang-btn">FR ↓</button>
+                    <div class="lang-dropdown">
+                        <a href="#" id="lang-switch-btn">EN</a>
+                    </div>
+                </div>
             </div>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar-menu">
+            <a href="#tos" id="menu-tos">Conditions d'Utilisation</a>
+            <a href="#privacy" id="menu-privacy">Confidentialité</a>
         </aside>
 
-        <!-- Barre de séparation verticale -->
-        <div class="vertical-divider"></div>
+        <div class="divider"></div>
 
-        <!-- Zone de texte à droite -->
-        <main class="content-area">
-
-            <!-- =================================================== -->
-            <!-- TEXTES EN FRANÇAIS (FR)                             -->
-            <!-- =================================================== -->
-            <div id="fr-content">
-                <!-- CGU FR -->
-                <div id="fr-tos" class="legal-section active">
-                    <h1>Conditions Générales d'Utilisation (CGU)</h1>
-                    <p class="last-update">Dernière mise à jour : 11/07/2026</p>
-
-                    <h2>1. Acceptation des Conditions</h2>
-                    <p>Bienvenue sur Logoto, un service fourni par un développeur indépendant, Galaxie_S9[cite: 3]. En ajoutant et en utilisant le bot Logoto sur votre serveur Discord, vous acceptez d'être lié par les présentes Conditions Générales d'Utilisation (CGU)[cite: 3]. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser le Bot[cite: 3].</p>
-
-                    <h2>2. Description du Service</h2>
-                    <p>Logoto est un bot Discord conçu pour l'automatisation[cite: 3]. Son rôle principal est de permettre aux administrateurs de serveurs de changer automatiquement le logo et/ou le nom de leur serveur Discord à des dates planifiées, configurées via des commandes slash (comme <code>/setup</code> et <code>/add-an-event</code>)[cite: 3].</p>
-
-                    <h2>3. Engagements de l'Utilisateur</h2>
-                    <p>L'utilisateur s'engage à respecter les règles suivantes lors de l'utilisation de Logoto[cite: 3] :</p>
-                    <ol>
-                        <li><strong>Conformité à Discord :</strong> L'utilisation de Logoto doit impérativement être conforme aux <a href="https://discord.com/terms" target="_blank" rel="noopener noreferrer">Conditions d'Utilisation de Discord</a> et aux <a href="https://discord.com/guidelines" target="_blank" rel="noopener noreferrer">Directives de la Communauté Discord</a>[cite: 3].</li>
-                        <li><strong>Autorisations :</strong> L'utilisateur garantit qu'il dispose des autorisations requises (Gestion du Serveur) pour configurer Logoto[cite: 3].</li>
-                        <li><strong>Contenu :</strong> Il est strictement interdit d'utiliser Logoto pour planifier des logos ou des noms de serveur illégaux, offensants, haineux ou enfreignant les droits d'auteur[cite: 3].</li>
-                        <li><strong>Abus du Service :</strong> Le spam de commandes ou toute tentative de nuire à la stabilité de l'infrastructure est interdit[cite: 3].</li>
-                    </ol>
-
-                    <h2>4. Propriété Intellectuelle</h2>
-                    <ol>
-                        <li><strong>Code Logoto :</strong> Le code source de Logoto est la propriété de Galaxie_S9 et est distribué sous licence MIT sur <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">GitHub</a>[cite: 3].</li>
-                        <li><strong>Contenu Utilisateur :</strong> Les logos et noms de serveur demeurent la propriété exclusive de leurs auteurs[cite: 3]. Logoto ne revendique aucun droit sur vos images ou textes[cite: 3].</li>
-                    </ol>
-
-                    <h2>5. Limitation de Responsabilité et Hébergement</h2>
-                    <p><strong>Logoto est fourni « tel quel » sans garantie d'aucune sorte[cite: 3].</strong> En tant que projet indépendant, la disponibilité du service à 100 % ne peut être garantie[cite: 3].</p>
-                    <p>Le fonctionnement du Bot dépend directement de la plateforme d'hébergement cloud <strong>Render</strong>[cite: 3, 4]. Par conséquent, l'exécution des tâches planifiées peut être affectée ou décalée par des mises en veille d'environnements gratuits, des redémarrages ou des interruptions de service indépendantes de notre volonté[cite: 3, 4]. Nous ne pourrons être tenus responsables des retards ou des erreurs dans l'application automatique d'une planification[cite: 3]. L'utilisateur utilise le Bot à ses propres risques[cite: 3].</p>
-
-                    <h2>6. Modifications et Résiliation</h2>
-                    <p>Nous nous réservons le droit de modifier ces CGU à tout moment[cite: 3]. L'utilisation continue du Bot vaut acceptation des nouvelles conditions[cite: 3]. Nous pouvons retirer le bot d'un serveur sans préavis en cas de non-respect de ces CGU ou des règles de Discord[cite: 3].</p>
-
-                    <h2>7. Contact</h2>
-                    <p>Pour toute question concernant ces documents légaux, vous pouvez nous contacter à l'adresse e-mail : <a href="mailto:galaxies9@duck.com">galaxies9@duck.com</a>[cite: 3, 4].</p>
-                </div>
-
-                <!-- PRIVACY FR -->
-                <div id="fr-privacy" class="legal-section">
-                    <h1>Politique de Confidentialité</h1>
-                    <p class="last-update">Dernière mise à jour : 11/07/2026</p>
-                    <p>La présente Politique de Confidentialité décrit les types d'informations que le Bot Discord Logoto ("le Service") collecte, comment ces informations sont utilisées et les mesures prises pour assurer leur protection[cite: 4]. Le service est fourni par Galaxie_S9, un développeur indépendant[cite: 4].</p>
-
-                    <h2>1. Collecte et Utilisation des Informations</h2>
-                    <p>Logoto est un bot axé sur la fonctionnalité et la minimisation des données[cite: 4]. Nous ne traitons et ne conservons que les informations strictement nécessaires pour fournir le service d'automatisation et de planification[cite: 4].</p>
-                    
-                    <h3>Types de Données Collectées :</h3>
-                    <ul>
-                        <li><strong>Identifiants de Serveur (Guild IDs) :</strong> L'identifiant unique de votre serveur Discord est traité pour associer votre serveur à ses configurations de planification d'événements[cite: 4].</li>
-                        <li><strong>Configurations d'Événements (Noms et URLs d'images) :</strong> Lorsque vous utilisez la commande <code>/add-an-event</code> ou configurez vos salons, le nouveau nom planifié du serveur et/ou le lien de l'image du logo fournis sont traités pour permettre au bot d'exécuter la modification à la date définie[cite: 4].</li>
-                        <li><strong>Identifiants d'Utilisateur (User IDs) :</strong> L'identifiant unique de l'utilisateur exécutant une commande est vérifié de manière temporaire ou éphémère pour s'assurer qu'il possède les permissions administratives requises sur le serveur[cite: 4].</li>
-                    </ul>
-
-                    <div class="important-note">
-                        <strong>Logoto ne stocke PAS :</strong> Les messages privés, le contenu des salons textuels de discussion, les adresses IP des utilisateurs, l'historique complet des membres, ni aucune donnée personnelle sensible[cite: 4].
-                    </div>
-
-                    <h2>2. Finalité du Traitement des Données</h2>
-                    <p>Les informations collectées sont utilisées exclusivement pour les finalités suivantes[cite: 4] :</p>
-                    <ul>
-                        <li>Fournir et opérer le service Logoto (changer automatiquement le logo et/ou le nom du serveur à la date prévue)[cite: 4].</li>
-                        <li>Envoyer un compte-rendu ou un log d'activité directement sur votre serveur dans le salon configuré pour le suivi des tâches (<code>log-logoto</code>)[cite: 4].</li>
-                        <li>Assurer la sécurité, la stabilité et le dépannage technique du Bot[cite: 4].</li>
-                    </ul>
-
-                    <h2>3. Partage des Informations</h2>
-                    <p>Nous ne vendons, n'échangeons, ni ne louons vos configurations ou vos identifiants de serveur à des tiers[cite: 4]. Les seules entités intervenant dans le traitement technique sont[cite: 4] :</p>
-                    <ul>
-                        <li><strong>Discord :</strong> En utilisant ce Bot, vos données transitent par l'infrastructure de Discord et vous restez soumis à leurs conditions d'utilisation[cite: 4].</li>
-                        <li><strong>L'Hébergeur :</strong> Le Bot s'exécute sur la plateforme d'hébergement cloud <strong>Render</strong>[cite: 3, 4]. Les données de configuration y transitent et y sont traitées de façon sécurisée selon leurs infrastructures[cite: 4].</li>
-                    </ul>
-
-                    <h2>4. Conservation et Suppression des Données</h2>
-                    <p>Les données de configuration liées à la planification des événements sont conservées tant que le Bot Logoto est présent sur votre serveur Discord[cite: 4]. Si vous retirez le Bot de votre serveur, l'événement Discord correspondant déclenche la suppression des données associées à l'identifiant de votre serveur[cite: 4].</p>
-                    <p><strong>Note relative à l'hébergement (Render) :</strong> En raison de l'utilisation d'environnements cloud partagés ou gratuits, l'infrastructure sous-jacente peut occasionnellement mettre l'application en veille, redémarrer les conteneurs ou purger le stockage temporaire non persistant[cite: 4]. Dans ce cas, les fichiers de configuration locaux peuvent être réinitialisés de manière automatique par les systèmes de l'hébergeur[cite: 4].</p>
-
-                    <h2>5. Conformité au RGPD (Résidents de l'UE)</h2>
-                    <p>Si vous êtes résident de l'Espace Économique Européen (EEE), vous avez certains droits en vertu du Règlement Général sur la Protection des Données (RGPD)[cite: 4] :</p>
-                    <ul>
-                        <li>Droit d'accès, de rectification et d'effacement des données de configuration liées à votre serveur[cite: 4].</li>
-                        <li>Droit de retirer votre consentement à tout moment (en retirant simplement le Bot de votre serveur, ce qui met fin immédiatement au traitement des configurations liées)[cite: 4].</li>
-                    </ul>
-
-                    <h2>6. Sécurité des Données</h2>
-                    <p>Nous mettons en œuvre des mesures de sécurité techniques pour protéger les configurations[cite: 4]. Cependant, aucun mode de transmission sur Internet ou de stockage électronique ne peut être garanti à 100 %[cite: 4].</p>
-
-                    <h2>7. Contact</h2>
-                    <p>Pour toute question ou demande concernant cette Politique de Confidentialité, veuillez nous contacter à l'adresse e-mail dédiée : <a href="mailto:galaxies9@duck.com">galaxies9@duck.com</a>[cite: 4].</p>
-                </div>
-            </div>
-
-            <!-- =================================================== -->
-            <!-- TEXTES EN ANGLAIS (EN)                             -->
-            <!-- =================================================== -->
-            <div id="en-content" style="display: none;">
-                <!-- CGU EN (ToS) -->
-                <div id="en-tos" class="legal-section">
-                    <h1>Terms of Service (ToS)</h1>
-                    <p class="last-update">Last updated: July 11, 2026</p>
-
-                    <h2>1. Acceptance of Terms</h2>
-                    <p>Welcome to Logoto, a service provided by independent developer Galaxie_S9[cite: 3]. By adding and using the Logoto bot on your Discord server, you agree to be bound by these Terms of Service ("ToS")[cite: 3]. If you do not agree to these terms, please do not use the Bot[cite: 3].</p>
-
-                    <h2>2. Description of Service</h2>
-                    <p>Logoto is a Discord bot built for automation[cite: 3]. Its primary function is to allow server administrators to automatically change their Discord server's logo and/or name at scheduled times, configured via slash commands (such as <code>/setup</code> and <code>/add-an-event</code>)[cite: 3].</p>
-                    
-                    <h2>3. User Commitments</h2>
-                    <p>The user agrees to abide by the following rules when using Logoto[cite: 3]:</p>
-                    <ol>
-                        <li><strong>Discord Compliance:</strong> The use of Logoto must strictly comply with <a href="https://discord.com/terms" target="_blank" rel="noopener noreferrer">Discord's Terms of Service</a> and <a href="https://discord.com/guidelines" target="_blank" rel="noopener noreferrer">Discord's Community Guidelines</a>[cite: 3].</li>
-                        <li><strong>Permissions:</strong> The user warrants that they possess the required permissions (Manage Server) to configure Logoto[cite: 3].</li>
-                        <li><strong>Content:</strong> It is strictly forbidden to use Logoto to schedule logos or server names that are illegal, offensive, hateful, or infringe upon copyrights[cite: 3].</li>
-                        <li><strong>Service Abuse:</strong> Command spamming or any attempts to disrupt the stability of the infrastructure is prohibited[cite: 3].</li>
-                    </ol>
-
-                    <h2>4. Intellectual Property</h2>
-                    <ol>
-                        <li><strong>Logoto Code:</strong> The source code of Logoto is the property of Galaxie_S9 and is distributed under the MIT license on <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">GitHub</a>[cite: 3].</li>
-                        <li><strong>User Content:</strong> Logos and server names remain the exclusive property of their respective authors[cite: 3]. Logoto claims no ownership over your images or text[cite: 3].</li>
-                    </ol>
-
-                    <h2>5. Limitation of Liability and Hosting</h2>
-                    <p><strong>Logoto is provided "as is" without warranties of any kind[cite: 3].</strong> As an independent project, 100% uptime and availability cannot be guaranteed[cite: 3].</p>
-                    <p>The Bot's operations directly depend on the <strong>Render</strong> cloud hosting platform[cite: 3, 4]. Consequently, scheduled tasks may be affected or delayed by free environment sleep cycles, restarts, or service outages beyond our control[cite: 3, 4]. We shall not be held liable for any delays or errors in automatically applying scheduled changes[cite: 3]. The user uses the Bot at their own risk[cite: 3].</p>
-
-                    <h2>6. Modifications and Termination</h2>
-                    <p>We reserve the right to modify these Terms at any time[cite: 3]. Continued use of the Bot constitutes acceptance of the updated Terms[cite: 3]. We may remove the bot from any server without prior notice in the event of a breach of these Terms or Discord's guidelines[cite: 3].</p>
-                    
-                    <h2>7. Contact</h2>
-                    <p>For any questions regarding these legal documents, please contact us at: <a href="mailto:galaxies9@duck.com">galaxies9@duck.com</a>[cite: 3, 4].</p>
-                </div>
-
-                <!-- PRIVACY EN -->
-                <div id="en-privacy" class="legal-section">
-                    <h1>Privacy Policy</h1>
-                    <p class="last-update">Last updated: July 11, 2026</p>
-                    <p>This Privacy Policy describes the types of information that the Logoto Discord Bot ("the Service") collects, how this information is used, and the steps taken to ensure its protection[cite: 4]. The service is provided by independent developer Galaxie_S9[cite: 4].</p>
-
-                    <h2>1. Information Collection and Use</h2>
-                    <p>Logoto is a bot focused on functionality and data minimization[cite: 4]. We only process and retain information strictly necessary to provide the automation and scheduling service[cite: 4].</p>
-                    
-                    <h3>Types of Data Collected:</h3>
-                    <ul>
-                        <li><strong>Server Identifiers (Guild IDs):</strong> Your Discord server's unique ID is processed to associate your server with its event schedule configurations[cite: 4].</li>
-                        <li><strong>Event Configurations (Names & Image URLs):</strong> When you use the <code>/add-an-event</code> command or configure your channels, the new scheduled server name and/or provided logo image link are processed to allow the bot to execute the modification at the defined date[cite: 4].</li>
-                        <li><strong>User Identifiers (User IDs):</strong> The unique ID of the user executing a command is checked temporarily or ephemerally to ensure they have the required administrative permissions on the server[cite: 4].</li>
-                    </ul>
-
-                    <div class="important-note">
-                        <strong>Logoto does NOT store:</strong> Private messages, text channel chat content, user IP addresses, full member history, or any sensitive personal data[cite: 4].
-                    </div>
-
-                    <h2>2. Purpose of Data Processing</h2>
-                    <p>The collected information is used exclusively for the following purposes[cite: 4]:</p>
-                    <ul>
-                        <li>To provide and operate the Logoto service (automatically changing the server logo and/or name at the scheduled date)[cite: 4].</li>
-                        <li>To send a report or activity log directly to your server in the channel configured for task tracking (<code>log-logoto</code>)[cite: 4].</li>
-                        <li>To ensure the security, stability, and technical troubleshooting of the Bot[cite: 4].</li>
-                    </ul>
-
-                    <h2>3. Information Sharing</h2>
-                    <p>We do not sell, trade, or rent your configurations or server IDs to third parties[cite: 4]. The only entities involved in the technical processing are[cite: 4]:</p>
-                    <ul>
-                        <li><strong>Discord:</strong> By using this Bot, your data transits through Discord's infrastructure, and you remain subject to their terms of service[cite: 4].</li>
-                        <li><strong>Hosting Infrastructure:</strong> The Bot runs on the <strong>Render</strong> cloud hosting platform[cite: 3, 4]. Configuration data transits and is processed securely according to their infrastructures[cite: 4].</li>
-                    </ul>
-
-                    <h2>4. Data Retention and Deletion</h2>
-                    <p>Configuration data related to event scheduling is retained as long as the Logoto Bot is present on your Discord server[cite: 4]. If you remove the Bot from your server, the corresponding Discord event triggers the deletion of data associated with your server ID[cite: 4].</p>
-                    <p><strong>Note regarding hosting (Render):</strong> Due to the use of shared or free cloud environments, the underlying infrastructure may occasionally place the application into sleep mode, restart containers, or purge non-persistent temporary storage[cite: 4]. In this case, local configuration files may be automatically reset by the hoster's systems[cite: 4].</p>
-
-                    <h2>5. GDPR Compliance (EU Residents)</h2>
-                    <p>If you are a resident of the European Economic Area (EEA), you have certain rights under the General Data Protection Regulation (GDPR)[cite: 4]:</p>
-                    <ul>
-                        <li>Right to access, rectify, and erase configuration data linked to your server[cite: 4].</li>
-                        <li>Right to withdraw consent at any time (by simply removing the Bot from your server, which immediately terminates the processing of associated configurations)[cite: 4].</li>
-                    </ul>
-
-                    <h2>6. Data Security</h2>
-                    <p>We implement technical security measures to protect configurations[cite: 4]. However, no method of transmission over the Internet or electronic storage can be guaranteed 100% secure[cite: 4].</p>
-
-                    <h2>7. Contact</h2>
-                    <p>For any questions or requests regarding this Privacy Policy, please contact us at our dedicated email address: <a href="mailto:galaxies9@duck.com">galaxies9@duck.com</a>[cite: 4].</p>
-                </div>
-            </div>
-
+        <main class="content-area" id="doc-content">
+            <!-- Injecté dynamiquement selon l'ancre et la langue -->
         </main>
     </div>
 
-    <!-- Script JavaScript pour la gestion des onglets et langues -->
+    <footer>
+        <div class="footer-content">
+            <p>Ce site est hébergé sur Render. Logoto est un projet personnel.[cite: 5]</p>
+            <div class="footer-links">
+                <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">Code Source</a>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        let currentTab = 'tos';
-        let currentLang = 'fr';
+        // Détection de la langue via l'URL (/fr/legal ou /en/legal)
+        const isEnglishPath = window.location.pathname.includes('/en/');
+        let currentLang = isEnglishPath ? 'en' : 'fr';
 
-        function showTab(tabName) {
-            currentTab = tabName;
-            
-            // Mise à jour des boutons actifs de la sidebar
-            document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`btn-${tabName}`).classList.add('active');
+        const legalData = {
+            fr: {
+                tos: {
+                    title: "Conditions Générales d'Utilisation (CGU)",
+                    html: `
+                        <p style="color: #99aab5; font-size: 14px; margin-bottom: 20px;">Dernière mise à jour : 11/07/2026</p>
+                        <h2>1. Acceptation des Conditions</h2>
+                        <p>Bienvenue sur Logoto, un service fourni par un développeur indépendant, Galaxie_S9[cite: 3]. En ajoutant et en utilisant le bot Logoto sur votre serveur Discord, vous acceptez d'être lié par les présentes Conditions Générales d'Utilisation (CGU)[cite: 3]. Si vous n'avez pas ces privilèges ou refusez ces conditions, veuillez ne pas utiliser le Bot[cite: 3].</p>
+                        
+                        <h2>2. Description du Service</h2>
+                        <p>Logoto est un bot Discord conçu pour l'automatisation[cite: 3]. Son rôle principal est de permettre aux administrateurs de serveurs de changer automatiquement le logo et/ou le nom de leur serveur Discord à des dates planifiées, configurées via des commandes slash (comme <code>/setup</code> et <code>/add-an-event</code>)[cite: 3].</p>
+                        
+                        <h2>3. Engagements de l'Utilisateur</h2>
+                        <p>L'utilisateur s'engage à respecter les règles suivantes lors de l'utilisation de Logoto[cite: 3] :</p>
+                        <ol>
+                            <li><strong>Conformité à Discord :</strong> L'utilisation de Logoto doit impérativement être conforme aux <a href="https://discord.com/terms" target="_blank" rel="noopener noreferrer">Conditions d'Utilisation de Discord</a> et aux <a href="https://discord.com/guidelines" target="_blank" rel="noopener noreferrer">Directives de la Communauté Discord</a>[cite: 3].</li>
+                            <li><strong>Autorisations :</strong> L'utilisateur garantit qu'il dispose des autorisations requises (Gestion du Serveur) pour configurer Logoto[cite: 3].</li>
+                            <li><strong>Contenu :</strong> Il est strictement interdit d'utiliser Logoto pour planifier des logos ou des noms de serveur illégaux, offensants, haineux ou enfreignant les droits d'auteur[cite: 3].</li>
+                            <li><strong>Abus du Service :</strong> Le spam de commandes ou toute tentative de nuire à la stabilité de l'infrastructure est interdit[cite: 3].</li>
+                        </ol>
 
-            // Masquer toutes les sections
-            document.querySelectorAll('.legal-section').forEach(sec => sec.classList.remove('active'));
-            
-            // Afficher la bonne section selon la langue active
-            document.getElementById(`${currentLang}-${tabName}`).classList.add('active');
+                        <h2>4. Propriété Intellectuelle</h2>
+                        <ol>
+                            <li><strong>Code Logoto :</strong> Le code source de Logoto est la propriété de Galaxie_S9 et est distribué sous licence MIT sur <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">GitHub</a>[cite: 3].</li>
+                            <li><strong>Contenu Utilisateur :</strong> Les logos et noms de serveur demeurent la propriété exclusive de leurs auteurs[cite: 3]. Logoto ne revendique aucun droit sur vos images ou textes[cite: 3].</li>
+                        </ol>
 
-            // Met à jour l'ancre URL optionnelle
-            window.location.hash = tabName;
-        }
+                        <h2>5. Limitation de Responsabilité et Hébergement</h2>
+                        <p><strong>Logoto est fourni « tel quel » sans garantie d'aucune sorte[cite: 3].</strong> En tant que projet indépendant, la disponibilité du service à 100 % ne peut être garantie[cite: 3].</p>
+                        <p>Le fonctionnement du Bot dépend directement de la plateforme d'hébergement cloud <strong>Render</strong>[cite: 3, 4]. Par conséquent, l'exécution des tâches planifiées peut être affectée ou décalée par des mises en veille d'environnements gratuits, des redémarrages ou des interruptions de service indépendantes de notre volonté[cite: 3, 4]. Nous ne pourrons être tenus responsables des retards ou des erreurs dans l'application automatique d'une planification[cite: 3]. L'utilisateur utilise le Bot à ses propres risques[cite: 3].</p>
 
-        function changeLanguage() {
-            const select = document.getElementById('langSelect');
-            currentLang = select.value;
+                        <h2>6. Modifications et Résiliation</h2>
+                        <p>Nous nous réservons le droit de modifier ces CGU à tout moment[cite: 3]. L'utilisation continue du Bot vaut acceptation des nouvelles conditions[cite: 3]. Nous pouvons retirer le bot d'un serveur sans préavis en cas de non-respect de ces CGU ou des règles de Discord[cite: 3].</p>
 
-            const btnTos = document.getElementById('btn-tos');
-            const btnPrivacy = document.getElementById('btn-privacy');
+                        <h2>7. Contact</h2>
+                        <p>Pour toute question concernant ces documents légaux, vous pouvez nous contacter à l'adresse e-mail : <a href="mailto:galaxies9@duck.com">galaxies9@duck.com</a>[cite: 3, 4].</p>
+                    `
+                },
+                privacy: {
+                    title: "Politique de Confidentialité",
+                    html: `
+                        <p style="color: #99aab5; font-size: 14px; margin-bottom: 20px;">Dernière mise à jour : 11/07/2026</p>
+                        <p>La présente Politique de Confidentialité décrit les types d'informations que le Bot Discord Logoto ("le Service") collecte, comment ces informations sont utilisées et les mesures prises pour assurer leur protection[cite: 4]. Le service est fourni par Galaxie_S9, un développeur indépendant[cite: 4].</p>
 
-            // Traduction dynamique des boutons de la sidebar
+                        <h2>1. Collecte et Utilisation des Informations</h2>
+                        <p>Logoto est un bot axé sur la fonctionnalité et la minimisation des données[cite: 4]. Nous ne traitons et ne conservons que les informations strictement nécessaires pour fournir le service d'automatisation et de planification[cite: 4].</p>
+                        
+                        <h3>Types de Données Collectées :</h3>
+                        <ul>
+                            <li><strong>Identifiants de Serveur (Guild IDs) :</strong> L'identifiant unique de votre serveur Discord est traité pour associer votre serveur à ses configurations de planification d'événements[cite: 4].</li>
+                            <li><strong>Configurations d'Événements (Noms et URLs d'images) :</strong> Lorsque vous utilisez la commande <code>/add-an-event</code> ou configurez vos salons, le nouveau nom planifié du serveur et/ou le lien de l'image du logo fournis sont traités pour permettre au bot d'exécuter la modification à la date définie[cite: 4].</li>
+                            <li><strong>Identifiants d'Utilisateur (User IDs) :</strong> L'identifiant unique de l'utilisateur exécutant une commande est vérifié de manière temporaire ou éphémère pour s'assurer qu'il possède les permissions administratives requises sur le serveur[cite: 4].</li>
+                        </ul>
+
+                        <div class="note">
+                            <strong>Logoto ne stocke PAS :</strong> Les messages privés, le contenu des salons textuels de discussion, les adresses IP des utilisateurs, l'historique complet des membres, ni aucune donnée personnelle sensible[cite: 4].
+                        </div>
+
+                        <h2>2. Finalité du Traitement des Données</h2>
+                        <p>Les informations collectées sont utilisées exclusivement pour les finalités suivantes[cite: 4] :</p>
+                        <ul>
+                            <li>Fournir et opérer le service Logoto (changer automatiquement le logo et/ou le nom du serveur à la date prévue)[cite: 4].</li>
+                            <li>Envoyer un compte-rendu ou un log d'activité directement sur votre serveur dans le salon configuré pour le suivi des tâches (<code>log-logoto</code>)[cite: 4].</li>
+                            <li>Assurer la sécurité, la stabilité et le dépannage technique du Bot[cite: 4].</li>
+                        </ul>
+
+                        <h2>3. Partage des Informations</h2>
+                        <p>Nous ne vendons, n'échangeons, ni ne louons vos configurations ou vos identifiants de serveur à des tiers[cite: 4]. Les seules entités intervenant dans le traitement technique sont[cite: 4] :</p>
+                        <ul>
+                            <li><strong>Discord :</strong> En utilisant ce Bot, vos données transitent par l'infrastructure de Discord et vous restez soumis à leurs conditions d'utilisation[cite: 4].</li>
+                            <li><strong>L'Hébergeur :</strong> Le Bot s'exécute uniquement sur la plateforme d'hébergement cloud <strong>Render</strong>[cite: 3, 4]. Les données y transitent et y sont traitées de façon sécurisée selon leur infrastructure[cite: 4].</li>
+                        </ul>
+
+                        <h2>4. Conservation et Suppression des Données</h2>
+                        <p>Les données de configuration liées à la planification des événements sont conservées tant que le Bot Logoto est présent sur votre serveur Discord[cite: 4]. Si vous retirez le Bot de votre serveur, les configurations associées sont supprimées[cite: 4].</p>
+                        <p><strong>Note relative à l'hébergement (Render) :</strong> En raison de l'utilisation d'environnements cloud gratuits, l'infrastructure sous-jacente peut occasionnellement mettre l'application en veille ou redémarrer les conteneurs[cite: 4]. Dans ce cas, les fichiers de configuration locaux temporaires non persistants peuvent être réinitialisés de manière automatique[cite: 4].</p>
+
+                        <h2>5. Conformité au RGPD (Résidents de l'UE)</h2>
+                        <p>Si vous êtes résident de l'Espace Économique Européen (EEE), vous avez un droit d'accès, de rectification et d'effacement des données de configuration liées à votre serveur, ou le retrait de votre consentement à tout moment (en retirant simplement le Bot de votre serveur)[cite: 4].</p>
+
+                        <h2>6. Sécurité des Données</h2>
+                        <p>Nous mettons en œuvre des mesures de sécurité techniques pour protéger les configurations[cite: 4]. Cependant, aucun mode de transmission sur Internet ou de stockage électronique ne peut être garanti à 100 %[cite: 4].</p>
+
+                        <h2>7. Contact</h2>
+                        <p>Pour toute question ou demande concernant cette Politique de Confidentialité, veuillez nous contacter à l'adresse e-mail dédiée : <a href="mailto:galaxies9@duck.com">galaxies9@duck.com</a>[cite: 4].</p>
+                    `
+                }
+            },
+            en: {
+                tos: {
+                    title: "Terms of Service (ToS)",
+                    html: `
+                        <p style="color: #99aab5; font-size: 14px; margin-bottom: 20px;">Last updated: July 11, 2026</p>
+                        <h2>1. Acceptance of Terms</h2>
+                        <p>Welcome to Logoto, a service provided by independent developer Galaxie_S9[cite: 3]. By adding and using the Logoto bot on your Discord server, you agree to be bound by these Terms of Service ("ToS")[cite: 3]. If you do not agree to these terms, please do not use the Bot[cite: 3].</p>
+                        
+                        <h2>2. Description of Service</h2>
+                        <p>Logoto is a Discord bot built for automation[cite: 3]. Its primary function is to allow server administrators to automatically change their Discord server's logo and/or name at scheduled times, configured via slash commands (such as <code>/setup</code> and <code>/add-an-event</code>)[cite: 3].</p>
+                        
+                        <h2>3. User Commitments</h2>
+                        <p>The user agrees to abide by the following rules when using Logoto[cite: 3]:</p>
+                        <ol>
+                            <li><strong>Discord Compliance:</strong> The use of Logoto must strictly comply with <a href="https://discord.com/terms" target="_blank" rel="noopener noreferrer">Discord's Terms of Service</a> and <a href="https://discord.com/guidelines" target="_blank" rel="noopener noreferrer">Discord's Community Guidelines</a>[cite: 3].</li>
+                            <li><strong>Permissions:</strong> The user warrants that they possess the required permissions (Manage Server) to configure Logoto[cite: 3].</li>
+                            <li><strong>Content:</strong> It is strictly forbidden to use Logoto to schedule logos or server names that are illegal, offensive, hateful, or infringe upon copyrights[cite: 3].</li>
+                            <li><strong>Service Abuse:</strong> Command spamming or any attempts to disrupt the stability of the infrastructure is prohibited[cite: 3].</li>
+                        </ol>
+
+                        <h2>4. Intellectual Property</h2>
+                        <ol>
+                            <li><strong>Logoto Code:</strong> The source code of Logoto is the property of Galaxie_S9 and is distributed under the MIT license on <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">GitHub</a>[cite: 3].</li>
+                            <li><strong>User Content:</strong> Logos and server names remain the exclusive property of their respective authors[cite: 3]. Logoto claims no ownership over your images or text[cite: 3].</li>
+                        </ol>
+
+                        <h2>5. Limitation of Liability and Hosting</h2>
+                        <p><strong>Logoto is provided "as is" without warranties of any kind[cite: 3].</strong> As an independent project, 100% uptime and availability cannot be guaranteed[cite: 3].</p>
+                        <p>The Bot's operations directly depend on the <strong>Render</strong> cloud hosting platform[cite: 3, 4]. Consequently, scheduled tasks may be affected or delayed by free environment sleep cycles, restarts, or service outages beyond our control[cite: 3, 4]. We shall not be held liable for any delays or errors in automatically applying scheduled changes[cite: 3]. The user uses the Bot at their own risk[cite: 3].</p>
+
+                        <h2>6. Modifications and Termination</h2>
+                        <p>We reserve the right to modify these Terms at any time[cite: 3]. Continued use of the Bot constitutes acceptance of the updated Terms[cite: 3]. We may remove the bot from any server without prior notice in the event of a breach of these Terms or Discord's guidelines[cite: 3].</p>
+                        
+                        <h2>7. Contact</h2>
+                        <p>For any questions regarding these legal documents, please contact us at: <a href="mailto:galaxies9@duck.com">galaxies9@duck.com</a>[cite: 3, 4].</p>
+                    `
+                },
+                privacy: {
+                    title: "Privacy Policy",
+                    html: `
+                        <p style="color: #99aab5; font-size: 14px; margin-bottom: 20px;">Last updated: July 11, 2026</p>
+                        <p>This Privacy Policy describes the types of information that the Logoto Discord Bot ("the Service") collects, how this information is used, and the steps taken to ensure its protection[cite: 4]. The service is provided by independent developer Galaxie_S9[cite: 4].</p>
+
+                        <h2>1. Information Collection and Use</h2>
+                        <p>Logoto is a bot focused on functionality and data minimization[cite: 4]. We only process and retain information strictly necessary to provide the automation and scheduling service[cite: 4].</p>
+                        
+                        <h3>Types of Data Collected:</h3>
+                        <ul>
+                            <li><strong>Server Identifiers (Guild IDs):</strong> Your Discord server's unique ID is processed to associate your server with its event schedule configurations[cite: 4].</li>
+                            <li><strong>Event Configurations (Names & Image URLs):</strong> When you use the <code>/add-an-event</code> command, the new scheduled server name and/or provided logo image link are processed[cite: 4].</li>
+                            <li><strong>User Identifiers (User IDs):</strong> The unique ID of the user executing a command is checked temporarily to ensure they have the required administrative permissions[cite: 4].</li>
+                        </ul>
+
+                        <div class="note">
+                            <strong>Logoto does NOT store:</strong> Private messages, text channel chat content, user IP addresses, full member history, or any sensitive personal data[cite: 4].
+                        </div>
+
+                        <h2>2. Purpose of Data Processing</h2>
+                        <p>The collected information is used exclusively to operate the Logoto service, send activity logs directly to your <code>log-logoto</code> channel, and ensure technical troubleshooting[cite: 4].</p>
+
+                        <h2>3. Information Sharing</h2>
+                        <p>We do not sell, trade, or rent your configurations[cite: 4]. The data transits through <strong>Discord</strong> and is processed safely on the <strong>Render</strong> hosting platform infrastructure[cite: 3, 4].</p>
+
+                        <h2>4. Data Retention and Deletion</h2>
+                        <p>Configuration data is retained as long as the Logoto Bot is present on your server[cite: 4]. If you remove the Bot, the corresponding event triggers data deletion[cite: 4]. Free cloud environments on Render may occasionally reset non-persistent temporary storage files[cite: 4].</p>
+
+                        <h2>5. GDPR Compliance (EU Residents)</h2>
+                        <p>If you are a resident of the European Economic Area (EEA), you have rights to access, rectify, and erase configuration data, or withdraw consent at any time by kicking the bot[cite: 4].</p>
+
+                        <h2>6. Data Security</h2>
+                        <p>We implement technical security measures to protect configurations[cite: 4]. However, no method of transmission over the Internet or electronic storage can be guaranteed 100% secure[cite: 4].</p>
+
+                        <h2>7. Contact</h2>
+                        <p>For any questions or requests regarding this Privacy Policy, please contact us at our dedicated email address: <a href="mailto:galaxies9@duck.com">galaxies9@duck.com</a>[cite: 4].</p>
+                    `
+                }
+            }
+        };
+
+        function updateLayoutAndContent() {
+            let currentHash = window.location.hash.substring(1);
+            if (currentHash !== 'tos' && currentHash !== 'privacy') {
+                currentHash = 'tos';
+            }
+
+            // Traduction et routage des boutons du menu et de l'en-tête
+            const menuTos = document.getElementById('menu-tos');
+            const menuPrivacy = document.getElementById('menu-privacy');
+            const logoRouting = document.getElementById('logo-routing');
+            const langBtn = document.getElementById('lang-btn');
+            const langSwitchBtn = document.getElementById('lang-switch-btn');
+
             if (currentLang === 'fr') {
-                btnTos.innerText = "Conditions d'Utilisation (CGU)";
-                btnPrivacy.innerText = "Politique de Confidentialité";
-                document.getElementById('fr-content').style.display = 'block';
-                document.getElementById('en-content').style.display = 'none';
+                menuTos.innerText = "Conditions d'Utilisation";
+                menuPrivacy.innerText = "Confidentialité";
+                logoRouting.setAttribute('href', '/fr');
+                langBtn.innerText = "FR ↓";
+                langSwitchBtn.innerText = "EN";
+                langSwitchBtn.setAttribute('href', `/en/legal#${currentHash}`);
             } else {
-                btnTos.innerText = "Terms of Service (ToS)";
-                btnPrivacy.innerText = "Privacy Policy";
-                document.getElementById('fr-content').style.display = 'none';
-                document.getElementById('en-content').style.display = 'block';
+                menuTos.innerText = "Terms of Service";
+                menuPrivacy.innerText = "Privacy Policy";
+                logoRouting.setAttribute('href', '/en');
+                langBtn.innerText = "EN ↓";
+                langSwitchBtn.innerText = "FR";
+                langSwitchBtn.setAttribute('href', `/fr/legal#${currentHash}`);
             }
 
-            // Ré-appliquer l'onglet actif pour la nouvelle langue
-            showTab(currentTab);
+            // Gestion de la classe active sur le menu latéral
+            document.querySelectorAll('#sidebar-menu a').forEach(el => el.classList.remove('active-link'));
+            document.getElementById(`menu-${currentHash}`).classList.add('active-link');
+
+            // Injection du texte ciblé
+            const contentArea = document.getElementById('doc-content');
+            const data = legalData[currentLang][currentHash];
+            contentArea.innerHTML = `<h1>${data.title}</h1>${data.html}`;
         }
 
-        // Gestion du chargement initial via l'ancre d'URL (#privacy ou #tos)
-        window.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.replace('#', '');
-            if (hash === 'privacy' || hash === 'tos') {
-                showTab(hash);
-            }
-        });
+        window.addEventListener("hashchange", updateLayoutAndContent);
+        window.addEventListener("DOMContentLoaded", updateLayoutAndContent);
     </script>
 </body>
 </html>
