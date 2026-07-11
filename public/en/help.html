@@ -826,63 +826,68 @@
                         </div>
                         <div class="event-card ${selectedEventTab === 'event-name' ? 'active-card' : ''}" onclick="switchEventTab('event-name', this)">
                             <h3>Name Change</h3>
-                            <p>Automatically modify the display text name of your community.</p>
+                            <p>Schedule automated server name switches safely.</p>
                         </div>
                         <div class="event-card ${selectedEventTab === 'event-banner' ? 'active-card' : ''}" onclick="switchEventTab('event-banner', this)">
-                            <h3>Banner Change</h3>
-                            <p>Schedule an illustration at the top of your channel list (Requires Boost Level 2).</p>
+                            <h3>Server Banner</h3>
+                            <p>Automate your standard banner layout (Boost Level 2).</p>
                         </div>
                         <div class="event-card ${selectedEventTab === 'event-invite' ? 'active-card' : ''}" onclick="switchEventTab('event-invite', this)">
                             <h3>Invite Background</h3>
-                            <p>Customize the background image of your invite splash window (Requires Boost Level 1).</p>
+                            <p>Modify your invite screen background image dynamically (Boost Level 1).</p>
                         </div>
                     </div>
-
-                    <div id="event-sub-content-container">
+                    <div id="event-tabs-container">
                         ${eventTabsData[selectedEventTab]}
                     </div>
                 `
             },
-            "liens-images": {
-                title: "Obtain a Persistent Image Link",
+            'liens-images': {
+                title: "Persistent Image Links",
                 getHtml: () => `
-                    <h1>Obtain a Persistent Image Link</h1>
-                    <p>For Logoto to apply your logos, banners, or invite backgrounds in the future, the URL you provide must remain permanently accessible. Since <strong>direct Discord links expire quickly</strong>, you must use a third-party permanent hosting solution.</p>
-                    <p>Choose one of the recommended methods below to generate a valid permanent link:</p>
+                    <h1>Persistent Image Links</h1>
+                    <p>To ensure your scheduled updates never fail due to expired image assets, avoid temporary attachments and choose a reliable infrastructure method:</p>
                     
                     <div class="mini-tabs">
-                        <button class="mini-tab-btn ${selectedImageMethod === 'method-github' ? 'active-mini' : ''}" onclick="switchImageMethod('method-github', this)">GitHub (Recommended)</button>
-                        <button class="mini-tab-btn ${selectedImageMethod === 'method-imgbb' ? 'active-mini' : ''}" onclick="switchImageMethod('method-imgbb', this)">ImgBB / Imgur</button>
+                        <button class="mini-tab-btn ${selectedImageMethod === 'method-github' ? 'active-mini' : ''}" onclick="switchImageMethod('method-github', this)">GitHub Hosting</button>
+                        <button class="mini-tab-btn ${selectedImageMethod === 'method-imgbb' ? 'active-mini' : ''}" onclick="switchImageMethod('method-imgbb', this)">ImgBB Provider</button>
                     </div>
-
-                    <div id="image-method-container">
+                    <div id="image-methods-container">
                         ${imageMethodsData[selectedImageMethod]}
                     </div>
                 `
             }
         };
 
-        // Render documentation based on the window location hash
-        function renderContent() {
-            const contentArea = document.getElementById('doc-content');
-            let hash = window.location.hash.replace('#', '');
-            
-            // Map or handle specific IDs if they differ from the object keys
-            if (hash === 'setup' || hash === '') hash = 'setup';
-            
-            const section = documentationData[hash];
-            if (section) {
-                contentArea.innerHTML = section.getHtml();
-                updateActiveSidebarLink(hash);
-            }
-        }
+        // Tab Switching Mechanics
+        window.switchEventTab = function(tabId, element) {
+            selectedEventTab = tabId;
+            document.querySelectorAll('.event-card').forEach(card => card.classList.remove('active-card'));
+            if(element) element.classList.add('active-card');
+            const container = document.getElementById('event-tabs-container');
+            if(container) container.innerHTML = eventTabsData[tabId];
+        };
 
-        // Highlights the active page inside the sidebar
-        function updateActiveSidebarLink(activeHash) {
-            const links = document.querySelectorAll('#sidebar-menu a');
-            links.forEach(link => {
-                const hrefHash = link.getAttribute('href').replace('#', '');
-                if (hrefHash === activeHash) {
+        window.switchImageMethod = function(methodId, element) {
+            selectedImageMethod = methodId;
+            document.querySelectorAll('.mini-tab-btn').forEach(btn => btn.classList.remove('active-mini'));
+            if(element) element.classList.add('active-mini');
+            const container = document.getElementById('image-methods-container');
+            if(container) container.innerHTML = imageMethodsData[methodId];
+        };
+
+        // Navigation Router Management
+        function renderContent() {
+            const hash = window.location.hash.replace('#', '') || 'setup';
+            const route = documentationData[hash] ? hash : 'setup';
+            
+            // Render Dynamic Target
+            document.getElementById('doc-content').innerHTML = documentationData[route].getHtml();
+            document.title = `${documentationData[route].title} | Logoto Documentation`;
+
+            // Active Sidebar States
+            document.querySelectorAll('#sidebar-menu a').forEach(link => {
+                if(link.getAttribute('href') === `#${route}`) {
                     link.classList.add('active-link');
                 } else {
                     link.classList.remove('active-link');
@@ -890,39 +895,6 @@
             });
         }
 
-        // Switches specific event tabs dynamically inside the Event route
-        function switchEventTab(tabId, cardElement) {
-            selectedEventTab = tabId;
-            
-            // Manage visual selection
-            const cards = document.querySelectorAll('.event-card');
-            cards.forEach(card => card.classList.remove('active-card'));
-            cardElement.classList.add('active-card');
-            
-            // Update container content
-            const container = document.getElementById('event-sub-content-container');
-            if (container) {
-                container.innerHTML = eventTabsData[tabId];
-            }
-        }
-
-        // Switches the permanent hosting guide method tab content area
-        function switchImageMethod(methodId, btnElement) {
-            selectedImageMethod = methodId;
-            
-            // Manage visual selection
-            const buttons = document.querySelectorAll('.mini-tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active-mini'));
-            btnElement.classList.add('active-mini');
-            
-            // Update container content
-            const container = document.getElementById('image-method-container');
-            if (container) {
-                container.innerHTML = imageMethodsData[methodId];
-            }
-        }
-
-        // Event Listeners for hash updates
         window.addEventListener('hashchange', renderContent);
         window.addEventListener('DOMContentLoaded', renderContent);
     </script>
