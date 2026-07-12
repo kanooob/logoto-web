@@ -1,0 +1,118 @@
+/* ==========================================
+   VARIABLES GLOBALES & THÈME DISCORD / LOGOTO
+   ========================================== */
+:root {
+    /* Couleurs du thème sombre Discord */
+    --bg-main: #36393f;
+    --bg-card: #2f3136;
+    
+    /* Identité du Bot Logoto */
+    --color-primary: #8c935d;
+    --color-primary-hover: #767d4e;
+    
+    /* Couleurs du texte */
+    --text-title: #ffffff;
+    --text-heading: #dcddde;
+    --text-body: #b9bbbe;
+    
+    /* Propriétés */
+    --radius-main: 8px;
+    --font-stack: Arial, sans-serif;
+}
+
+/* ==========================================
+   RESET & STYLES DE BASE
+   ========================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-stack);
+    background-color: var(--bg-main);
+    color: var(--text-title);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ==========================================
+   CONTENEURS & COMPOSANTS HARMONISÉS
+   ========================================== */
+.container {
+    max-width: 500px;
+    width: 100%;
+    background: var(--bg-card);
+    padding: 40px;
+    border-radius: var(--radius-main);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.status-code {
+    font-size: 8rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    margin-bottom: 5px;
+    line-height: 1;
+}
+
+h1, h2, h3 {
+    font-size: 1.8rem;
+    color: var(--text-heading);
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: var(--text-body);
+}
+
+/* ==========================================
+   BOUTONS & INTERACTIONS
+   ========================================== */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: var(--radius-main);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    transition: transform 0.2s, background-color 0.2s;
+    cursor: pointer;
+    border: none;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Design Responsif pour les boutons */
+@media (min-width: 400px) {
+    .button-container {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
