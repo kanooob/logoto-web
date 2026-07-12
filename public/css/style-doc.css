@@ -1,5 +1,5 @@
 /* ==========================================
-   VARIABLES GLOBALES & THÈME DISCORD / LOGOTO
+   1. BASES GLOBALES & VARIABLES (Commun)
    ========================================== */
 :root {
     --blanc: #F2F3F5;
@@ -16,9 +16,6 @@
     --warning-text-important: #ff6b6b; 
 }
 
-/* ==========================================
-   RESET & STRUCTURE GENERALE
-   ========================================== */
 * {
     margin: 0;
     padding: 0;
@@ -37,7 +34,7 @@ body {
 }
 
 /* ==========================================
-   HEADER / NAVIGATION
+   2. HEADER & NAVIGATION (Commun)
    ========================================== */
 header {
     display: flex;
@@ -174,7 +171,7 @@ nav {
 }
 
 /* ==========================================
-   LAYOUT PRINCIPAL / SIDEBAR
+   3. STRUCTURE DU CONTENU (Sidebar + Main)
    ========================================== */
 .main-container {
     display: flex;
@@ -211,6 +208,11 @@ nav {
     padding-left: 4px;
 }
 
+.sidebar a.setup {
+    letter-spacing: 1px;
+    font-size: 16px;
+}
+
 .divider {
     width: 2px;
     min-width: 2px;
@@ -220,9 +222,6 @@ nav {
     flex-shrink: 0;
 }
 
-/* ==========================================
-   ZONE DE CONTENU DE LA DOC
-   ========================================== */
 .content-area {
     flex: 1;
     min-width: 0;
@@ -230,6 +229,7 @@ nav {
     animation: fadeIn 0.4s ease-out;
 }
 
+/* Typographie interne */
 .content-area h1 {
     font-size: 34px;
     color: var(--vert-olive-clair);
@@ -252,6 +252,7 @@ nav {
     opacity: 0.85;
 }
 
+/* Listes & Textes spéciaux */
 .command-list {
     list-style-type: none;
     padding: 0;
@@ -299,6 +300,9 @@ ol ul li {
     opacity: 0.9;
 }
 
+/* ==========================================
+   4. COMPOSANTS SPÉCIFIQUES (Alertes & Onglets)
+   ========================================== */
 .note {
     background-color: var(--note-bg);
     border-left: 5px solid var(--vert-olive);
@@ -327,9 +331,7 @@ ol ul li {
     font-weight: 800;
 }
 
-/* ==========================================
-   COMPOSANTS COMPLEXES (GRILLES & ONGLETS)
-   ========================================== */
+/* Grilles pour événements (/help) */
 .event-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -428,8 +430,11 @@ ol ul li {
     width: 100%;
 }
 
+.mini-tab-content ol, .mini-tab-content ul { width: 100%; }
+.mini-tab-content li { width: 100%; }
+
 /* ==========================================
-   FOOTER
+   5. FOOTER (Commun)
    ========================================== */
 footer {
     background-color: var(--gris-footer);
@@ -464,7 +469,7 @@ footer {
 }
 
 /* ==========================================
-   RESPONSIVE DESIGN (MEDIA QUERIES)
+   6. ANIMATIONS & RESPONSIVE (Commun)
    ========================================== */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(5px); }
