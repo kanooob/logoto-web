@@ -14,11 +14,10 @@
     <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
     <meta name="theme-color" content="#8c935d">
 
-<!-- On charge le style global (header/footer/bases) puis les éléments uniques de l'accueil -->
-<link rel="stylesheet" href="../css/style-doc.css">
-<link rel="stylesheet" href="../css/style-home.css">
+    <!-- Appel de l'unique fichier CSS du site -->
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body class="page-home">
 
     <header>
         <a href="/en" class="logo-container">
@@ -45,9 +44,9 @@
         </nav>
     </header>
 
-    <main>
-        <h1>The best Discord bot <br><span>to automate your visual identity</span></h1>
-        <p class="subtitle">Automatically update your Discord server's logo, banner, invite image, and name in a single click.</p>
+    <main class="hero-section">
+        <h1 class="hero-title">The best Discord bot <br><span>to automate your visual identity</span></h1>
+        <p class="hero-subtitle">Automatically update your Discord server's logo, banner, invite image, and name in a single click.</p>
 
         <div class="cta-container">
             <a href="https://discord.com/oauth2/authorize?client_id=1431383390162124920" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Add to Discord</a>
@@ -61,11 +60,11 @@
 
     <footer>
         <div class="footer-content">
-            <p>&copy; 2026 Logoto. All rights reserved.</p>
+            <p>This site is hosted on Render. Logoto is a personal project.</p>
             <div class="footer-links">
-                <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener">GitHub</a>
                 <a href="/en/legal#tos">TOS</a>
-                <a href="/en/legal#privacy">Privacy</a>
+                <a href="/en/legal#privacy">Privacy Policy</a>
+                <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">Source Code</a>
             </div>
         </div>
     </footer>
