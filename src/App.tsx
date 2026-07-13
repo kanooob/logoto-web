@@ -1,0 +1,41 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
+import Layout from './components/Layout';
+import Home from './pages/Home';
+import Documentation from './pages/Documentation';
+import Legal from './pages/Legal';
+import NotFound from './pages/NotFound';
+
+function AppRoutes() {
+  const { lang } = useLanguage();
+  const location = useLocation();
+  
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to={`/${lang}${location.search}${location.hash}`} replace />} />
+      <Route path="/help" element={<Navigate to={`/${lang}/help${location.search}${location.hash}`} replace />} />
+      <Route path="/legal" element={<Navigate to={`/${lang}/legal${location.search}${location.hash}`} replace />} />
+      <Route element={<Layout />}>
+        <Route path="/:lang" element={<Home />} />
+        <Route path="/:lang/help" element={<Documentation />} />
+        <Route path="/:lang/legal" element={<Legal />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </LanguageProvider>
+  );
+}
