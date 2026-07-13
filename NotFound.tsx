@@ -1,80 +1,74 @@
-import React from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { t } from '../translations';
-import { ArrowDown } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
+import { Zap, CloudOff } from 'lucide-react';
 
-const Layout: React.FC = () => {
-  const { lang, toggleLang } = useLanguage();
-  const location = useLocation();
-  const translations = t[lang];
+const Home: React.FC = () => {
+  const { lang } = useLanguage();
+  const translations = t[lang].home;
+  const [stats, setStats] = useState<{ server: string, online: boolean } | null>(null);
+
+  useEffect(() => {
+    fetch('/api/stats')
+      .then((res) => res.json())
+      .then((data) => setStats(data))
+      .catch((err) => console.error('Unable to load stats', err));
+  }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="flex flex-col md:flex-row justify-between items-center py-5 px-6 md:px-12 w-full max-w-7xl mx-auto gap-4 md:gap-0">
-        <Link to="/" className="flex items-center gap-3 text-white hover:scale-105 transition-transform">
-          <img src="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png" alt="Logoto Logo" className="w-10 h-10 object-contain hover:rotate-12 transition-transform" />
-          <div className="text-2xl font-black tracking-wide">Logoto</div>
-        </Link>
+    <div className="flex-1 flex flex-col items-center justify-center text-center px-4 py-20">
+      <motion.h1 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-4xl md:text-5xl font-black mb-6 leading-tight"
+      >
+        {translations.titleLine1} <br />
+        <span className="text-logoto-olive-light">{translations.titleLine2}</span>
+      </motion.h1>
+      
+      <motion.p 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.1 }}
+        className="text-lg md:text-xl opacity-80 max-w-2xl mb-10"
+      >
+        {translations.subtitle}
+      </motion.p>
 
-        <nav className="flex flex-col md:flex-row items-center gap-4 md:gap-10">
-          <ul className="flex gap-6 text-white font-semibold opacity-80">
-            <li>
-              <Link to={`/${lang}`} className={`hover:opacity-100 hover:text-logoto-olive-light transition-colors ${location.pathname === `/${lang}` || location.pathname === '/' ? 'text-logoto-olive-light opacity-100' : ''}`}>
-                {translations.nav.home}
-              </Link>
-            </li>
-            <li>
-              <Link to={`/${lang}/help`} className={`hover:opacity-100 hover:text-logoto-olive-light transition-colors ${location.pathname.includes('/help') ? 'text-logoto-olive-light opacity-100' : ''}`}>
-                {translations.nav.docs}
-              </Link>
-            </li>
-            <li>
-              <a href="https://discord.com/invite/TPXFVYVnXe" target="_blank" rel="noopener noreferrer" className="hover:opacity-100 hover:text-logoto-olive-light transition-colors">
-                {translations.nav.support}
-              </a>
-            </li>
-          </ul>
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="flex flex-col sm:flex-row gap-4 mb-12"
+      >
+        <a href="https://discord.com/oauth2/authorize?client_id=1431383390162124920" target="_blank" rel="noopener noreferrer" className="bg-logoto-olive text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-logoto-olive-dark hover:scale-105 transition-all shadow-lg">
+          {translations.addDiscordBtn}
+        </a>
+        <a href={`/${lang}/help`} className="bg-logoto-item text-white border border-transparent hover:border-logoto-olive px-8 py-3 rounded-lg font-bold text-lg hover:bg-logoto-code transition-all shadow-lg">
+          {translations.learnMoreBtn}
+        </a>
+      </motion.div>
 
-          <div className="flex items-center gap-4">
-            <button onClick={toggleLang} className="font-bold flex items-center gap-1 hover:text-logoto-olive-light transition-colors">
-              {lang.toUpperCase()} <ArrowDown size={16} />
-            </button>
-            <a href="https://discord.com/oauth2/authorize?client_id=1431383390162124920" target="_blank" rel="noopener noreferrer" className="bg-logoto-olive hover:bg-logoto-olive-dark text-white px-5 py-2.5 rounded-lg font-bold transition-all shadow-md">
-              {translations.nav.addBot}
-            </a>
-          </div>
-        </nav>
-      </header>
-
-      <main className="flex-1 flex flex-col w-full max-w-7xl mx-auto">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="flex-1 flex flex-col w-full"
-          >
-            <Outlet />
-          </motion.div>
-        </AnimatePresence>
-      </main>
-
-      <footer className="bg-logoto-footer py-6 px-6 md:px-12 w-full mt-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto text-sm opacity-70 gap-4 md:gap-0">
-          <p>{translations.footer.hostedInfo}</p>
-          <div className="flex gap-6">
-            <Link to={`/${lang}/legal#tos`} className="hover:text-logoto-olive-light transition-colors">{translations.footer.tos}</Link>
-            <Link to={`/${lang}/legal#privacy`} className="hover:text-logoto-olive-light transition-colors">{translations.footer.privacy}</Link>
-            <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer" className="hover:text-logoto-olive-light transition-colors">{translations.footer.source}</a>
-          </div>
-        </div>
-      </footer>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.4 }}
+        className="flex items-center gap-2 bg-logoto-item px-5 py-2.5 rounded-full text-sm font-semibold border border-white/5"
+      >
+        {stats?.online === false ? (
+          <CloudOff size={18} className="text-gray-400" />
+        ) : (
+          <Zap size={18} className="text-yellow-400" />
+        )}
+        <span>
+          {stats?.server && stats.server !== 'fallback' 
+            ? translations.serversText.replace('{count}', stats.server) 
+            : translations.serversFallback}
+        </span>
+      </motion.div>
     </div>
   );
 };
 
-export default Layout;
+export default Home;

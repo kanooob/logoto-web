@@ -1,40 +1,42 @@
-export type Language = 'en' | 'fr';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Language } from '../types';
 
-export interface Translations {
-  nav: {
-    home: string;
-    docs: string;
-    support: string;
-    addBot: string;
-  };
-  home: {
-    titleLine1: string;
-    titleLine2: string;
-    subtitle: string;
-    addDiscordBtn: string;
-    learnMoreBtn: string;
-    serversText: string;
-    serversFallback: string;
-  };
-  footer: {
-    hostedInfo: string;
-    tos: string;
-    privacy: string;
-    source: string;
-  };
-  docs: {
-    sidebarSetup: string;
-    sidebarHowItWorks: string;
-    sidebarCommands: string;
-    sidebarEvents: string;
-    sidebarLinks: string;
-  };
-  legal: {
-    sidebarTos: string;
-    sidebarPrivacy: string;
-  };
-  notFound: {
-    title: string;
-    description: string;
-  };
+interface LanguageContextType {
+  lang: Language;
+  setLang: (lang: Language) => void;
+  toggleLang: () => void;
 }
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [lang, setLang] = useState<Language>('en');
+
+  // Detect language from URL hash if possible on initial load
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.startsWith('#/fr')) {
+      setLang('fr');
+    } else if (hash.startsWith('#/en')) {
+      setLang('en');
+    }
+  }, []);
+
+  const toggleLang = () => {
+    setLang((prev) => (prev === 'en' ? 'fr' : 'en'));
+  };
+
+  return (
+    <LanguageContext.Provider value={{ lang, setLang, toggleLang }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+};
+
+export const useLanguage = () => {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error('useLanguage must be used within a LanguageProvider');
+  }
+  return context;
+};
