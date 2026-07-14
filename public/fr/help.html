@@ -475,7 +475,6 @@
             width: 100%;
         }
 
-        /* Footer identique à la landing page */
         footer {
             background-color: var(--gris-footer);
             padding: 20px 50px;
@@ -617,7 +616,6 @@
         </main>
     </div>
 
-    <!-- Footer aligné et identique en taille/style -->
     <footer>
         <div class="footer-content">
             <p>&copy; 2026 Logoto. Tous droits réservés.</p>
@@ -675,9 +673,9 @@
                     <p>Découvrez la liste complète des commandes intégrées disponibles directement avec le système de Slash Commands de Discord :</p>
                     <ul class="command-list">
                         <li><code>/setup</code> : Première commande à faire. Crée automatiquement la catégorie et les salons nécessaires (Logoto, log-logoto) pour un démarrage rapide.</li>
-                        <li><code>/add-an-event</code> : Crée automatiquement un salon de planification au bon format pour vos événements futurs.</li>
+                        <li><code>/add-an-event type: jour: mois:</code> : Crée automatiquement un salon de planification au bon format en fonction des options renseignées pour vos événements futurs.</li>
+                        <li><code>/about</code> : Renvoie toutes les informations utiles concernant l'état actuel, le statut et l'origine du bot.</li>
                         <li><code>/help</code> : Affiche la liste des commandes du bot (ou cette page de documentation).</li>
-                        <li><code>/info</code> : Renvoie toutes les informations utiles concernant l'état actuel et le statut du bot.</li>
                         <li><code>/ping</code> : Obtenez la latence en temps réel entre le bot et l'API Discord.</li>
                         <li><code>/invite</code> : Obtenez le lien d'invitation officiel pour ajouter Logoto sur votre propre serveur.</li>
                         <li><code>/support</code> : Rejoignez notre serveur de support pour poser vos questions ou obtenir de l'aide.</li>
@@ -741,7 +739,8 @@
                     <h3>Configuration du Logo Automatique</h3><br>
                     <ol>
                         <li><strong>Créez le Salon de Planification :</strong>
-                            <ul><li>Le salon doit suivre scrupuleusement le format : <code>l-[JOUR]-[MOIS]</code> (ou être généré via la commande <code>/add-an-event</code>).</li>
+                            <ul><li>Utilisez la commande slash <code>/add-an-event type:Logo jour:[JOUR] mois:[MOIS]</code> pour générer instantanément le salon.</li>
+                            <li>Le salon créé par le bot suivra scrupuleusement le format : <code>l-[JOUR]-[MOIS]</code>.</li>
                             <li>EXEMPLE : Pour programmer un logo pour Halloween (31 octobre) : <code>l-31-10</code></li></ul>
                         </li>
                         <li><strong>Préparez le Logo :</strong>
@@ -764,7 +763,8 @@
                     <h3>Configuration du Nom Automatique</h3><br>
                     <ol>
                         <li><strong>Créez le Salon de Planification :</strong>
-                            <ul><li>Le salon doit suivre le format : <code>n-[JOUR]-[MOIS]</code> (ou être généré via la commande <code>/add-an-event</code>).</li>
+                            <ul><li>Utilisez la commande slash <code>/add-an-event type:Nom jour:[JOUR] mois:[MOIS]</code> pour générer le salon.</li>
+                            <li>Le salon créé par le bot suivra scrupuleusement le format : <code>n-[JOUR]-[MOIS]</code>.</li>
                             <li>EXEMPLE : Pour planifier un changement de nom le 1er Janvier : <code>n-1-1</code></li></ul>
                         </li>
                         <li><strong>Planifiez le Changement :</strong>
@@ -783,7 +783,8 @@
                     <p><em>Note : Votre serveur doit posséder le niveau de Boost requis (Niveau 2+) pour appliquer des bannières personnalisées.</em></p>
                     <ol>
                         <li><strong>Créez le Salon de Planification :</strong>
-                            <ul><li>Le salon doit suivre le format : <code>b-[JOUR]-[MOIS]</code> (ou être généré via la commande <code>/add-an-event</code>).</li>
+                            <ul><li>Utilisez la commande slash <code>/add-an-event type:Bannière jour:[JOUR] mois:[MOIS]</code> pour générer le salon.</li>
+                            <li>Le salon créé par le bot suivra scrupuleusement le format : <code>b-[JOUR]-[MOIS]</code>.</li>
                             <li>EXEMPLE : Pour planifier une bannière festive le 25 Décembre : <code>b-25-12</code></li></ul>
                         </li>
                         <li><strong>Préparez la Bannière :</strong>
@@ -807,7 +808,8 @@
                     <p><em>Note : Votre serveur doit posséder le niveau de Boost requis (Niveau 1+) pour appliquer une image de fond d'invitation personnalisée.</em></p>
                     <ol>
                         <li><strong>Créez le Salon de Planification :</strong>
-                            <ul><li>Le salon doit suivre le format : <code>i-[JOUR]-[MOIS]</code> (ou être généré via la commande <code>/add-an-event</code>).</li>
+                            <ul><li>Utilisez la commande slash <code>/add-an-event type:Fond d'invitation jour:[JOUR] mois:[MOIS]</code> pour générer le salon.</li>
+                            <li>Le salon créé par le bot suivra scrupuleusement le format : <code>i-[JOUR]-[MOIS]</code>.</li>
                             <li>EXEMPLE : Pour un arrière-plan spécial le 14 Juillet : <code>i-14-7</code></li></ul>
                         </li>
                         <li><strong>Préparez l'Image de Fond :</strong>
