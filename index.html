@@ -1,77 +1,65 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useLanguage } from '../context/LanguageContext';
-import { legalData } from '../data/legalContent';
-import { t } from '../translations';
-import Markdown from 'react-markdown';
-import { Scale } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import React from "react";
+import { ArrowLeft, Ban } from "lucide-react";
+import { Language } from "../types";
+import { navigateTo } from "../utils/routing";
 
-const Legal: React.FC = () => {
-  const { lang } = useLanguage();
-  const location = useLocation();
-  const [activeSection, setActiveSection] = useState<'tos' | 'privacy'>('tos');
+interface NotFoundProps {
+  currentLang: Language;
+}
 
-  const data = legalData[lang];
-  const translations = t[lang].legal;
+export default function NotFound({ currentLang }: NotFoundProps) {
+  const handleGoHome = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigateTo("home", currentLang);
+  };
 
-  useEffect(() => {
-    if (location.hash === '#privacy') {
-      setActiveSection('privacy');
-    } else {
-      setActiveSection('tos');
-    }
-  }, [location]);
+  const text = {
+    en: {
+      status: "404",
+      title: "Oops, this page disappeared.",
+      desc: "Sorry, we couldn't find the page you are looking for. Use the button below to return to safety.",
+      btn: "Back to Home",
+    },
+    fr: {
+      status: "404",
+      title: "Oups, cette page a disparu.",
+      desc: "Désolé, nous n'avons pas pu trouver la page que vous cherchez. Utilisez le bouton ci-dessous pour revenir en lieu sûr.",
+      btn: "Retour à l'accueil",
+    },
+  }[currentLang];
 
   return (
-    <div className="flex flex-col md:flex-row w-full px-6 py-10 gap-10">
-      <aside className="w-full md:w-64 flex-shrink-0 flex flex-col gap-4">
-        <button
-          onClick={() => { setActiveSection('tos'); window.history.replaceState(null, '', '#tos') }}
-          className={`text-left font-bold text-lg px-4 py-2 rounded-lg transition-all ${
-            activeSection === 'tos' 
-              ? 'bg-logoto-olive/10 text-logoto-olive-light border-l-4 border-logoto-olive-light' 
-              : 'text-white/60 hover:text-white hover:bg-white/5 border-l-4 border-transparent'
-          }`}
-        >
-          {translations.sidebarTos}
-        </button>
-        <button
-          onClick={() => { setActiveSection('privacy'); window.history.replaceState(null, '', '#privacy') }}
-          className={`text-left font-bold text-lg px-4 py-2 rounded-lg transition-all ${
-            activeSection === 'privacy' 
-              ? 'bg-logoto-olive/10 text-logoto-olive-light border-l-4 border-logoto-olive-light' 
-              : 'text-white/60 hover:text-white hover:bg-white/5 border-l-4 border-transparent'
-          }`}
-        >
-          {translations.sidebarPrivacy}
-        </button>
-      </aside>
+    <div className="flex-1 w-full flex flex-col justify-center items-center py-20 px-4 text-center animate-fadeIn">
+      <div className="max-w-md w-full bg-[#2f3136] border border-white/5 p-8 sm:p-12 rounded-2xl shadow-xl shadow-black/30 space-y-6">
+        <div className="flex flex-col items-center gap-2">
+          <div className="bg-red-500/10 text-red-400 p-3 rounded-full mb-2">
+            <Ban className="w-10 h-10 animate-pulse" />
+          </div>
+          <div className="text-7xl font-black text-[#8c935d] tracking-tight leading-none" id="not-found-status">
+            {text.status}
+          </div>
+        </div>
 
-      <div className="hidden md:block w-[1px] bg-white/10 self-stretch"></div>
+        <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight" id="not-found-title">
+          {text.title}
+        </h1>
 
-      <main className="flex-1 max-w-3xl">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeSection}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 10 }}
-            transition={{ duration: 0.2 }}
+        <p className="text-sm text-white/60 leading-relaxed font-medium">
+          {text.desc}
+        </p>
+
+        <div className="pt-4">
+          <a
+            href="/"
+            onClick={handleGoHome}
+            className="inline-flex items-center gap-2 bg-[#8c935d] hover:bg-[#767d4f] text-white font-bold py-3 px-6 rounded-xl transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 shadow-md shadow-black/20 text-sm"
+            id="not-found-home-btn"
           >
-            <h1 className="text-3xl font-black text-logoto-olive-light mb-6 flex items-center gap-2">
-              <Scale className="opacity-50" />
-              {data[activeSection].title}
-            </h1>
-
-            <div className="markdown-body">
-              <Markdown>{data[activeSection].content}</Markdown>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </main>
+            <ArrowLeft className="w-4 h-4" />
+            {text.btn}
+          </a>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Legal;
+}
