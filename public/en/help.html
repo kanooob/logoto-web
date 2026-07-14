@@ -477,7 +477,7 @@
 
         footer {
             background-color: var(--gris-footer);
-            padding: 20px 50px;
+            padding: 25px 50px;
             width: 100%;
             margin-top: auto;
         }
@@ -618,12 +618,12 @@
 
     <footer>
         <div class="footer-content">
-            <p>&copy; 2026 Logoto. All rights reserved.</p>
+            <p>This website is hosted on Render. Logoto is a personal project.</p>
             <div class="footer-links">
                 <a href="https://logoto.betteruptime.com/" target="_blank" rel="noopener">Status</a>
-                <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener">GitHub</a>
-                <a href="/en/legal#tos">Terms of Service</a>
+                <a href="/en/legal#tos">Terms of Service (ToS)</a>
                 <a href="/en/legal#privacy">Privacy Policy</a>
+                <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">Source Code</a>
             </div>
         </div>
     </footer>
@@ -640,12 +640,12 @@
                     <h2>Getting Started</h2>
                     <p>To begin utilizing the bot to its full capacity, simply run the initial server deployment command.</p>
                     <ul class="command-list">
-                        <li><code>/setup</code> : The essential first command. Automatically builds the required category and logging channels (Logoto, log-logoto) for a quick launch.</li>
+                        <li><code>/setup</code> : The essential first command. Automatically builds the required category and logging channels (Logoto, log-logoto) for a quick launch.[cite: 2]</li>
                     </ul>
                     <div class="note">
                         <strong>IMPORTANT NOTE:</strong> The channel named <code>log-logoto</code> <strong>must exist</strong> on your server to handle automatic operation diagnostics.
                         <br><br>
-                        The bot uses this channel to post daily engineering load logs (<code>l-Loading</code>, <code>n-Loading</code>, <code>b-Loading</code>, or <code>i-Loading</code>). Note that <strong>these updates are only generated if an automated asset swap is actively scheduled for that specific date</strong>. If no event is registered, no text is sent. The <code>/setup</code> command configures this safely for you.
+                        The bot uses this channel to post daily engineering load logs (<code>l-Loading</code>, <code>n-Loading</code>, <code>b-Loading</code>, or <code>i-Loading</code>). Note that <strong>these updates are only generated if an automated asset swap is actively scheduled for that specific date</strong>. If no event is registered, no text is sent. The <code>/setup</code> command configures this safely for you.[cite: 2]
                     </div>
                 `
             },
@@ -672,13 +672,11 @@
                 getHtml: () => `
                     <p>Explore the complete list of built-in features accessible straight out of the box using Discord's official Slash Commands:</p>
                     <ul class="command-list">
-                        <li><code>/setup</code> : The essential first command. Automatically builds the required category and logging channels (Logoto, log-logoto) for a quick launch.</li>
-                        <li><code>/add-an-event</code> : Instantly creates a formatting-compliant text channel to schedule your future visual updates.</li>
-                        <li><code>/help</code> : Displays the operational dashboard commands directory (or opens this index).</li>
-                        <li><code>/info</code> : Returns technical data regarding the engine's real-time operational status and cluster health.</li>
-                        <li><code>/ping</code> : Tests connection latency between the bot framework and Discord's internal API gateways.</li>
-                        <li><code>/invite</code> : Fetches the official authorization link to introduce Logoto to your own community servers.</li>
-                        <li><code>/support</code> : Points to our central support server where you can request live technical assistance.</li>
+                        <li><code>/setup</code> : The essential first command. Automatically builds the required category and logging channels (Logoto, log-logoto) for a quick launch.[cite: 2]</li>
+                        <li><code>/add-an-event type: day: month:</code> : Instantly creates a formatting-compliant text channel to schedule your future visual updates under the specified category.[cite: 2]</li>
+                        <li><code>/about</code> : Returns technical data regarding the engine's real-time operational status, creator information, and cluster health.[cite: 2]</li>
+                        <li><code>/help</code> : Displays the operational dashboard commands directory (or opens this index).[cite: 2]</li>
+                        <li><code>/ping</code> : Tests connection latency between the bot framework and Discord's internal API gateways.[cite: 2]</li>
                     </ul>
                 `
             },
@@ -739,7 +737,8 @@
                     <h3>Automated Server Icon Setup</h3><br>
                     <ol>
                         <li><strong>Create the Planning Channel:</strong>
-                            <ul><li>The text channel name must strictly follow this exact syntax: <code>l-[DAY]-[MONTH]</code> (or use <code>/add-an-event</code>).</li>
+                            <ul><li>Use the slash command <code>/add-an-event type:Logo day:[DAY] month:[MONTH]</code>.[cite: 2]</li>
+                            <li>The bot will instantly build a channel named strictly following this syntax: <code>l-[DAY]-[MONTH]</code>.</li>
                             <li>EXAMPLE: To schedule an icon update for Halloween (October 31st): <code>l-31-10</code></li></ul>
                         </li>
                         <li><strong>Prepare your Graphic File:</strong>
@@ -762,7 +761,8 @@
                     <h3>Automated Server Name Setup</h3><br>
                     <ol>
                         <li><strong>Create the Planning Channel:</strong>
-                            <ul><li>The text channel name must strictly match this layout format: <code>n-[DAY]-[MONTH]</code> (or use <code>/add-an-event</code>).</li>
+                            <ul><li>Use the slash command <code>/add-an-event type:Name day:[DAY] month:[MONTH]</code>.[cite: 2]</li>
+                            <li>The bot will instantly build a channel named strictly matching this layout format: <code>n-[DAY]-[MONTH]</code>.</li>
                             <li>EXAMPLE: To adjust your server title on New Year's Day (January 1st): <code>n-1-1</code></li></ul>
                         </li>
                         <li><strong>Schedule the Update:</strong>
@@ -781,7 +781,8 @@
                     <p><em>Note: Your community must maintain the required server Boost tier status (Level 2+) to deploy custom graphical banners.</em></p>
                     <ol>
                         <li><strong>Create the Planning Channel:</strong>
-                            <ul><li>The text channel name must strictly match this layout format: <code>b-[DAY]-[MONTH]</code> (or use <code>/add-an-event</code>).</li>
+                            <ul><li>Use the slash command <code>/add-an-event type:Banner day:[DAY] month:[MONTH]</code>.[cite: 2]</li>
+                            <li>The bot will instantly build a channel named strictly matching this layout format: <code>b-[DAY]-[MONTH]</code>.</li>
                             <li>EXAMPLE: To deploy a festive holiday banner on Christmas Day (December 25th): <code>b-25-12</code></li></ul>
                         </li>
                         <li><strong>Prepare your Graphic File:</strong>
@@ -805,7 +806,8 @@
                     <p><em>Note: Your community must maintain the required server Boost tier status (Level 1+) to deploy custom invite background splash graphics.</em></p>
                     <ol>
                         <li><strong>Create the Planning Channel:</strong>
-                            <ul><li>The text channel name must strictly match this layout format: <code>i-[DAY]-[MONTH]</code> (or use <code>/add-an-event</code>).</li>
+                            <ul><li>Use the slash command <code>/add-an-event type:Invite Splash day:[DAY] month:[MONTH]</code>.[cite: 2]</li>
+                            <li>The bot will instantly build a channel named strictly matching this layout format: <code>i-[DAY]-[MONTH]</code>.</li>
                             <li>EXAMPLE: To schedule a themed background splash for July 14th: <code>i-14-7</code></li></ul>
                         </li>
                         <li><strong>Prepare your Graphic File:</strong>
