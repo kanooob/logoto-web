@@ -20,6 +20,7 @@
             --vert-olive-clair: #a3ab72;
             --gris-discord: #36393f; 
             --gris-footer: #2f3136;
+            --gris-card: #2f3136;
         }
 
         * {
@@ -175,9 +176,14 @@
             align-items: center;
             text-align: center;
             padding: 60px 20px;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-section {
+            max-width: 1000px;
+            margin-bottom: 60px;
         }
 
         h1 {
@@ -198,12 +204,15 @@
             margin-bottom: 40px;
             max-width: 700px;
             line-height: 1.6;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .cta-container {
             display: flex;
             gap: 20px;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
+            justify-content: center;
         }
 
         .btn {
@@ -248,6 +257,48 @@
             opacity: 0.9;
             font-weight: 600;
             letter-spacing: 0.5px;
+            display: inline-block;
+        }
+
+        /* Section Infos Supplémentaires */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .feature-card {
+            background-color: var(--gris-card);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(140, 147, 93, 0.4);
+        }
+
+        .feature-icon {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--vert-olive-clair);
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            opacity: 0.8;
+            line-height: 1.5;
         }
 
         footer {
@@ -293,6 +344,13 @@
             }
         }
 
+        @media (max-width: 900px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
         @media (max-width: 768px) {
             header {
                 padding: 20px;
@@ -330,6 +388,8 @@
                 width: 100%;
                 max-width: 300px;
                 gap: 15px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .btn {
@@ -357,7 +417,7 @@
             <ul class="nav-links">
                 <li><a href="/fr" class="active">Accueil</a></li>
                 <li><a href="/fr/help">Documentation</a></li>
-                <li><a href="https://discord.com/invite/TPXFVYVnXe"target="_blank" rel="noopener noreferrer">Support</a></li>
+                <li><a href="https://discord.com/invite/TPXFVYVnXe" target="_blank" rel="noopener noreferrer">Support</a></li>
             </ul>
 
             <div class="nav-right">
@@ -367,22 +427,43 @@
                         <a href="/en">EN</a>
                     </div>
                 </div>
-                <a href="https://discord.com/oauth2/authorize?client_id=1431383390162124920"target="_blank" rel="noopener noreferrer" class="btn-nav">Ajouter le bot</a>
+                <a href="https://discord.com/oauth2/authorize?client_id=1431383390162124920" target="_blank" rel="noopener noreferrer" class="btn-nav">Ajouter le bot</a>
             </div>
         </nav>
     </header>
 
     <main>
-        <h1>Le meilleur bot Discord <br><span>d'automatisation de l'identité visuelle</span></h1>
-        <p class="subtitle">Automatisez en un clic le logo, la bannière, l'image d'invitation et le nom de votre serveur Discord.</p>
+        <div class="hero-section">
+            <h1>Le meilleur bot Discord <br><span>d'automatisation de l'identité visuelle</span></h1>
+            <p class="subtitle">Automatisez en un clic le logo, la bannière, l'image d'invitation et le nom de votre serveur Discord.</p>
 
-        <div class="cta-container">
-            <a href="https://discord.com/oauth2/authorize?client_id=1431383390162124920"target="_blank" rel="noopener noreferrer" class="btn btn-primary">Ajouter à Discord</a>
-            <a href="/fr/help" class="btn btn-secondary">En savoir plus</a>
+            <div class="cta-container">
+                <a href="https://discord.com/oauth2/authorize?client_id=1431383390162124920" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Ajouter à Discord</a>
+                <a href="/fr/help" class="btn btn-secondary">En savoir plus</a>
+            </div>
+
+            <div class="badge-servers">
+                <span id="status-emoji">⚡ </span>Utilisé sur <span id="server-count">plusieurs</span> serveurs
+            </div>
         </div>
 
-        <div class="badge-servers">
-            <span id="status-emoji">⚡ </span>Utilisé sur <span id="server-count">plusieurs</span> serveurs
+        <!-- Section Infos de Logoto ajoutée -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Changements Dynamiques</h3>
+                <p>Planifiez ou déclenchez instantanément la mise à jour de l'identité visuelle de votre serveur selon vos événements, saisons ou besoins.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3>Gestion Centralisée</h3>
+                <p>Configurez le nom, l'icône, la bannière et le fond d'invitation depuis un seul endroit. Logoto s'occupe de la synchronisation de A à Z.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⏳</div>
+                <h3>Gain de Temps</h3>
+                <p>Fini les modifications manuelles répétitives. Offrez à votre communauté une expérience visuelle toujours fraîche, sans effort de modération.</p>
+            </div>
         </div>
     </main>
 
@@ -390,6 +471,7 @@
         <div class="footer-content">
             <p>&copy; 2026 Logoto. Tous droits réservés.</p>
             <div class="footer-links">
+                <a href="https://logoto.betteruptime.com/" target="_blank" rel="noopener">Statut</a>
                 <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener">GitHub</a>
                 <a href="/fr/legal#tos">UGC</a>
                 <a href="/fr/legal#privacy">Confidentialité</a>
