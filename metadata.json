@@ -1,6 +1,0 @@
-{
-  "name": "Logoto",
-  "description": "Automate your Discord server's visual identity — easily schedule and update server icons, banners, names, and invitation splash backgrounds.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
