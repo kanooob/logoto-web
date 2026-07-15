@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logoto - Automate your server's image</title>
 
-    <!-- Official Favicon -->
+
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
 
-    <!-- Metadata for Discord / Twitter embeds -->
+
     <meta property="og:title" content="LOGOTO - Automate your server's image">
     <meta property="og:description" content="Automatically generate and update your Discord server's logo, banner, and name in a single click.">
     <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
     <meta name="theme-color" content="#8c935d">
 
     <style>
-        /* Validated & enriched color palette */
+
         :root {
             --blanc: #F2F3F5;
             --vert-olive: #8c935d;
@@ -42,7 +42,7 @@
             overflow-x: hidden;
         }
 
-        /* Responsive Navigation Bar */
+
         header {
             display: flex;
             justify-content: space-between;
@@ -172,7 +172,7 @@
             transform: translateY(-1px);
         }
 
-        /* Hero Section + Animations */
+
         main {
             flex: 1;
             display: flex;
@@ -253,7 +253,7 @@
             transform: translateY(-2px);
         }
 
-        /* Server Badge */
+
         .badge-servers {
             border: 1px solid rgba(140, 147, 93, 0.4);
             background-color: rgba(140, 147, 93, 0.1);
@@ -267,7 +267,7 @@
             display: inline-block;
         }
 
-        /* Information Grid Section */
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -341,7 +341,7 @@
             color: var(--vert-olive-clair);
         }
 
-        /* Entry Animation Keyframes */
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -360,7 +360,7 @@
             }
         }
 
-        /* RESPONSIVE DESIGN (Tablets & Smartphones) */
+
         @media (max-width: 768px) {
             header {
                 padding: 20px;
@@ -457,7 +457,7 @@
             </div>
         </div>
 
-        <!-- Translated Features Info Grid Section -->
+
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">🔄</div>
@@ -497,14 +497,14 @@
                     const countSpan = document.getElementById('server-count');
                     const emojiSpan = document.getElementById('status-emoji');
                     
-                    // Handle server count text
+
                     if (data.server && data.server !== "fallback") {
                         countSpan.textContent = `over ${data.server}`;
                     } else {
                         countSpan.textContent = "many";
                     }
 
-                    // Handle status easter egg
+           
                     if (data.online === false) {
                         emojiSpan.textContent = "☁️ ";
                     } else {
@@ -514,7 +514,7 @@
             })
             .catch(err => {
                 console.error("Unable to load stats:", err);
-                // Default to offline emoji if API request fails
+        
                 document.getElementById('status-emoji').textContent = "☁️ ";
             });
     </script>
