@@ -260,7 +260,6 @@
             display: inline-block;
         }
 
-        /* Section Infos Supplémentaires */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -447,7 +446,6 @@
             </div>
         </div>
 
-        <!-- Section Infos de Logoto ajoutée -->
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">🔄</div>
@@ -487,14 +485,12 @@
                     const countSpan = document.getElementById('server-count');
                     const emojiSpan = document.getElementById('status-emoji');
                     
-                    // Gestion du compteur
                     if (data.server && data.server !== "fallback") {
                         countSpan.textContent = `plus de ${data.server}`;
                     } else {
                         countSpan.textContent = "plusieurs";
                     }
 
-                    // Gestion de l'easter egg (status en ligne/hors ligne)
                     if (data.online === false) {
                         emojiSpan.textContent = "☁️ ";
                     } else {
@@ -504,7 +500,7 @@
             })
             .catch(err => {
                 console.error("Impossible de charger les statistiques :", err);
-                // Si l'API est injoignable, on met l'émoji hors ligne par défaut
+
                 document.getElementById('status-emoji').textContent = "☁️ ";
             });
     </script>
