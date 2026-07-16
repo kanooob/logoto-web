@@ -517,6 +517,10 @@
         
                 document.getElementById('status-emoji').textContent = "☁️ ";
             });
+        window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById('year').textContent = new Date().getFullYear();
+    updateContent();
+});
     </script>
 
 </body>
