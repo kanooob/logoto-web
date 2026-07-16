@@ -618,7 +618,7 @@
 
     <footer>
         <div class="footer-content">
-            <p>&copy; 2026 Logoto. Tous droits réservés.</p>
+            <p>&copy; <span id="year"></span> Logoto. Tous droits réservés.</p>
             <div class="footer-links">
                 <a href="https://logoto.betteruptime.com/" target="_blank" rel="noopener">Statut</a>
                 <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener">GitHub</a>
@@ -652,7 +652,7 @@
             "how-it-works": {
                 title: "Fonctionnement Général",
                 getHtml: () => `
-                    <p>Logoto surveille de manière autonome la présence de salons textuels spécifiques au sein de votre serveur Discord pour planifier et exécuter vos mises à jour esthétiques.</p>
+                    <p>Logoto surveille de manière autonome la présence de salons textuels spécifiques au sein de votre serveur Discord pour planifier et exécuter vos mises à suppression esthétiques.</p>
                     
                     <div class="note" style="margin-bottom: 20px; background-color: #2b3a2e; border-left: 5px solid var(--vert-olive-clair);">
                         <strong>Planification horaire :</strong> Toutes les mises à jour et vérifications automatiques configurées sur votre serveur s'exécutent chaque jour précisément à <strong>00h00 UTC</strong>.
@@ -672,13 +672,11 @@
                 getHtml: () => `
                     <p>Découvrez la liste complète des commandes intégrées disponibles directement avec le système de Slash Commands de Discord :</p>
                     <ul class="command-list">
-                        <li><code>/setup</code> : Première commande à faire. Crée automatiquement la catégorie et les salons nécessaires (Logoto, log-logoto) pour un démarrage rapide.</li>
-                        <li><code>/add-an-event type: jour: mois:</code> : Crée automatiquement un salon de planification au bon format en fonction des options renseignées pour vos événements futurs.</li>
-                        <li><code>/about</code> : Renvoie toutes les informations utiles concernant l'état actuel, le statut et l'origine du bot.</li>
-                        <li><code>/help</code> : Affiche la liste des commandes du bot (ou cette page de documentation).</li>
-                        <li><code>/ping</code> : Obtenez la latence en temps réel entre le bot et l'API Discord.</li>
-                        <li><code>/invite</code> : Obtenez le lien d'invitation officiel pour ajouter Logoto sur votre propre serveur.</li>
-                        <li><code>/support</code> : Rejoignez notre serveur de support pour poser vos questions ou obtenir de l'aide.</li>
+                        <li><code>/setup</code> : Crée les salons requis (Logoto, log-logoto) pour un démarrage rapide, indispensable pour le bon fonctionnement du bot.</li>
+                        <li><code>/add-an-event type: jour: mois:</code> : Crée un salon d'événement avec les options : [type] (obligatoire) pour le type d'événement (logo/name/banner/image invite), [day] (obligatoire) pour le jour de changement, et [month] (obligatoire) pour le mois de changement.</li>
+                        <li><code>/about</code> : Affiche les informations sur le bot, les liens d'invitation et les options de support.</li>
+                        <li><code>/help</code> : Affiche ce message d'aide (ou cette page de documentation).</li>
+                        <li><code>/ping</code> : Obtenez le ping du bot.</li>
                     </ul>
                 `
             },
@@ -919,7 +917,11 @@
         }
 
         window.addEventListener("hashchange", updateContent);
-        window.addEventListener("DOMContentLoaded", updateContent);
+        window.addEventListener("DOMContentLoaded", () => {
+            // Mise à jour automatique de l'année dans le footer
+            document.getElementById('year').textContent = new Date().getFullYear();
+            updateContent();
+        });
     </script>
 
 </body>
