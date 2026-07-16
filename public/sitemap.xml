@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
-  <!-- ================= ACCUEIL (INDEX) ================= -->
-  <!-- Accueil - Version Française -->
   <url>
     <loc>https://logoto.onrender.com/fr/</loc>
     <lastmod>2026-07-16</lastmod>
@@ -14,7 +11,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/"/>
   </url>
 
-  <!-- Accueil - Version Anglaise -->
   <url>
     <loc>https://logoto.onrender.com/en/</loc>
     <lastmod>2026-07-16</lastmod>
@@ -25,9 +21,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/"/>
   </url>
 
-
-  <!-- ================= AIDE (HELP) ================= -->
-  <!-- Aide - Version Française -->
   <url>
     <loc>https://logoto.onrender.com/fr/help</loc>
     <lastmod>2026-07-16</lastmod>
@@ -38,7 +31,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/help"/>
   </url>
 
-  <!-- Help - Version Anglaise -->
   <url>
     <loc>https://logoto.onrender.com/en/help</loc>
     <lastmod>2026-07-16</lastmod>
@@ -49,9 +41,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/help"/>
   </url>
 
-
-  <!-- ================= PAGES LÉGALES (LEGAL) ================= -->
-  <!-- Légal - Version Française -->
   <url>
     <loc>https://logoto.onrender.com/fr/legal</loc>
     <lastmod>2026-07-16</lastmod>
@@ -61,8 +50,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en/legal"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/legal"/>
   </url>
-
-  <!-- Legal - Version Anglaise -->
+        
   <url>
     <loc>https://logoto.onrender.com/en/legal</loc>
     <lastmod>2026-07-16</lastmod>
