@@ -503,6 +503,11 @@
 
                 document.getElementById('status-emoji').textContent = "☁️ ";
             });
+        window.addEventListener("DOMContentLoaded", () => {
+    // Mise à jour automatique de l'année dans le footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+    updateContent();
+});
     </script>
 
 </body>
