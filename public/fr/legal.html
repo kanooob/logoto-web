@@ -583,6 +583,10 @@
 
         window.addEventListener("hashchange", updateLayoutAndContent);
         window.addEventListener("DOMContentLoaded", updateLayoutAndContent);
+        window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById('year').textContent = new Date().getFullYear();
+    updateContent();
+});
     </script>
 </body>
 </html>
