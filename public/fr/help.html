@@ -234,6 +234,9 @@
             gap: 22px;
             padding-right: 40px;
             flex-shrink: 0;
+            position: sticky;
+            top: 40px;
+            align-self: flex-start;
         }
 
         .sidebar a {
@@ -270,7 +273,78 @@
             flex: 1;
             min-width: 0;
             padding-left: 40px;
+        }
+
+        /* --- PAR DÉFAUT (Sans JS) : TOUT EST VISIBLE EN DEFILEMENT EN CONTINU --- */
+        .doc-section {
+            display: block;
+            margin-bottom: 60px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(242, 243, 245, 0.1);
+        }
+
+        .doc-section:last-child {
+            border-bottom: none;
+        }
+
+        .event-sub-content {
+            display: block;
+            background-color: var(--gris-footer);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid var(--vert-olive-clair);
+        }
+
+        .mini-tab-content {
+            display: block;
+            background-color: rgba(0,0,0,0.15);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .mini-tabs {
+            display: none; /* Masqué sans JS car tous les contenus d'images s'affichent à la suite */
+        }
+
+        /* --- AVEC JAVASCRIPT : MODE ONGLETS DYNAMIQUE (BEAU SITE INTERACTIF) --- */
+        body.js-enabled .doc-section {
+            display: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
             animation: fadeIn 0.4s ease-out;
+        }
+
+        body.js-enabled .doc-section.active {
+            display: block;
+        }
+
+        body.js-enabled .mini-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            align-items: center;
+        }
+
+        body.js-enabled .event-sub-content {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        body.js-enabled .event-sub-content.active-sub {
+            display: block;
+        }
+
+        body.js-enabled .mini-tab-content {
+            display: none;
+            margin-top: 10px;
+        }
+
+        body.js-enabled .mini-tab-content.active-mini-content {
+            display: block;
         }
 
         .content-area h1 {
@@ -300,7 +374,7 @@
             padding: 0;
             margin: 20px 0;
         }
-        
+
         .command-list li {
             margin-bottom: 10px;
             background-color: var(--gris-item);
@@ -422,22 +496,6 @@
             margin-bottom: 0;
         }
 
-        .event-sub-content {
-            background-color: var(--gris-footer);
-            padding: 25px;
-            border-radius: 8px;
-            margin-top: 20px;
-            border-left: 4px solid var(--vert-olive-clair);
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .mini-tabs {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-            align-items: center;
-        }
-
         .mini-tab-btn {
             background-color: var(--gris-code);
             color: var(--blanc);
@@ -458,22 +516,6 @@
         .mini-tab-btn.active-mini {
             background-color: var(--vert-olive-clair);
             color: var(--gris-discord);
-        }
-
-        .mini-tab-content {
-            background-color: rgba(0,0,0,0.15);
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 10px;
-            width: 100%;
-        }
-
-        .mini-tab-content ol, .mini-tab-content ul {
-            width: 100%;
-        }
-
-        .mini-tab-content li {
-            width: 100%;
         }
 
         footer {
@@ -550,6 +592,8 @@
                 flex-wrap: wrap;
                 gap: 15px;
                 justify-content: center;
+                position: relative;
+                top: 0;
             }
 
             .divider {
@@ -581,14 +625,14 @@
             <img src="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png" alt="LOGOTO Logo" class="logo-img">
             <div class="logo-text">Logoto</div>
         </a>
-        
+
         <nav aria-label="Navigation principale">
             <ul class="nav-links">
                 <li><a href="/fr">Accueil</a></li>
                 <li><a href="/fr/help" class="active">Documentation</a></li>
                 <li><a href="https://discord.com/invite/TPXFVYVnXe" target="_blank" rel="noopener noreferrer">Support</a></li>
             </ul>
-            
+
             <div class="nav-right">
                 <div class="lang-container">
                     <button class="lang-select">FR ↓</button>
@@ -613,6 +657,221 @@
         <div class="divider"></div>
 
         <main class="content-area" id="doc-content">
+            <!-- SECTION 1: SETUP -->
+            <section id="setup" class="doc-section active">
+                <h1>Configuration (Setup)</h1>
+                <p>Je suis le bot spécialisé dans l'automatisation du changement de logo, de nom, de bannière et d'image d'invitation de votre serveur Discord, sans nécessiter de configurations ou de lignes de code complexes.</p>
+                <h2>Premiers pas</h2>
+                <p>Pour commencer à utiliser le bot au maximum de ses capacités, lancez simplement la commande de configuration initiale.</p>
+                <ul class="command-list">
+                    <li><code>/setup</code> : Première commande à faire. Crée automatiquement la catégorie et les salons nécessaires (Logoto, log-logoto) pour un démarrage rapide.</li>
+                </ul>
+                <div class="note">
+                    <strong>NOTE IMPORTANTE :</strong> Le salon nommé <code>log-logoto</code> <strong>doit impérativement exister</strong> sur votre serveur pour assurer le suivi technique.
+                    <br><br>
+                    Le bot utilise ce salon pour envoyer ses messages techniques quotidiens de chargement (<code>l-Loading</code>, <code>n-Loading</code>, <code>b-Loading</code> ou <code>i-Loading</code>). Attention, <strong>ces messages ne sont envoyés que si un changement est effectivement programmé le jour même</strong>. S'il n'y a aucun événement, aucun log n'est posté. La commande <code>/setup</code> s'occupe de créer ce salon proprement pour vous.
+                </div>
+            </section>
+
+            <!-- SECTION 2: HOW IT WORKS -->
+            <section id="how-it-works" class="doc-section">
+                <h1>Fonctionnement Général</h1>
+                <p>Logoto surveille de manière autonome la présence de salons textuels spécifiques au sein de votre serveur Discord pour planifier et exécuter vos mises à jour esthétiques.</p>
+                
+                <div class="note" style="margin-bottom: 20px; background-color: #2b3a2e; border-left: 5px solid var(--vert-olive-clair);">
+                    <strong>Planification horaire :</strong> Toutes les mises à jour et vérifications automatiques configurées sur votre serveur s'exécutent chaque jour précisément à <strong>00h00 UTC</strong>.
+                </div>
+
+                <h2>Règles de priorité et limites</h2>
+                <p>Pour garantir la stabilité du serveur et respecter les quotas de l'API Discord, Logoto applique des règles strictes de gestion quotidienne :</p>
+                <ol>
+                    <li><strong>Un seul changement par type et par jour :</strong> Le nom du serveur peut changer une fois par jour, le logo une fois, la bannière une fois, et le fond d'invitation une fois.</li>
+                    <li><strong>Modifications simultanées :</strong> Il est tout à fait possible de changer le logo ET le nom (ou tout autre élément) le même jour. Les deux actions s'exécuteront à 00h00 UTC.</li>
+                    <li><strong>Gestion des doublons (Priorité visuelle) :</strong> Si vous avez créé par erreur plusieurs salons pour le même élément le même jour (par exemple deux salons <code>l-25-12</code> avec des logos différents), <strong>c'est le salon situé le plus haut dans la liste de vos catégories Discord qui prime</strong> et qui sera appliqué par le bot.</li>
+                </ol>
+            </section>
+
+            <!-- SECTION 3: COMMANDS -->
+            <section id="commands" class="doc-section">
+                <h1>Les Commandes du Bot Logoto</h1>
+                <p>Découvrez la liste complète des commandes intégrées disponibles directement avec le système de Slash Commands de Discord :</p>
+                <ul class="command-list">
+                    <li><code>/setup</code> : Crée les salons requis (Logoto, log-logoto) pour un démarrage rapide, indispensable pour le bon fonctionnement du bot.</li>
+                    <li><code>/add-an-event type: jour: mois:</code> : Crée un salon d'événement avec les options : [type] (obligatoire) pour le type d'événement (logo/name/banner/image invite), [day] (obligatoire) pour le jour de changement, et [month] (obligatoire) pour le mois de changement.</li>
+                    <li><code>/about</code> : Affiche les informations sur le bot, les liens d'invitation et les options de support.</li>
+                    <li><code>/help</code> : Affiche ce message d'aide (ou cette page de documentation).</li>
+                    <li><code>/ping</code> : Obtenez le ping du bot.</li>
+                </ul>
+            </section>
+
+            <!-- SECTION 4: EVENTS -->
+            <section id="events" class="doc-section">
+                <h1>Ajouter un événement</h1>
+                <p>Découvrez les détails de mise en place ci-dessous pour chaque type d'élément graphique ou textuel planifiable sur votre serveur Discord :</p>
+                
+                <div class="warning-box">
+                    <strong>ATTENTION CONCERNANT LES IMAGES :</strong> Ne copiez jamais de liens d'images directement depuis un salon Discord (liens CDN Discord). Ces derniers possèdent désormais des clés de sécurité temporaires et <strong>expirent au bout de 24 à 48 heures</strong>. Si le lien expire avant la date de l'événement, Logoto ne pourra pas charger votre image. Référez-vous à la rubrique <a href="#links" style="color: var(--warning-text-important); font-weight: bold; text-decoration: underline;">Liens d'images</a> pour régler ce problème.
+                </div>
+
+                <div class="event-grid">
+                    <div class="event-card active-card" data-event="event-logo">
+                        <h3>Changement de Logo</h3>
+                        <p>Automatisez la mise à jour de la photo de profil du serveur à une date fixe.</p>
+                    </div>
+                    <div class="event-card" data-event="event-name">
+                        <h3>Changement de Nom</h3>
+                        <p>Modifiez automatiquement le titre textuel d'affichage de votre communauté.</p>
+                    </div>
+                    <div class="event-card" data-event="event-banner">
+                        <h3>Changement de Bannière</h3>
+                        <p>Planifiez une illustration en haut de la liste de vos salons (Niveau 2 de Boost).</p>
+                    </div>
+                    <div class="event-card" data-event="event-invite">
+                        <h3>Fond d'invitation</h3>
+                        <p>Personnalisez l'arrière-plan de vos fiches d'invitations (Niveau 1 de Boost).</p>
+                    </div>
+                </div>
+
+                <div id="event-sub-content-container">
+                    <div id="event-logo" class="event-sub-content active-sub">
+                        <h3>Configuration du Logo Automatique</h3><br>
+                        <ol>
+                            <li><strong>Créez le Salon de Planification :</strong>
+                                <ul><li>Utilisez la commande slash <code>/add-an-event type:Logo jour:[JOUR] mois:[MOIS]</code> pour générer instantanément le salon.</li>
+                                <li>Le salon créé par le bot suivra scrupuleusement le format : <code>l-[JOUR]-[MOIS]</code>.</li>
+                                <li>EXEMPLE : Pour programmer un logo pour Halloween (31 octobre) : <code>l-31-10</code></li></ul>
+                            </li>
+                            <li><strong>Préparez le Logo :</strong>
+                                <ul>
+                                    <li>Obtenez un <strong>lien d'image permanent</strong> (via GitHub ou ImgBB) se terminant par un format valide (<code>.png</code>, <code>.jpg</code>, <code>.jpeg</code> ou <code>.gif</code>).</li>
+                                    <li><strong>Taille recommandée par Discord :</strong> Un carré parfait de <strong>512 × 512 pixels</strong> (les logos sont recadrés en cercle par l'application).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Planifiez le Changement :</strong>
+                                <ul><li>Modifiez le <strong>Sujet du Salon</strong> (Channel Topic) du salon textuel créé à l'étape 1 et collez l'<strong>URL permanente de l'image</strong> dedans.</li></ul>
+                            </li>
+                            <li><strong>Résultat :</strong>
+                                <ul><li>Le bot changera automatiquement la photo de profil du serveur au jour et au mois indiqués à 00h00 UTC. En cas de doublons de salons de logo, celui placé le plus haut l'emportera.</li></ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="event-name" class="event-sub-content">
+                        <h3>Configuration du Nom Automatique</h3><br>
+                        <ol>
+                            <li><strong>Créez le Salon de Planification :</strong>
+                                <ul><li>Utilisez la commande slash <code>/add-an-event type:Nom jour:[JOUR] mois:[MOIS]</code> pour générer le salon.</li>
+                                <li>Le salon créé par le bot suivra scrupuleusement le format : <code>n-[JOUR]-[MOIS]</code>.</li>
+                                <li>EXEMPLE : Pour planifier un changement de nom le 1er Janvier : <code>n-1-1</code></li></ul>
+                            </li>
+                            <li><strong>Planifiez le Changement :</strong>
+                                <ul><li>Modifiez le <strong>Sujet du Salon</strong> (Channel Topic) du salon créé.</li>
+                                <li>Écrivez textuellement le <strong>nouveau nom complet</strong> que devra prendre le serveur directement dans le sujet.</li></ul>
+                            </li>
+                            <li><strong>Résultat :</strong>
+                                <ul><li>Le bot appliquera automatiquement le nouveau nom au jour et au mois spécifiés à 00h00 UTC (limité à un seul changement de nom par jour, priorité au salon le plus haut).</li></ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="event-banner" class="event-sub-content">
+                        <h3>Configuration de la Bannière Automatique</h3><br>
+                        <p><em>Note : Votre serveur doit posséder le niveau de Boost requis (Niveau 2+) pour appliquer des bannières personnalisées.</em></p>
+                        <ol>
+                            <li><strong>Créez le Salon de Planification :</strong>
+                                <ul><li>Utilisez la commande slash <code>/add-an-event type:Bannière jour:[JOUR] mois:[MOIS]</code> pour générer le salon.</li>
+                                <li>Le salon créé par le bot suivra scrupuleusement le format : <code>b-[JOUR]-[MOIS]</code>.</li>
+                                <li>EXEMPLE : Pour planifier une bannière festive le 25 Décembre : <code>b-25-12</code></li></ul>
+                            </li>
+                            <li><strong>Préparez la Bannière :</strong>
+                                <ul>
+                                    <li>Générez et copiez le <strong>lien direct permanent (URL)</strong> d'une image externe (<code>.png</code>, <code>.jpg</code>).</li>
+                                    <li><strong>Taille recommandée par Discord :</strong> Des dimensions de <strong>960 × 540 pixels</strong> avec un ratio de 16:9. Veillez à centrer les éléments importants pour éviter les recadrages.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Planifiez le Changement :</strong>
+                                <ul><li>Collez simplement ce lien permanent d'image dans le <strong>Sujet du Salon</strong> (Channel Topic).</li></ul>
+                            </li>
+                            <li><strong>Résultat :</strong>
+                                <ul><li>Logoto appliquera la bannière en arrière-plan au jour choisi à 00h00 UTC. Si plusieurs salons de bannières existent, celui situé le plus haut dans la liste sera traité.</li></ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="event-invite" class="event-sub-content">
+                        <h3>Configuration du Fond d'Invitation Automatique</h3><br>
+                        <p><em>Note : Votre serveur doit posséder le niveau de Boost requis (Niveau 1+) pour appliquer une image de fond d'invitation personnalisée.</em></p>
+                        <ol>
+                            <li><strong>Créez le Salon de Planification :</strong>
+                                <ul><li>Utilisez la commande slash <code>/add-an-event type:Fond d'invitation jour:[JOUR] mois:[MOIS]</code> pour générer le salon.</li>
+                                <li>Le salon créé par le bot suivra scrupuleusement le format : <code>i-[JOUR]-[MOIS]</code>.</li>
+                                <li>EXEMPLE : Pour un arrière-plan spécial le 14 Juillet : <code>i-14-7</code></li></ul>
+                            </li>
+                            <li><strong>Préparez l'Image de Fond :</strong>
+                                <ul>
+                                    <li>Générez et copiez le <strong>lien direct permanent (URL)</strong> de l'image à intégrer.</li>
+                                    <li><strong>Taille recommandée par Discord :</strong> Des dimensions de <strong>1920 × 1080 pixels</strong> (ratio standard 16:9) pour un rendu net sur tous les écrans web et mobiles.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Planifiez le Changement :</strong>
+                                <ul><li>Collez le lien permanent de l'image de fond directement dans le <strong>Sujet du Salon</strong> (Channel Topic).</li></ul>
+                            </li>
+                            <li><strong>Résultat :</strong>
+                                <ul><li>Dès l'arrivée du jour choisi à 00h00 UTC, l'illustration viendra habiller vos fiches d'invitations web (priorité absolue au salon le plus haut en cas de doublons).</li></ul>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: LINKS -->
+            <section id="links" class="doc-section">
+                <h1>Obtenir un lien d'image persistant</h1>
+                <p>Pour que Logoto puisse appliquer vos logos, bannières ou images d'invitation à l'avenir, l'URL que vous lui fournissez doit rester accessible de manière permanente. Comme <strong>les liens directs Discord expirent rapidement</strong>, vous devez utiliser une solution tierce d'hébergement permanent.</p>
+                <p>Choisissez l'une des méthodes recommandées ci-dessous pour générer un lien permanent valide :</p>
+                
+                <div class="mini-tabs">
+                    <button class="mini-tab-btn active-mini" data-method="method-github">GitHub (Recommandé)</button>
+                    <button class="mini-tab-btn" data-method="method-imgbb">ImgBB / Imgur</button>
+                </div>
+
+                <div id="image-method-container">
+                    <div id="method-github" class="mini-tab-content active-mini-content">
+                        <h3>Héberger via GitHub (Ultra-stable)</h3><br>
+                        <ol>
+                            <li><strong>Créez un dépôt public :</strong> Allez sur GitHub, cliquez sur <em>New repository</em>, donnez-lui un nom et laissez-le en <strong>Public</strong>.</li>
+                            <li><strong>Important (Si le dépôt est vide) :</strong> Cochez la case <strong>"Add a README file"</strong> lors de la création. 
+                                <br><small style="opacity:0.8;"><em>Pourquoi ? Si le dépôt est 100% vide, GitHub n'affiche que des lignes de code complexes et cache le bouton d'importation de fichiers.</em></small>
+                            </li>
+                            <li><strong>Téléversez vos images :</strong> Sur la page de votre dépôt désormais actif, cliquez sur le bouton <strong>"Add file"</strong> (en haut à droite) puis sélectionnez <strong>"Upload files"</strong>. Glissez vos images (logo, bannière...) et cliquez sur le gros bouton vert <strong>"Commit changes"</strong> tout en bas pour valider.</li>
+                            <li><strong>Obtenez l'URL brute (Raw) :</strong> Cliquez sur votre image dans la liste de GitHub pour l'ouvrir. Ensuite :
+                                <ul>
+                                    <li>Cliquez sur le bouton <strong>"Raw"</strong> au-dessus de l'image (ou faites un clic droit sur l'image -> <em>Ouvrir dans un nouvel onglet</em>).</li>
+                                    <li>L'URL dans votre barre d'adresse doit commencer par : <code>https://raw.githubusercontent.com/...</code></li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <div class="note" style="margin-top:15px;">
+                            <strong>Astuce si vous ne trouvez pas le bouton "Raw" :</strong><br>
+                            Prenez l'URL classique de la page de votre image sur GitHub, par exemple :<br>
+                            <code>https://github.com/<b>utilisateur</b>/<b>depot</b>/blob/main/<b>image.png</b></code><br>
+                            Et remplacez simplement manuellement le début pour obtenir l'URL finale directe :<br>
+                            <code>https://raw.githubusercontent.com/<b>utilisateur</b>/<b>depot</b>/main/<b>image.png</b></code>
+                        </div>
+                    </div>
+
+                    <div id="method-imgbb" class="mini-tab-content">
+                        <h3>Hébergeurs Gratuits (ImgBB / Imgur)</h3><br>
+                        <ol>
+                           <li>Rendez-vous sur un hébergeur d'images gratuit comme <a href="https://imgbb.com" target="_blank" style="color: var(--vert-olive-clair);">ImgBB</a> ou <a href="https://imgur.com" target="_blank" style="color: var(--vert-olive-clair);">Imgur</a>.</li>
+                           <li>Téléversez votre image sur la plateforme sans y ajouter de date d'expiration.</li>
+                           <li>Une fois l'importation terminée, cherchez les options d'intégration et sélectionnez l'option <strong>"Lien direct"</strong> (Direct Link).</li>
+                           <li>Vérifiez l'URL obtenue : elle doit se terminer obligatoirement par l'extension du fichier (ex: <code>.png</code>, <code>.jpg</code>, <code>.jpeg</code>). Si le lien s'arrête sur du texte flou ou sans extension, Logoto ne pourra pas le lire.</li>
+                           <li>Copiez ce lien direct et ajoutez-le dans le sujet de votre salon de planification Discord.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -629,261 +888,27 @@
     </footer>
 
     <script>
-        let selectedEventTab = 'event-logo';
-        let selectedImageMethod = 'method-github';
+        // Dès que le navigateur humain exécute le JS, on active la mise en page interactive par onglets !
+        document.body.classList.add('js-enabled');
 
-        const documentationData = {
-            setup: {
-                title: "Configuration (Setup)",
-                getHtml: () => `
-                    <p>Je suis le bot spécialisé dans l'automatisation du changement de logo, de nom, de bannière et d'image d'invitation de votre serveur Discord, sans nécessiter de configurations ou de lignes de code complexes.</p>
-                    <h2>Premiers pas</h2>
-                    <p>Pour commencer à utiliser le bot au maximum de ses capacités, lancez simplement la commande de configuration initiale.</p>
-                    <ul class="command-list">
-                        <li><code>/setup</code> : Première commande à faire. Crée automatiquement la catégorie et les salons nécessaires (Logoto, log-logoto) pour un démarrage rapide.</li>
-                    </ul>
-                    <div class="note">
-                        <strong>NOTE IMPORTANTE :</strong> Le salon nommé <code>log-logoto</code> <strong>doit impérativement exister</strong> sur votre serveur pour assurer le suivi technique.
-                        <br><br>
-                        Le bot utilise ce salon pour envoyer ses messages techniques quotidiens de chargement (<code>l-Loading</code>, <code>n-Loading</code>, <code>b-Loading</code> ou <code>i-Loading</code>). Attention, <strong>ces messages ne sont envoyés que si un changement est effectivement programmé le jour même</strong>. S'il n'y a aucun événement, aucun log n'est posté. La commande <code>/setup</code> s'occupe de créer ce salon proprement pour vous.
-                    </div>
-                `
-            },
-            "how-it-works": {
-                title: "Fonctionnement Général",
-                getHtml: () => `
-                    <p>Logoto surveille de manière autonome la présence de salons textuels spécifiques au sein de votre serveur Discord pour planifier et exécuter vos mises à suppression esthétiques.</p>
-                    
-                    <div class="note" style="margin-bottom: 20px; background-color: #2b3a2e; border-left: 5px solid var(--vert-olive-clair);">
-                        <strong>Planification horaire :</strong> Toutes les mises à jour et vérifications automatiques configurées sur votre serveur s'exécutent chaque jour précisément à <strong>00h00 UTC</strong>.
-                    </div>
-
-                    <h2>Règles de priorité et limites</h2>
-                    <p>Pour garantir la stabilité du serveur et respecter les quotas de l'API Discord, Logoto applique des règles strictes de gestion quotidienne :</p>
-                    <ol>
-                        <li><strong>Un seul changement par type et par jour :</strong> Le nom du serveur peut changer une fois par jour, le logo une fois, la bannière une fois, et le fond d'invitation une fois.</li>
-                        <li><strong>Modifications simultanées :</strong> Il est tout à fait possible de changer le logo ET le nom (ou tout autre élément) le même jour. Les deux actions s'exécuteront à 00h00 UTC.</li>
-                        <li><strong>Gestion des doublons (Priorité visuelle) :</strong> Si vous avez créé par erreur plusieurs salons pour le même élément le même jour (par exemple deux salons <code>l-25-12</code> avec des logos différents), <strong>c'est le salon situé le plus haut dans la liste de vos catégories Discord qui prime</strong> et qui sera appliqué par le bot.</li>
-                    </ol>
-                `
-            },
-            commands: {
-                title: "Les Commandes du Bot Logoto",
-                getHtml: () => `
-                    <p>Découvrez la liste complète des commandes intégrées disponibles directement avec le système de Slash Commands de Discord :</p>
-                    <ul class="command-list">
-                        <li><code>/setup</code> : Crée les salons requis (Logoto, log-logoto) pour un démarrage rapide, indispensable pour le bon fonctionnement du bot.</li>
-                        <li><code>/add-an-event type: jour: mois:</code> : Crée un salon d'événement avec les options : [type] (obligatoire) pour le type d'événement (logo/name/banner/image invite), [day] (obligatoire) pour le jour de changement, et [month] (obligatoire) pour le mois de changement.</li>
-                        <li><code>/about</code> : Affiche les informations sur le bot, les liens d'invitation et les options de support.</li>
-                        <li><code>/help</code> : Affiche ce message d'aide (ou cette page de documentation).</li>
-                        <li><code>/ping</code> : Obtenez le ping du bot.</li>
-                    </ul>
-                `
-            },
-            events: {
-                title: "Ajouter un événement",
-                getHtml: () => `
-                    <p>Sélectionnez ci-dessous l'élément graphique ou textuel que vous souhaitez planifier automatiquement sur votre serveur Discord pour afficher le tutoriel détaillé de mise en place :</p>
-                    
-                    <div class="warning-box">
-                        <strong>ATTENTION CONCERNANT LES IMAGES :</strong> Ne copiez jamais de liens d'images directement depuis un salon Discord (liens CDN Discord). Ces derniers possèdent désormais des clés de sécurité temporaires et <strong>expirent au bout de 24 à 48 heures</strong>. Si le lien expire avant la date de l'événement, Logoto ne pourra pas charger votre image. Référez-vous à la rubrique <a href="#links" style="color: var(--warning-text-important); font-weight: bold; text-decoration: underline;">Liens d'images</a> pour régler ce problème.
-                    </div>
-
-                    <div class="event-grid">
-                        <div class="event-card ${selectedEventTab === 'event-logo' ? 'active-card' : ''}" onclick="switchEventTab('event-logo', this)">
-                            <h3>Changement de Logo</h3>
-                            <p>Automatisez la mise à jour de la photo de profil du serveur à une date fixe.</p>
-                        </div>
-                        <div class="event-card ${selectedEventTab === 'event-name' ? 'active-card' : ''}" onclick="switchEventTab('event-name', this)">
-                            <h3>Changement de Nom</h3>
-                            <p>Modifiez automatiquement le titre textuel d'affichage de votre communauté.</p>
-                        </div>
-                        <div class="event-card ${selectedEventTab === 'event-banner' ? 'active-card' : ''}" onclick="switchEventTab('event-banner', this)">
-                            <h3>Changement de Bannière</h3>
-                            <p>Planifiez une illustration en haut de la liste de vos salons (Niveau 2 de Boost).</p>
-                        </div>
-                        <div class="event-card ${selectedEventTab === 'event-invite' ? 'active-card' : ''}" onclick="switchEventTab('event-invite', this)">
-                            <h3>Fond d'invitation</h3>
-                            <p>Personnalisez l'arrière-plan de vos fiches d'invitations (Niveau 1 de Boost).</p>
-                        </div>
-                    </div>
-
-                    <div id="event-sub-content-container">
-                        ${eventTabsData[selectedEventTab]}
-                    </div>
-                `
-            },
-            links: {
-                title: "Obtenir un lien d'image persistant",
-                getHtml: () => `
-                    <p>Pour que Logoto puisse appliquer vos logos, bannières ou images d'invitation à l'avenir, l'URL que vous lui fournissez doit rester accessible de manière permanente. Comme <strong>les liens directs Discord expirent rapidement</strong>, vous devez utiliser une solution tierce d'hébergement permanent.</p>
-                    <p>Choisissez l'une des méthodes recommandées ci-dessous pour générer un lien permanent valide :</p>
-                    
-                    <div class="mini-tabs">
-                        <button class="mini-tab-btn ${selectedImageMethod === 'method-github' ? 'active-mini' : ''}" onclick="switchImageMethod('method-github', this)">GitHub (Recommandé)</button>
-                        <button class="mini-tab-btn ${selectedImageMethod === 'method-imgbb' ? 'active-mini' : ''}" onclick="switchImageMethod('method-imgbb', this)">ImgBB / Imgur</button>
-                    </div>
-
-                    <div id="image-method-container">
-                        ${imageMethodsData[selectedImageMethod]}
-                    </div>
-                `
-            }
-        };
-
-        const eventTabsData = {
-            'event-logo': `
-                <div class="event-sub-content">
-                    <h3>Configuration du Logo Automatique</h3><br>
-                    <ol>
-                        <li><strong>Créez le Salon de Planification :</strong>
-                            <ul><li>Utilisez la commande slash <code>/add-an-event type:Logo jour:[JOUR] mois:[MOIS]</code> pour générer instantanément le salon.</li>
-                            <li>Le salon créé par le bot suivra scrupuleusement le format : <code>l-[JOUR]-[MOIS]</code>.</li>
-                            <li>EXEMPLE : Pour programmer un logo pour Halloween (31 octobre) : <code>l-31-10</code></li></ul>
-                        </li>
-                        <li><strong>Préparez le Logo :</strong>
-                            <ul>
-                                <li>Obtenez un <strong>lien d'image permanent</strong> (via GitHub ou ImgBB) se terminant par un format valide (<code>.png</code>, <code>.jpg</code>, <code>.jpeg</code> ou <code>.gif</code>).</li>
-                                <li><strong>Taille recommandée par Discord :</strong> Un carré parfait de <strong>512 × 512 pixels</strong> (les logos sont recadrés en cercle par l'application).</li>
-                            </ul>
-                        </li>
-                        <li><strong>Planifiez le Changement :</strong>
-                            <ul><li>Modifiez le <strong>Sujet du Salon</strong> (Channel Topic) du salon textuel créé à l'étape 1 et collez l'<strong>URL permanente de l'image</strong> dedans.</li></ul>
-                        </li>
-                        <li><strong>Résultat :</strong>
-                            <ul><li>Le bot changera automatiquement la photo de profil du serveur au jour et au mois indiqués à 00h00 UTC. En cas de doublons de salons de logo, celui placé le plus haut l'emportera.</li></ul>
-                        </li>
-                    </ol>
-                </div>
-            `,
-            'event-name': `
-                <div class="event-sub-content">
-                    <h3>Configuration du Nom Automatique</h3><br>
-                    <ol>
-                        <li><strong>Créez le Salon de Planification :</strong>
-                            <ul><li>Utilisez la commande slash <code>/add-an-event type:Nom jour:[JOUR] mois:[MOIS]</code> pour générer le salon.</li>
-                            <li>Le salon créé par le bot suivra scrupuleusement le format : <code>n-[JOUR]-[MOIS]</code>.</li>
-                            <li>EXEMPLE : Pour planifier un changement de nom le 1er Janvier : <code>n-1-1</code></li></ul>
-                        </li>
-                        <li><strong>Planifiez le Changement :</strong>
-                            <ul><li>Modifiez le <strong>Sujet du Salon</strong> (Channel Topic) du salon créé.</li>
-                            <li>Écrivez textuellement le <strong>nouveau nom complet</strong> que devra prendre le serveur directement dans le sujet.</li></ul>
-                        </li>
-                        <li><strong>Résultat :</strong>
-                            <ul><li>Le bot appliquera automatiquement le nouveau nom au jour et au mois spécifiés à 00h00 UTC (limité à un seul changement de nom par jour, priorité au salon le plus haut).</li></ul>
-                        </li>
-                    </ol>
-                </div>
-            `,
-            'event-banner': `
-                <div class="event-sub-content">
-                    <h3>Configuration de la Bannière Automatique</h3><br>
-                    <p><em>Note : Votre serveur doit posséder le niveau de Boost requis (Niveau 2+) pour appliquer des bannières personnalisées.</em></p>
-                    <ol>
-                        <li><strong>Créez le Salon de Planification :</strong>
-                            <ul><li>Utilisez la commande slash <code>/add-an-event type:Bannière jour:[JOUR] mois:[MOIS]</code> pour générer le salon.</li>
-                            <li>Le salon créé par le bot suivra scrupuleusement le format : <code>b-[JOUR]-[MOIS]</code>.</li>
-                            <li>EXEMPLE : Pour planifier une bannière festive le 25 Décembre : <code>b-25-12</code></li></ul>
-                        </li>
-                        <li><strong>Préparez la Bannière :</strong>
-                            <ul>
-                                <li>Générez et copiez le <strong>lien direct permanent (URL)</strong> d'une image externe (<code>.png</code>, <code>.jpg</code>).</li>
-                                <li><strong>Taille recommandée par Discord :</strong> Des dimensions de <strong>960 × 540 pixels</strong> avec un ratio de 16:9. Veillez à centrer les éléments importants pour éviter les recadrages.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Planifiez le Changement :</strong>
-                            <ul><li>Collez simplement ce lien permanent d'image dans le <strong>Sujet du Salon</strong> (Channel Topic).</li></ul>
-                        </li>
-                        <li><strong>Résultat :</strong>
-                            <ul><li>Logoto appliquera la bannière en arrière-plan au jour choisi à 00h00 UTC. Si plusieurs salons de bannières existent, celui situé le plus haut dans la liste sera traité.</li></ul>
-                        </li>
-                    </ol>
-                </div>
-            `,
-            'event-invite': `
-                <div class="event-sub-content">
-                    <h3>Configuration du Fond d'Invitation Automatique</h3><br>
-                    <p><em>Note : Votre serveur doit posséder le niveau de Boost requis (Niveau 1+) pour appliquer une image de fond d'invitation personnalisée.</em></p>
-                    <ol>
-                        <li><strong>Créez le Salon de Planification :</strong>
-                            <ul><li>Utilisez la commande slash <code>/add-an-event type:Fond d'invitation jour:[JOUR] mois:[MOIS]</code> pour générer le salon.</li>
-                            <li>Le salon créé par le bot suivra scrupuleusement le format : <code>i-[JOUR]-[MOIS]</code>.</li>
-                            <li>EXEMPLE : Pour un arrière-plan spécial le 14 Juillet : <code>i-14-7</code></li></ul>
-                        </li>
-                        <li><strong>Préparez l'Image de Fond :</strong>
-                            <ul>
-                                <li>Générez et copiez le <strong>lien direct permanent (URL)</strong> de l'image à intégrer.</li>
-                                <li><strong>Taille recommandée par Discord :</strong> Des dimensions de <strong>1920 × 1080 pixels</strong> (ratio standard 16:9) pour un rendu net sur tous les écrans web et mobiles.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Planifiez le Changement :</strong>
-                            <ul><li>Collez le lien permanent de l'image de fond directement dans le <strong>Sujet du Salon</strong> (Channel Topic).</li></ul>
-                        </li>
-                        <li><strong>Résultat :</strong>
-                            <ul><li>Dès l'arrivée du jour choisi à 00h00 UTC, l'illustration viendra habiller vos fiches d'invitations web (priorité absolue au salon le plus haut en cas de doublons).</li></ul>
-                        </li>
-                    </ol>
-                </div>
-            `
-        };
-
-        const imageMethodsData = {
-            'method-github': `
-                <div class="mini-tab-content">
-                    <h3>Héberger via GitHub (Ultra-stable)</h3><br>
-                    <ol>
-                        <li><strong>Créez un dépôt public :</strong> Allez sur GitHub, cliquez sur <em>New repository</em>, donnez-lui un nom et laissez-le en <strong>Public</strong>.</li>
-                        <li><strong>Important (Si le dépôt est vide) :</strong> Cochez la case <strong>"Add a README file"</strong> lors de la création. 
-                            <br><small style="opacity:0.8;"><em>Pourquoi ? Si le dépôt est 100% vide, GitHub n'affiche que des lignes de code complexes et cache le bouton d'importation de fichiers.</em></small>
-                        </li>
-                        <li><strong>Téléversez vos images :</strong> Sur la page de votre dépôt désormais actif, cliquez sur le bouton <strong>"Add file"</strong> (en haut à droite) puis sélectionnez <strong>"Upload files"</strong>. Glissez vos images (logo, bannière...) et cliquez sur le gros bouton vert <strong>"Commit changes"</strong> tout en bas pour valider.</li>
-                        <li><strong>Obtenez l'URL brute (Raw) :</strong> Cliquez sur votre image dans la liste de GitHub pour l'ouvrir. Ensuite :
-                            <ul>
-                                <li>Cliquez sur le bouton <strong>"Raw"</strong> au-dessus de l'image (ou faites un clic droit sur l'image -> <em>Ouvrir dans un nouvel onglet</em>).</li>
-                                <li>L'URL dans votre barre d'adresse doit commencer par : <code>https://raw.githubusercontent.com/...</code></li>
-                            </ul>
-                        </li>
-                    </ol>
-                    <div class="note" style="margin-top:15px;">
-                        <strong>Astuce si vous ne trouvez pas le bouton "Raw" :</strong><br>
-                        Prenez l'URL classique de la page de votre image sur GitHub, par exemple :<br>
-                        <code>https://github.com/<b>utilisateur</b>/<b>depot</b>/blob/main/<b>image.png</b></code><br>
-                        Et remplacez simplement manuellement le début pour obtenir l'URL finale directe :<br>
-                        <code>https://raw.githubusercontent.com/<b>utilisateur</b>/<b>depot</b>/main/<b>image.png</b></code>
-                    </div>
-                </div>
-            `,
-            'method-imgbb': `
-                <div class="mini-tab-content">
-                    <h3>Hébergeurs Gratuits (ImgBB / Imgur)</h3><br>
-                    <ol>
-                       <li>Rendez-vous sur un hébergeur d'images gratuit comme <a href="https://imgbb.com" target="_blank" style="color: var(--vert-olive-clair);">ImgBB</a> ou <a href="https://imgur.com" target="_blank" style="color: var(--vert-olive-clair);">Imgur</a>.</li>
-                       <li>Téléversez votre image sur la plateforme sans y ajouter de date d'expiration.</li>
-                       <li>Une fois l'importation terminée, cherchez les options d'intégration et sélectionnez l'option <strong>"Lien direct"</strong> (Direct Link).</li>
-                       <li>Vérifiez l'URL obtenue : elle doit se terminer obligatoirement par l'extension du fichier (ex: <code>.png</code>, <code>.jpg</code>, <code>.jpeg</code>). Si le lien s'arrête sur du texte flou ou sans extension, Logoto ne pourra pas le lire.</li>
-                       <li>Copiez ce lien direct et ajoutez-le dans le sujet de votre salon de planification Discord.</li>
-                    </ol>
-                </div>
-            `
-        };
-
-        function updateContent() {
+        function updateSectionFromHash() {
             let currentHash = window.location.hash.substring(1);
-            
-            if (!currentHash || !documentationData[currentHash]) {
+
+            if (!currentHash || !document.getElementById(currentHash)) {
                 currentHash = "setup";
             }
 
-            const contentArea = document.getElementById("doc-content");
-            if (contentArea) {
-                contentArea.innerHTML = `
-                    <h1>${documentationData[currentHash].title}</h1>
-                    ${documentationData[currentHash].getHtml()}
-                `;
+            // Gestion de l'affichage des sections principales
+            document.querySelectorAll('.doc-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            const activeSec = document.getElementById(currentHash);
+            if (activeSec) {
+                activeSec.classList.add('active');
             }
 
-            const links = document.querySelectorAll("#sidebar-menu a");
-            links.forEach(link => {
+            // Mettre en surbrillance l'onglet dans la sidebar
+            document.querySelectorAll("#sidebar-menu a").forEach(link => {
                 if (link.getAttribute("href") === `#${currentHash}`) {
                     link.classList.add("active-link");
                 } else {
@@ -892,35 +917,44 @@
             });
         }
 
-        function switchEventTab(tabId, clickedCard) {
-            selectedEventTab = tabId;
-            const cards = document.querySelectorAll('.event-card');
-            cards.forEach(card => card.classList.remove('active-card'));
-            clickedCard.classList.add('active-card');
-            
-            const subContainer = document.getElementById("event-sub-content-container");
-            if (subContainer) {
-                subContainer.innerHTML = eventTabsData[tabId];
-            }
-        }
+        // Interactivité des cartes d'événements
+        document.querySelectorAll('.event-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.event-card').forEach(c => c.classList.remove('active-card'));
+                card.classList.add('active-card');
 
-        function switchImageMethod(methodId, clickedBtn) {
-            selectedImageMethod = methodId;
-            const btns = document.querySelectorAll('.mini-tab-btn');
-            btns.forEach(btn => btn.classList.remove('active-mini'));
-            clickedBtn.classList.add('active-mini');
-            
-            const container = document.getElementById("image-method-container");
-            if (container) {
-                container.innerHTML = imageMethodsData[methodId];
-            }
-        }
+                const eventId = card.getAttribute('data-event');
+                document.querySelectorAll('.event-sub-content').forEach(sub => {
+                    sub.classList.remove('active-sub');
+                });
+                const activeSub = document.getElementById(eventId);
+                if (activeSub) {
+                    activeSub.classList.add('active-sub');
+                }
+            });
+        });
 
-        window.addEventListener("hashchange", updateContent);
+        // Interactivité des onglets d'hébergement d'images
+        document.querySelectorAll('.mini-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.mini-tab-btn').forEach(b => b.classList.remove('active-mini'));
+                btn.classList.add('active-mini');
+
+                const methodId = btn.getAttribute('data-method');
+                document.querySelectorAll('.mini-tab-content').forEach(content => {
+                    content.classList.remove('active-mini-content');
+                });
+                const activeContent = document.getElementById(methodId);
+                if (activeContent) {
+                    activeContent.classList.add('active-mini-content');
+                }
+            });
+        });
+
+        window.addEventListener("hashchange", updateSectionFromHash);
         window.addEventListener("DOMContentLoaded", () => {
-            // Mise à jour automatique de l'année dans le footer
             document.getElementById('year').textContent = new Date().getFullYear();
-            updateContent();
+            updateSectionFromHash();
         });
     </script>
 
