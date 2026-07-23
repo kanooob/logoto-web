@@ -234,6 +234,9 @@
             gap: 22px;
             padding-right: 40px;
             flex-shrink: 0;
+            position: sticky;
+            top: 40px;
+            align-self: flex-start;
         }
 
         .sidebar a {
@@ -270,7 +273,78 @@
             flex: 1;
             min-width: 0;
             padding-left: 40px;
+        }
+
+        /* --- WITHOUT JS : NO SCRIPT FALLBACK SHOWS ALL CONTENT --- */
+        .doc-section {
+            display: block;
+            margin-bottom: 60px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(242, 243, 245, 0.1);
+        }
+
+        .doc-section:last-child {
+            border-bottom: none;
+        }
+
+        .event-sub-content {
+            display: block;
+            background-color: var(--gris-footer);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid var(--vert-olive-clair);
+        }
+
+        .mini-tab-content {
+            display: block;
+            background-color: rgba(0,0,0,0.15);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .mini-tabs {
+            display: none;
+        }
+
+        /* --- WITH JS ENABLED : DYNAMIC TAB SYSTEM --- */
+        body.js-enabled .doc-section {
+            display: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
             animation: fadeIn 0.4s ease-out;
+        }
+
+        body.js-enabled .doc-section.active {
+            display: block;
+        }
+
+        body.js-enabled .mini-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            align-items: center;
+        }
+
+        body.js-enabled .event-sub-content {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        body.js-enabled .event-sub-content.active-sub {
+            display: block;
+        }
+
+        body.js-enabled .mini-tab-content {
+            display: none;
+            margin-top: 10px;
+        }
+
+        body.js-enabled .mini-tab-content.active-mini-content {
+            display: block;
         }
 
         .content-area h1 {
@@ -300,7 +374,7 @@
             padding: 0;
             margin: 20px 0;
         }
-        
+
         .command-list li {
             margin-bottom: 10px;
             background-color: var(--gris-item);
@@ -422,22 +496,6 @@
             margin-bottom: 0;
         }
 
-        .event-sub-content {
-            background-color: var(--gris-footer);
-            padding: 25px;
-            border-radius: 8px;
-            margin-top: 20px;
-            border-left: 4px solid var(--vert-olive-clair);
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .mini-tabs {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-            align-items: center;
-        }
-
         .mini-tab-btn {
             background-color: var(--gris-code);
             color: var(--blanc);
@@ -458,22 +516,6 @@
         .mini-tab-btn.active-mini {
             background-color: var(--vert-olive-clair);
             color: var(--gris-discord);
-        }
-
-        .mini-tab-content {
-            background-color: rgba(0,0,0,0.15);
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 10px;
-            width: 100%;
-        }
-
-        .mini-tab-content ol, .mini-tab-content ul {
-            width: 100%;
-        }
-
-        .mini-tab-content li {
-            width: 100%;
         }
 
         footer {
@@ -550,6 +592,8 @@
                 flex-wrap: wrap;
                 gap: 15px;
                 justify-content: center;
+                position: relative;
+                top: 0;
             }
 
             .divider {
@@ -581,14 +625,14 @@
             <img src="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png" alt="LOGOTO Logo" class="logo-img">
             <div class="logo-text">Logoto</div>
         </a>
-        
+
         <nav aria-label="Main navigation">
             <ul class="nav-links">
                 <li><a href="/en">Home</a></li>
                 <li><a href="/en/help" class="active">Documentation</a></li>
                 <li><a href="https://discord.com/invite/TPXFVYVnXe" target="_blank" rel="noopener noreferrer">Support</a></li>
             </ul>
-            
+
             <div class="nav-right">
                 <div class="lang-container">
                     <button class="lang-select">EN ↓</button>
@@ -613,7 +657,221 @@
         <div class="divider"></div>
 
         <main class="content-area" id="doc-content">
+            <!-- SECTION 1: SETUP -->
+            <section id="setup" class="doc-section active">
+                <h1>Configuration (Setup)</h1>
+                <p>Logoto is a specialized bot designed to automate changing your Discord server's icon, name, banner, and invite splash backgrounds without requiring complex setup structures or lines of code.</p>
+                <h2>Getting Started</h2>
+                <p>To begin utilizing the bot to its full capacity, simply run the initial server deployment command.</p>
+                <ul class="command-list">
+                    <li><code>/setup</code> : The essential first command. Automatically builds the required category and logging channels (Logoto, log-logoto) for a quick launch.</li>
+                </ul>
+                <div class="note">
+                    <strong>IMPORTANT NOTE:</strong> The channel named <code>log-logoto</code> <strong>must exist</strong> on your server to handle automatic operation diagnostics.
+                    <br><br>
+                    The bot uses this channel to post daily engineering load logs (<code>l-Loading</code>, <code>n-Loading</code>, <code>b-Loading</code>, or <code>i-Loading</code>). Note that <strong>these updates are only generated if an automated asset swap is actively scheduled for that specific date</strong>. If no event is registered, no text is sent. The <code>/setup</code> command configures this safely for you.
+                </div>
+            </section>
 
+            <!-- SECTION 2: HOW IT WORKS -->
+            <section id="how-it-works" class="doc-section">
+                <h1>General Workflow</h1>
+                <p>Logoto autonomously scans for the presence of specific scheduled text channels inside your Discord server to index, stage, and execute your visual updates.</p>
+                
+                <div class="note" style="margin-bottom: 20px; background-color: #2b3a2e; border-left: 5px solid var(--vert-olive-clair);">
+                    <strong>Cron Schedule:</strong> All automated verifications and server adjustments apply systematically every day at exactly <strong>00:00 UTC</strong>.
+                </div>
+
+                <h2>Priority Rules & Limitations</h2>
+                <p>To preserve server stability and comply with standard Discord API rate limits, Logoto follows specific handling parameters:</p>
+                <ol>
+                    <li><strong>One alteration per asset type daily:</strong> The server name can change once per day, the server icon once, the banner once, and the invitation background splash once.</li>
+                    <li><strong>Simultaneous edits:</strong> You can perfectly combine icon adjustments AND a server name update (or any other type) on the exact same calendar date. Both updates execute at 00:00 UTC.</li>
+                    <li><strong>Duplicate channels (Visual Priority):</strong> If you accidentially build multiple channels for the same asset type on the same date (e.g., two <code>l-25-12</code> channels containing different icons), <strong>the channel nested highest up in your Discord category list takes absolute priority</strong> and its asset will be applied.</li>
+                </ol>
+            </section>
+
+            <!-- SECTION 3: COMMANDS -->
+            <section id="commands" class="doc-section">
+                <h1>Logoto Bot Commands</h1>
+                <p>Explore the complete list of built-in features accessible straight out of the box using Discord's official Slash Commands:</p>
+                <ul class="command-list">
+                    <li><code>/setup</code> : The essential first command. Automatically builds the required category and logging channels (Logoto, log-logoto) for a quick launch.</li>
+                    <li><code>/add-an-event type: day: month:</code> : Instantly creates a formatting-compliant text channel to schedule your future visual updates under the specified category.</li>
+                    <li><code>/about</code> : Returns technical data regarding the engine's real-time operational status, creator information, and cluster health.</li>
+                    <li><code>/help</code> : Displays the operational dashboard commands directory (or opens this index).</li>
+                    <li><code>/ping</code> : Tests connection latency between the bot framework and Discord's internal API gateways.</li>
+                </ul>
+            </section>
+
+            <!-- SECTION 4: EVENTS -->
+            <section id="events" class="doc-section">
+                <h1>Add an Event</h1>
+                <p>Select a graphic or textual element below to display its detailed step-by-step scheduling implementation guide:</p>
+                
+                <div class="warning-box">
+                    <strong>ASSET LINK WARNING:</strong> Never copy direct image URLs straight out of a Discord text channel chat window (Discord CDN URLs). These internal addresses use temporary encryption hashes and <strong>will expire completely within 24 to 48 hours</strong>. If the link breaks before your scheduled date arrives, Logoto will fail to load the image. Refer to the <a href="#links" style="color: var(--warning-text-important); font-weight: bold; text-decoration: underline;">Image Links</a> section to resolve this.
+                </div>
+
+                <div class="event-grid">
+                    <div class="event-card active-card" data-event="event-logo">
+                        <h3>Server Icon</h3>
+                        <p>Automate your server profile picture update on a precise date.</p>
+                    </div>
+                    <div class="event-card" data-event="event-name">
+                        <h3>Server Name</h3>
+                        <p>Automatically adjust the displayed structural text title of your community.</p>
+                    </div>
+                    <div class="event-card" data-event="event-banner">
+                        <h3>Server Banner</h3>
+                        <p>Schedule illustrations to slide above your channel lists (Boost Level 2+ Required).</p>
+                    </div>
+                    <div class="event-card" data-event="event-invite">
+                        <h3>Invite Splash</h3>
+                        <p>Personalize the backgrounds of your generic invite links (Boost Level 1+ Required).</p>
+                    </div>
+                </div>
+
+                <div id="event-sub-content-container">
+                    <div id="event-logo" class="event-sub-content active-sub">
+                        <h3>Automated Server Icon Setup</h3><br>
+                        <ol>
+                            <li><strong>Create the Planning Channel:</strong>
+                                <ul><li>Use the slash command <code>/add-an-event type:Logo day:[DAY] month:[MONTH]</code>.</li>
+                                <li>The bot will instantly build a channel named strictly following this syntax: <code>l-[DAY]-[MONTH]</code>.</li>
+                                <li>EXAMPLE: To schedule an icon update for Halloween (October 31st): <code>l-31-10</code></li></ul>
+                            </li>
+                            <li><strong>Prepare your Graphic File:</strong>
+                                <ul>
+                                    <li>Obtain a <strong>permanent asset URL</strong> (via GitHub or ImgBB) that closes with a standard image file extension syntax (<code>.png</code>, <code>.jpg</code>, <code>.jpeg</code>, or <code>.gif</code>).</li>
+                                    <li><strong>Discord Formatting Guidelines:</strong> A perfectly square <strong>512 × 512 pixel</strong> canvas layout (Discord automatically masks profile pictures into circles).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Schedule the Update:</strong>
+                                <ul><li>Open the settings of the channel created in step 1, select the <strong>Channel Topic</strong> input box, and paste your <strong>permanent direct asset URL</strong> inside.</li></ul>
+                            </li>
+                            <li><strong>Execution:</strong>
+                                <ul><li>The bot processes the file and updates the server's icon at exactly 00:00 UTC on the chosen date. In case of channel duplication, the highest channel takes priority.</li></ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="event-name" class="event-sub-content">
+                        <h3>Automated Server Name Setup</h3><br>
+                        <ol>
+                            <li><strong>Create the Planning Channel:</strong>
+                                <ul><li>Use the slash command <code>/add-an-event type:Name day:[DAY] month:[MONTH]</code>.</li>
+                                <li>The bot will instantly build a channel named strictly matching this layout format: <code>n-[DAY]-[MONTH]</code>.</li>
+                                <li>EXAMPLE: To adjust your server title on New Year's Day (January 1st): <code>n-1-1</code></li></ul>
+                            </li>
+                            <li><strong>Schedule the Update:</strong>
+                                <ul><li>Open the properties of the designated channel.</li>
+                                <li>Type your <strong>complete new server text string</strong> directly into the <strong>Channel Topic</strong> text input area.</li></ul>
+                            </li>
+                            <li><strong>Execution:</strong>
+                                <ul><li>The bot updates the server title string at 00:00 UTC on the scheduled month and day (limited to one name switch daily, top channel rule applies).</li></ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="event-banner" class="event-sub-content">
+                        <h3>Automated Server Banner Setup</h3><br>
+                        <p><em>Note: Your community must maintain the required server Boost tier status (Level 2+) to deploy custom graphical banners.</em></p>
+                        <ol>
+                            <li><strong>Create the Planning Channel:</strong>
+                                <ul><li>Use the slash command <code>/add-an-event type:Banner day:[DAY] month:[MONTH]</code>.</li>
+                                <li>The bot will instantly build a channel named strictly matching this layout format: <code>b-[DAY]-[MONTH]</code>.</li>
+                                <li>EXAMPLE: To deploy a festive holiday banner on Christmas Day (December 25th): <code>b-25-12</code></li></ul>
+                            </li>
+                            <li><strong>Prepare your Graphic File:</strong>
+                                <ul>
+                                    <li>Generate and copy a <strong>permanent direct web URL</strong> pointing to an external static image asset (<code>.png</code>, <code>.jpg</code>).</li>
+                                    <li><strong>Discord Formatting Guidelines:</strong> Standard sizing targets are <strong>960 × 540 pixels</strong> using an aspect ratio of 16:9. Keep essential elements centered to avoid edge clipping.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Schedule the Update:</strong>
+                                <ul><li>Paste this permanent direct image link into your channel's <strong>Channel Topic</strong> configuration box.</li></ul>
+                            </li>
+                            <li><strong>Execution:</strong>
+                                <ul><li>Logoto applies the graphic asset to your server banner at 00:00 UTC. If multiple banner event channels exist for this day, only the highest one is compiled.</li></ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="event-invite" class="event-sub-content">
+                        <h3>Automated Invite Splash Background Setup</h3><br>
+                        <p><em>Note: Your community must maintain the required server Boost tier status (Level 1+) to deploy custom invite background splash graphics.</em></p>
+                        <ol>
+                            <li><strong>Create the Planning Channel:</strong>
+                                <ul><li>Use the slash command <code>/add-an-event type:Invite Splash day:[DAY] month:[MONTH]</code>.</li>
+                                <li>The bot will instantly build a channel named strictly matching this layout format: <code>i-[DAY]-[MONTH]</code>.</li>
+                                <li>EXAMPLE: To schedule a themed background splash for July 14th: <code>i-14-7</code></li></ul>
+                            </li>
+                            <li><strong>Prepare your Graphic File:</strong>
+                                <ul>
+                                    <li>Generate and copy a <strong>permanent direct web URL</strong> pointing to an external static image asset.</li>
+                                    <li><strong>Discord Formatting Guidelines:</strong> Sizing targets require a crisp <strong>1920 × 1080 pixel</strong> footprint (standard 16:9 aspect ratio) to render correctly across mobile and desktop interfaces.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Schedule the Update:</strong>
+                                <ul><li>Paste your permanent direct image URL straight into the channel's <strong>Channel Topic</strong> input area.</li></ul>
+                            </li>
+                            <li><strong>Execution:</strong>
+                                <ul><li>As soon as the target day reaches 00:00 UTC, the illustration rolls out onto your web invite screens (highest listed channel takes priority if duplicate channels exist).</li></ul>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: LINKS -->
+            <section id="links" class="doc-section">
+                <h1>Get a Permanent Image Link</h1>
+                <p>For Logoto to properly retrieve and deploy your icons, banners, or splashes down the line, the provided URL destination must remain permanently online. Because <strong>direct Discord URLs break quickly</strong>, you must rely on a dedicated third-party asset hosting platform.</p>
+                <p>Choose one of the recommended approaches below to generate a valid, permanent direct link:</p>
+                
+                <div class="mini-tabs">
+                    <button class="mini-tab-btn active-mini" data-method="method-github">GitHub (Recommended)</button>
+                    <button class="mini-tab-btn" data-method="method-imgbb">ImgBB / Imgur</button>
+                </div>
+
+                <div id="image-method-container">
+                    <div id="method-github" class="mini-tab-content active-mini-content">
+                        <h3>Hosting via GitHub (Ultra-Stable)</h3><br>
+                        <ol>
+                            <li><strong>Create a public repository:</strong> Go to GitHub, click <em>New repository</em>, name it, and make sure it is set to <strong>Public</strong>.</li>
+                            <li><strong>Important (If repo is empty):</strong> Check the box that says <strong>"Add a README file"</strong> during creation. 
+                                <br><small style="opacity:0.8;"><em>Why? If the repository is completely empty, GitHub hides the easy web interface upload tools and only shows raw Git code commands.</em></small>
+                            </li>
+                            <li><strong>Upload your files:</strong> Head over to your active repository page, click the <strong>"Add file"</strong> button near the top right, and select <strong>"Upload files"</strong>. Drag and drop your graphics (icons, backgrounds...) and click the green <strong>"Commit changes"</strong> button at the bottom to save.</li>
+                            <li><strong>Get the Raw direct URL:</strong> Click on your uploaded file inside your repository view to open it. Then:
+                                <ul>
+                                    <li>Click the <strong>"Raw"</strong> button located above the image display (or right-click the image -> <em>Open Image in New Tab</em>).</li>
+                                    <li>The target URL string sitting inside your browser address bar should now start exactly with: <code>https://raw.githubusercontent.com/...</code></li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <div class="note" style="margin-top:15px;">
+                            <strong>Manual Raw URL Override Hint:</strong><br>
+                            If you cannot find the "Raw" button element, grab the generic GitHub file page URL structure, for example:<br>
+                            <code>https://github.com/<b>username</b>/<b>repository</b>/blob/main/<b>image.png</b></code><br>
+                            And swap the leading address segments yourself to instantly output the true direct raw address:<br>
+                            <code>https://raw.githubusercontent.com/<b>username</b>/<b>repository</b>/main/<b>image.png</b></code>
+                        </div>
+                    </div>
+
+                    <div id="method-imgbb" class="mini-tab-content">
+                        <h3>Free Dedicated Image Hosts (ImgBB / Imgur)</h3><br>
+                        <ol>
+                           <li>Navigate to a dependable free image hosting utility such as <a href="https://imgbb.com" target="_blank" style="color: var(--vert-olive-clair);">ImgBB</a> or <a href="https://imgur.com" target="_blank" style="color: var(--vert-olive-clair);">Imgur</a>.</li>
+                           <li>Upload your graphics file onto their servers. Make sure to choose the option that keeps files permanently online without an automatic expiration date.</li>
+                           <li>Once processing finishes, look under their embedded code link generation settings and select the <strong>"Direct Link"</strong> option.</li>
+                           <li>Double-check the generated URL structure: it must explicitly end with an image file extension suffix (e.g., <code>.png</code>, <code>.jpg</code>, <code>.jpeg</code>). If it hits a blurred wrapper text extension instead, Logoto will fail to trace the asset.</li>
+                           <li>Copy this direct link and enter it safely into your Discord planning channel topic.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -630,261 +888,27 @@
     </footer>
 
     <script>
-        let selectedEventTab = 'event-logo';
-        let selectedImageMethod = 'method-github';
+        // Enable interactive tab layout once JavaScript is active
+        document.body.classList.add('js-enabled');
 
-        const documentationData = {
-            setup: {
-                title: "Configuration (Setup)",
-                getHtml: () => `
-                    <p>Logoto is a specialized bot designed to automate changing your Discord server's icon, name, banner, and invite splash backgrounds without requiring complex setup structures or lines of code.</p>
-                    <h2>Getting Started</h2>
-                    <p>To begin utilizing the bot to its full capacity, simply run the initial server deployment command.</p>
-                    <ul class="command-list">
-                        <li><code>/setup</code> : The essential first command. Automatically builds the required category and logging channels (Logoto, log-logoto) for a quick launch.</li>
-                    </ul>
-                    <div class="note">
-                        <strong>IMPORTANT NOTE:</strong> The channel named <code>log-logoto</code> <strong>must exist</strong> on your server to handle automatic operation diagnostics.
-                        <br><br>
-                        The bot uses this channel to post daily engineering load logs (<code>l-Loading</code>, <code>n-Loading</code>, <code>b-Loading</code>, or <code>i-Loading</code>). Note that <strong>these updates are only generated if an automated asset swap is actively scheduled for that specific date</strong>. If no event is registered, no text is sent. The <code>/setup</code> command configures this safely for you.
-                    </div>
-                `
-            },
-            "how-it-works": {
-                title: "General Workflow",
-                getHtml: () => `
-                    <p>Logoto autonomously scans for the presence of specific scheduled text channels inside your Discord server to index, stage, and execute your visual updates.</p>
-                    
-                    <div class="note" style="margin-bottom: 20px; background-color: #2b3a2e; border-left: 5px solid var(--vert-olive-clair);">
-                        <strong>Cron Schedule:</strong> All automated verifications and server adjustments apply systematically every day at exactly <strong>00:00 UTC</strong>.
-                    </div>
-
-                    <h2>Priority Rules & Limitations</h2>
-                    <p>To preserve server stability and comply with standard Discord API rate limits, Logoto follows specific handling parameters:</p>
-                    <ol>
-                        <li><strong>One alteration per asset type daily:</strong> The server name can change once per day, the server icon once, the banner once, and the invitation background splash once.</li>
-                        <li><strong>Simultaneous edits:</strong> You can perfectly combine icon adjustments AND a server name update (or any other type) on the exact same calendar date. Both updates execute at 00:00 UTC.</li>
-                        <li><strong>Duplicate channels (Visual Priority):</strong> If you accidentially build multiple channels for the same asset type on the same date (e.g., two <code>l-25-12</code> channels containing different icons), <strong>the channel nested highest up in your Discord category list takes absolute priority</strong> and its asset will be applied.</li>
-                    </ol>
-                `
-            },
-            commands: {
-                title: "Logoto Bot Commands",
-                getHtml: () => `
-                    <p>Explore the complete list of built-in features accessible straight out of the box using Discord's official Slash Commands:</p>
-                    <ul class="command-list">
-                        <li><code>/setup</code> : The essential first command. Automatically builds the required category and logging channels (Logoto, log-logoto) for a quick launch.</li>
-                        <li><code>/add-an-event type: day: month:</code> : Instantly creates a formatting-compliant text channel to schedule your future visual updates under the specified category.</li>
-                        <li><code>/about</code> : Returns technical data regarding the engine's real-time operational status, creator information, and cluster health.</li>
-                        <li><code>/help</code> : Displays the operational dashboard commands directory (or opens this index).</li>
-                        <li><code>/ping</code> : Tests connection latency between the bot framework and Discord's internal API gateways.</li>
-                    </ul>
-                `
-            },
-            events: {
-                title: "Add an Event",
-                getHtml: () => `
-                    <p>Select a graphic or textual element below to display its detailed step-by-step scheduling implementation guide:</p>
-                    
-                    <div class="warning-box">
-                        <strong>ASSET LINK WARNING:</strong> Never copy direct image URLs straight out of a Discord text channel chat window (Discord CDN URLs). These internal addresses use temporary encryption hashes and <strong>will expire completely within 24 to 48 hours</strong>. If the link breaks before your scheduled date arrives, Logoto will fail to load the image. Refer to the <a href="#links" style="color: var(--warning-text-important); font-weight: bold; text-decoration: underline;">Image Links</a> section to resolve this.
-                    </div>
-
-                    <div class="event-grid">
-                        <div class="event-card ${selectedEventTab === 'event-logo' ? 'active-card' : ''}" onclick="switchEventTab('event-logo', this)">
-                            <h3>Server Icon</h3>
-                            <p>Automate your server profile picture update on a precise date.</p>
-                        </div>
-                        <div class="event-card ${selectedEventTab === 'event-name' ? 'active-card' : ''}" onclick="switchEventTab('event-name', this)">
-                            <h3>Server Name</h3>
-                            <p>Automatically adjust the displayed structural text title of your community.</p>
-                        </div>
-                        <div class="event-card ${selectedEventTab === 'event-banner' ? 'active-card' : ''}" onclick="switchEventTab('event-banner', this)">
-                            <h3>Server Banner</h3>
-                            <p>Schedule illustrations to slide above your channel lists (Boost Level 2+ Required).</p>
-                        </div>
-                        <div class="event-card ${selectedEventTab === 'event-invite' ? 'active-card' : ''}" onclick="switchEventTab('event-invite', this)">
-                            <h3>Invite Splash</h3>
-                            <p>Personalize the backgrounds of your generic invite links (Boost Level 1+ Required).</p>
-                        </div>
-                    </div>
-
-                    <div id="event-sub-content-container">
-                        ${eventTabsData[selectedEventTab]}
-                    </div>
-                `
-            },
-            links: {
-                title: "Get a Permanent Image Link",
-                getHtml: () => `
-                    <p>For Logoto to properly retrieve and deploy your icons, banners, or splashes down the line, the provided URL destination must remain permanently online. Because <strong>direct Discord URLs break quickly</strong>, you must rely on a dedicated third-party asset hosting platform.</p>
-                    <p>Choose one of the recommended approaches below to generate a valid, permanent direct link:</p>
-                    
-                    <div class="mini-tabs">
-                        <button class="mini-tab-btn ${selectedImageMethod === 'method-github' ? 'active-mini' : ''}" onclick="switchImageMethod('method-github', this)">GitHub (Recommended)</button>
-                        <button class="mini-tab-btn ${selectedImageMethod === 'method-imgbb' ? 'active-mini' : ''}" onclick="switchImageMethod('method-imgbb', this)">ImgBB / Imgur</button>
-                    </div>
-
-                    <div id="image-method-container">
-                        ${imageMethodsData[selectedImageMethod]}
-                    </div>
-                `
-            }
-        };
-
-        const eventTabsData = {
-            'event-logo': `
-                <div class="event-sub-content">
-                    <h3>Automated Server Icon Setup</h3><br>
-                    <ol>
-                        <li><strong>Create the Planning Channel:</strong>
-                            <ul><li>Use the slash command <code>/add-an-event type:Logo day:[DAY] month:[MONTH]</code>.</li>
-                            <li>The bot will instantly build a channel named strictly following this syntax: <code>l-[DAY]-[MONTH]</code>.</li>
-                            <li>EXAMPLE: To schedule an icon update for Halloween (October 31st): <code>l-31-10</code></li></ul>
-                        </li>
-                        <li><strong>Prepare your Graphic File:</strong>
-                            <ul>
-                                <li>Obtain a <strong>permanent asset URL</strong> (via GitHub or ImgBB) that closes with a standard image file extension syntax (<code>.png</code>, <code>.jpg</code>, <code>.jpeg</code>, or <code>.gif</code>).</li>
-                                <li><strong>Discord Formatting Guidelines:</strong> A perfectly square <strong>512 × 512 pixel</strong> canvas layout (Discord automatically masks profile pictures into circles).</li>
-                            </ul>
-                        </li>
-                        <li><strong>Schedule the Update:</strong>
-                            <ul><li>Open the settings of the channel created in step 1, select the <strong>Channel Topic</strong> input box, and paste your <strong>permanent direct asset URL</strong> inside.</li></ul>
-                        </li>
-                        <li><strong>Execution:</strong>
-                            <ul><li>The bot processes the file and updates the server's icon at exactly 00:00 UTC on the chosen date. In case of channel duplication, the highest channel takes priority.</li></ul>
-                        </li>
-                    </ol>
-                </div>
-            `,
-            'event-name': `
-                <div class="event-sub-content">
-                    <h3>Automated Server Name Setup</h3><br>
-                    <ol>
-                        <li><strong>Create the Planning Channel:</strong>
-                            <ul><li>Use the slash command <code>/add-an-event type:Name day:[DAY] month:[MONTH]</code>.</li>
-                            <li>The bot will instantly build a channel named strictly matching this layout format: <code>n-[DAY]-[MONTH]</code>.</li>
-                            <li>EXAMPLE: To adjust your server title on New Year's Day (January 1st): <code>n-1-1</code></li></ul>
-                        </li>
-                        <li><strong>Schedule the Update:</strong>
-                            <ul><li>Open the properties of the designated channel.</li>
-                            <li>Type your <strong>complete new server text string</strong> directly into the <strong>Channel Topic</strong> text input area.</li></ul>
-                        </li>
-                        <li><strong>Execution:</strong>
-                            <ul><li>The bot updates the server title string at 00:00 UTC on the scheduled month and day (limited to one name switch daily, top channel rule applies).</li></ul>
-                        </li>
-                    </ol>
-                </div>
-            `,
-            'event-banner': `
-                <div class="event-sub-content">
-                    <h3>Automated Server Banner Setup</h3><br>
-                    <p><em>Note: Your community must maintain the required server Boost tier status (Level 2+) to deploy custom graphical banners.</em></p>
-                    <ol>
-                        <li><strong>Create the Planning Channel:</strong>
-                            <ul><li>Use the slash command <code>/add-an-event type:Banner day:[DAY] month:[MONTH]</code>.</li>
-                            <li>The bot will instantly build a channel named strictly matching this layout format: <code>b-[DAY]-[MONTH]</code>.</li>
-                            <li>EXAMPLE: To deploy a festive holiday banner on Christmas Day (December 25th): <code>b-25-12</code></li></ul>
-                        </li>
-                        <li><strong>Prepare your Graphic File:</strong>
-                            <ul>
-                                <li>Generate and copy a <strong>permanent direct web URL</strong> pointing to an external static image asset (<code>.png</code>, <code>.jpg</code>).</li>
-                                <li><strong>Discord Formatting Guidelines:</strong> Standard sizing targets are <strong>960 × 540 pixels</strong> using an aspect ratio of 16:9. Keep essential elements centered to avoid edge clipping.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Schedule the Update:</strong>
-                            <ul><li>Paste this permanent direct image link into your channel's <strong>Channel Topic</strong> configuration box.</li></ul>
-                        </li>
-                        <li><strong>Execution:</strong>
-                            <ul><li>Logoto applies the graphic asset to your server banner at 00:00 UTC. If multiple banner event channels exist for this day, only the highest one is compiled.</li></ul>
-                        </li>
-                    </ol>
-                </div>
-            `,
-            'event-invite': `
-                <div class="event-sub-content">
-                    <h3>Automated Invite Splash Background Setup</h3><br>
-                    <p><em>Note: Your community must maintain the required server Boost tier status (Level 1+) to deploy custom invite background splash graphics.</em></p>
-                    <ol>
-                        <li><strong>Create the Planning Channel:</strong>
-                            <ul><li>Use the slash command <code>/add-an-event type:Invite Splash day:[DAY] month:[MONTH]</code>.</li>
-                            <li>The bot will instantly build a channel named strictly matching this layout format: <code>i-[DAY]-[MONTH]</code>.</li>
-                            <li>EXAMPLE: To schedule a themed background splash for July 14th: <code>i-14-7</code></li></ul>
-                        </li>
-                        <li><strong>Prepare your Graphic File:</strong>
-                            <ul>
-                                <li>Generate and copy a <strong>permanent direct web URL</strong> pointing to an external static image asset.</li>
-                                <li><strong>Discord Formatting Guidelines:</strong> Sizing targets require a crisp <strong>1920 × 1080 pixel</strong> footprint (standard 16:9 aspect ratio) to render correctly across mobile and desktop interfaces.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Schedule the Update:</strong>
-                            <ul><li>Paste your permanent direct image URL straight into the channel's <strong>Channel Topic</strong> input area.</li></ul>
-                        </li>
-                        <li><strong>Execution:</strong>
-                            <ul><li>As soon as the target day reaches 00:00 UTC, the illustration rolls out onto your web invite screens (highest listed channel takes priority if duplicate channels exist).</li></ul>
-                        </li>
-                    </ol>
-                </div>
-            `
-        };
-
-        const imageMethodsData = {
-            'method-github': `
-                <div class="mini-tab-content">
-                    <h3>Hosting via GitHub (Ultra-Stable)</h3><br>
-                    <ol>
-                        <li><strong>Create a public repository:</strong> Go to GitHub, click <em>New repository</em>, name it, and make sure it is set to <strong>Public</strong>.</li>
-                        <li><strong>Important (If repo is empty):</strong> Check the box that says <strong>"Add a README file"</strong> during creation. 
-                            <br><small style="opacity:0.8;"><em>Why? If the repository is completely empty, GitHub hides the easy web interface upload tools and only shows raw Git code commands.</em></small>
-                        </li>
-                        <li><strong>Upload your files:</strong> Head over to your active repository page, click the <strong>"Add file"</strong> button near the top right, and select <strong>"Upload files"</strong>. Drag and drop your graphics (icons, backgrounds...) and click the green <strong>"Commit changes"</strong> button at the bottom to save.</li>
-                        <li><strong>Get the Raw direct URL:</strong> Click on your uploaded file inside your repository view to open it. Then:
-                            <ul>
-                                <li>Click the <strong>"Raw"</strong> button located above the image display (or right-click the image -> <em>Open Image in New Tab</em>).</li>
-                                <li>The target URL string sitting inside your browser address bar should now start exactly with: <code>https://raw.githubusercontent.com/...</code></li>
-                            </ul>
-                        </li>
-                    </ol>
-                    <div class="note" style="margin-top:15px;">
-                        <strong>Manual Raw URL Override Hint:</strong><br>
-                        If you cannot find the "Raw" button element, grab the generic GitHub file page URL structure, for example:<br>
-                        <code>https://github.com/<b>username</b>/<b>repository</b>/blob/main/<b>image.png</b></code><br>
-                        And swap the leading address segments yourself to instantly output the true direct raw address:<br>
-                        <code>https://raw.githubusercontent.com/<b>username</b>/<b>repository</b>/main/<b>image.png</b></code>
-                    </div>
-                </div>
-            `,
-            'method-imgbb': `
-                <div class="mini-tab-content">
-                    <h3>Free Dedicated Image Hosts (ImgBB / Imgur)</h3><br>
-                    <ol>
-                       <li>Navigate to a dependable free image hosting utility such as <a href="https://imgbb.com" target="_blank" style="color: var(--vert-olive-clair);">ImgBB</a> or <a href="https://imgur.com" target="_blank" style="color: var(--vert-olive-clair);">Imgur</a>.</li>
-                       <li>Upload your graphics file onto their servers. Make sure to choose the option that keeps files permanently online without an automatic expiration date.</li>
-                       <li>Once processing finishes, look under their embedded code link generation settings and select the <strong>"Direct Link"</strong> option.</li>
-                       <li>Double-check the generated URL structure: it must explicitly end with an image file extension suffix (e.g., <code>.png</code>, <code>.jpg</code>, <code>.jpeg</code>). If it hits a blurred wrapper text extension instead, Logoto will fail to trace the asset.</li>
-                       <li>Copy this direct link and enter it safely into your Discord planning channel topic.</li>
-                    </ol>
-                </div>
-            `
-        };
-
-        function updateContent() {
+        function updateSectionFromHash() {
             let currentHash = window.location.hash.substring(1);
-            
-            if (!currentHash || !documentationData[currentHash]) {
+
+            if (!currentHash || !document.getElementById(currentHash)) {
                 currentHash = "setup";
             }
 
-            const contentArea = document.getElementById("doc-content");
-            if (contentArea) {
-                contentArea.innerHTML = `
-                    <h1>${documentationData[currentHash].title}</h1>
-                    ${documentationData[currentHash].getHtml()}
-                `;
+            // Manage main sections visibility
+            document.querySelectorAll('.doc-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            const activeSec = document.getElementById(currentHash);
+            if (activeSec) {
+                activeSec.classList.add('active');
             }
 
-            const links = document.querySelectorAll("#sidebar-menu a");
-            links.forEach(link => {
+            // Highlight current link in sidebar
+            document.querySelectorAll("#sidebar-menu a").forEach(link => {
                 if (link.getAttribute("href") === `#${currentHash}`) {
                     link.classList.add("active-link");
                 } else {
@@ -893,36 +917,45 @@
             });
         }
 
-        function switchEventTab(tabId, clickedCard) {
-            selectedEventTab = tabId;
-            const cards = document.querySelectorAll('.event-card');
-            cards.forEach(card => card.classList.remove('active-card'));
-            clickedCard.classList.add('active-card');
-            
-            const subContainer = document.getElementById("event-sub-content-container");
-            if (subContainer) {
-                subContainer.innerHTML = eventTabsData[tabId];
-            }
-        }
+        // Event cards interactivity
+        document.querySelectorAll('.event-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.event-card').forEach(c => c.classList.remove('active-card'));
+                card.classList.add('active-card');
 
-        function switchImageMethod(methodId, clickedBtn) {
-            selectedImageMethod = methodId;
-            const btns = document.querySelectorAll('.mini-tab-btn');
-            btns.forEach(btn => btn.classList.remove('active-mini'));
-            clickedBtn.classList.add('active-mini');
-            
-            const container = document.getElementById("image-method-container");
-            if (container) {
-                container.innerHTML = imageMethodsData[methodId];
-            }
-        }
+                const eventId = card.getAttribute('data-event');
+                document.querySelectorAll('.event-sub-content').forEach(sub => {
+                    sub.classList.remove('active-sub');
+                });
+                const activeSub = document.getElementById(eventId);
+                if (activeSub) {
+                    activeSub.classList.add('active-sub');
+                }
+            });
+        });
 
-        window.addEventListener("hashchange", updateContent);
-        window.addEventListener("DOMContentLoaded", updateContent);
+        // Image hosting tab interactivity
+        document.querySelectorAll('.mini-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.mini-tab-btn').forEach(b => b.classList.remove('active-mini'));
+                btn.classList.add('active-mini');
+
+                const methodId = btn.getAttribute('data-method');
+                document.querySelectorAll('.mini-tab-content').forEach(content => {
+                    content.classList.remove('active-mini-content');
+                });
+                const activeContent = document.getElementById(methodId);
+                if (activeContent) {
+                    activeContent.classList.add('active-mini-content');
+                }
+            });
+        });
+
+        window.addEventListener("hashchange", updateSectionFromHash);
         window.addEventListener("DOMContentLoaded", () => {
-    document.getElementById('year').textContent = new Date().getFullYear();
-    updateContent();
-});
+            document.getElementById('year').textContent = new Date().getFullYear();
+            updateSectionFromHash();
+        });
     </script>
 
 </body>
