@@ -1,24 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- ACCUEIL -->
   <url>
-    <loc>https://logoto.onrender.com/fr/</loc>
+    <loc>https://logoto.onrender.com/</loc>
     <lastmod>2026-07-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/"/>
   </url>
 
   <url>
-    <loc>https://logoto.onrender.com/en/</loc>
+    <loc>https://logoto.onrender.com/fr</loc>
     <lastmod>2026-07-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/"/>
+  </url>
+
+  <url>
+    <loc>https://logoto.onrender.com/en</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/"/>
+  </url>
+
+  <!-- HELP -->
+  <url>
+    <loc>https://logoto.onrender.com/help</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr/help"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en/help"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/help"/>
   </url>
 
   <url>
@@ -41,6 +64,17 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/help"/>
   </url>
 
+  <!-- LEGAL -->
+  <url>
+    <loc>https://logoto.onrender.com/legal</loc>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr/legal"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en/legal"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/legal"/>
+  </url>
+
   <url>
     <loc>https://logoto.onrender.com/fr/legal</loc>
     <lastmod>2026-07-16</lastmod>
@@ -50,7 +84,7 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en/legal"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/legal"/>
   </url>
-        
+
   <url>
     <loc>https://logoto.onrender.com/en/legal</loc>
     <lastmod>2026-07-16</lastmod>
