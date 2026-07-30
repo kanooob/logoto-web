@@ -12,6 +12,33 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ------------- NOUVELLES ROUTES API FUSEAU / DATE 00H -------------
+app.get('/api/fuzeau00h', (req, res) => {
+    const now = new Date();
+    const utcHour = now.getUTCHours();
+    
+    let offset = (24 - utcHour) % 24;
+    if (offset > 12) offset -= 24;
+    
+    const formattedOffset = offset >= 0 ? `+${offset}` : `${offset}`;
+    
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(formattedOffset);
+});
+
+app.get('/api/jour00h', (req, res) => {
+    const now = new Date();
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(now.getUTCDate().toString());
+});
+
+app.get('/api/mois00h', (req, res) => {
+    const now = new Date();
+    res.setHeader('Content-Type', 'text/plain');
+    res.send((now.getUTCMonth() + 1).toString());
+});
+// ------------------------------------------------------------------
+
 // Route POST - Inchangée et robuste
 app.post('/api/serveur-counte', (req, res) => {
     const clientKey = req.headers['key'];
