@@ -12,14 +12,23 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ------------- NOUVELLES ROUTES API FUSEAU / DATE 00H -------------
-app.get('/api/fuzeau00h', (req, res) => {
+// ------------- UTILITAIRE & ROUTES API FUSEAU / DATE 00H -------------
+function getDateAtMidnightZone() {
     const now = new Date();
     const utcHour = now.getUTCHours();
     
+    // Offset du fuseau à 00h (ex: +2, -3, etc.)
     let offset = (24 - utcHour) % 24;
     if (offset > 12) offset -= 24;
+
+    // Calcul de la date exacte dans le fuseau (gère les mois à 28/30/31j et bissextiles)
+    const targetDate = new Date(now.getTime() + (offset * 3600 * 1000));
     
+    return { offset, targetDate };
+}
+
+app.get('/api/fuzeau00h', (req, res) => {
+    const { offset } = getDateAtMidnightZone();
     const formattedOffset = offset >= 0 ? `+${offset}` : `${offset}`;
     
     res.setHeader('Content-Type', 'text/plain');
@@ -27,17 +36,17 @@ app.get('/api/fuzeau00h', (req, res) => {
 });
 
 app.get('/api/jour00h', (req, res) => {
-    const now = new Date();
+    const { targetDate } = getDateAtMidnightZone();
     res.setHeader('Content-Type', 'text/plain');
-    res.send(now.getUTCDate().toString());
+    res.send(targetDate.getUTCDate().toString());
 });
 
 app.get('/api/mois00h', (req, res) => {
-    const now = new Date();
+    const { targetDate } = getDateAtMidnightZone();
     res.setHeader('Content-Type', 'text/plain');
-    res.send((now.getUTCMonth() + 1).toString());
+    res.send((targetDate.getUTCMonth() + 1).toString());
 });
-// ------------------------------------------------------------------
+// ----------------------------------------------------------------------
 
 // Route POST - Inchangée et robuste
 app.post('/api/serveur-counte', (req, res) => {
