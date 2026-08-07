@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page Introuvable | Logoto</title>
+    <title>404 - Page Introuvable / Page Not Found | Logoto</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/Logoto/refs/heads/main/Logoto.png">
     <style>
         body {
@@ -22,12 +22,54 @@
         }
 
         .container {
+            position: relative;
             max-width: 500px;
             width: 100%;
             background: #2f3136;
             padding: 40px;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Lang Switcher (CSS Only via Radio Inputs) */
+        .lang-switch {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 5px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .lang-switch input[type="radio"] {
+            display: none;
+        }
+
+        .lang-switch label {
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #b9bbbe;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .lang-switch input[type="radio"]:checked + label {
+            background-color: #8c935d;
+            color: #ffffff;
+        }
+
+        /* Dynamic Language Display */
+        .lang-en {
+            display: none;
+        }
+
+        .container:has(#lang-en:checked) .lang-fr {
+            display: none;
+        }
+
+        .container:has(#lang-en:checked) .lang-en {
+            display: block;
         }
 
         .status-code {
@@ -90,19 +132,43 @@
 </head>
 <body>
     <div class="container">
+        <!-- Selective Language Switch -->
+        <div class="lang-switch">
+            <input type="radio" id="lang-fr" name="language" checked>
+            <label for="lang-fr">FR</label>
+            
+            <input type="radio" id="lang-en" name="language">
+            <label for="lang-en">EN</label>
+        </div>
+
         <div class="status-code">404</div>
         
-        <h1>Oups, cette page a disparu.</h1>
-        
-        <p>
-            Désolé, nous n'avons pas pu trouver la page que vous cherchez.<br>
-            Utilisez le bouton ci-dessous pour revenir en lieu sûr.
-        </p>
-        
-        <div class="button-container">
-            <a href="/" class="btn btn-primary">
-                Retour à l'accueil
-            </a>
+        <!-- French Text -->
+        <div class="lang-fr">
+            <h1>Oups, cette page a disparu.</h1>
+            <p>
+                Désolé, nous n'avons pas pu trouver la page que vous cherchez.<br>
+                Utilisez le bouton ci-dessous pour revenir en lieu sûr.
+            </p>
+            <div class="button-container">
+                <a href="/fr" class="btn btn-primary">
+                    Retour à l'accueil
+                </a>
+            </div>
+        </div>
+
+        <!-- English Text -->
+        <div class="lang-en">
+            <h1>Oops, this page disappeared.</h1>
+            <p>
+                Sorry, we couldn't find the page you are looking for.<br>
+                Use the button below to get back to safety.
+            </p>
+            <div class="button-container">
+                <a href="/en" class="btn btn-primary">
+                    Back to Homepage
+                </a>
+            </div>
         </div>
     </div>
 </body>
