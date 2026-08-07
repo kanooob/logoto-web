@@ -3,19 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logoto - Automate your server's image</title>
 
+    <!-- SEO -->
+    <title>Logoto | Discord Bot for Visual Identity Automation</title>
+    <meta name="description" content="Automate your Discord server's image. Automatically schedule and update your icon, banner, name, and invite background effortlessly.">
+    <link rel="canonical" href="https://logoto.onrender.com/en">
 
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
+    <!-- Robots Directives -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
 
+    <!-- Multilingual Links (Hreflang) -->
+    <link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en">
+    <link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr">
+    <link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/en">
 
-    <meta property="og:title" content="LOGOTO - Automate your server's image">
-    <meta property="og:description" content="Automatically generate and update your Discord server's logo, banner, and name in a single click.">
+    <!-- Open Graph (Discord, Facebook, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Logoto">
+    <meta property="og:url" content="https://logoto.onrender.com/en">
+    <meta property="og:title" content="Logoto | Discord Bot for Visual Identity Automation">
+    <meta property="og:description" content="Automate your Discord server's image. Automatically schedule and update your icon, banner, name, and invite background effortlessly.">
     <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
+    <meta property="og:image:alt" content="Official Logoto Bot Logo">
+    <meta property="og:locale" content="en_US">
     <meta name="theme-color" content="#8c935d">
 
-    <style>
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Logoto | Discord Bot for Visual Identity Automation">
+    <meta name="twitter:description" content="Automate your Discord server's image. Automatically schedule and update your icon, banner, name, and invite background effortlessly.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
+
+    <!-- Structured Data Schema.org (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Logoto",
+      "operatingSystem": "Discord",
+      "applicationCategory": "UtilitiesApplication",
+      "description": "Discord bot to schedule and automate changes to your server's logo, name, banner, and invite background.",
+      "image": "https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png",
+      "url": "https://logoto.onrender.com/en",
+      "inLanguage": "en-US",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <style>
         :root {
             --blanc: #F2F3F5;
             --vert-olive: #8c935d;
@@ -41,7 +84,6 @@
             flex-direction: column;
             overflow-x: hidden;
         }
-
 
         header {
             display: flex;
@@ -122,22 +164,24 @@
             font-weight: bold;
             cursor: pointer;
             font-size: 14px;
-            padding: 5px;
+            padding: 10px 5px;
             text-decoration: none;
         }
 
         .lang-dropdown {
-            display: none;
+            opacity: 0;
+            visibility: hidden;
             position: absolute;
             top: 100%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateY(5px);
             background-color: var(--gris-footer);
             border: 1px solid var(--vert-olive);
             border-radius: 4px;
-            min-width: 50px;
+            min-width: 60px;
             text-align: center;
             z-index: 10;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
         }
 
         .lang-dropdown a {
@@ -153,8 +197,11 @@
             background-color: var(--vert-olive);
         }
 
-        .lang-container:hover .lang-dropdown {
-            display: block;
+        .lang-container:hover .lang-dropdown,
+        .lang-container:focus-within .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
 
         .btn-nav {
@@ -171,7 +218,6 @@
             background-color: var(--vert-olive-dark);
             transform: translateY(-1px);
         }
-
 
         main {
             flex: 1;
@@ -213,7 +259,6 @@
             margin-right: auto;
         }
 
-        /* Action Buttons */
         .cta-container {
             display: flex;
             gap: 20px;
@@ -253,7 +298,6 @@
             transform: translateY(-2px);
         }
 
-
         .badge-servers {
             border: 1px solid rgba(140, 147, 93, 0.4);
             background-color: rgba(140, 147, 93, 0.1);
@@ -266,7 +310,6 @@
             letter-spacing: 0.5px;
             display: inline-block;
         }
-
 
         .features-grid {
             display: grid;
@@ -308,7 +351,6 @@
             line-height: 1.5;
         }
 
-        /* Footer */
         footer {
             background-color: var(--gris-footer);
             padding: 20px 50px;
@@ -341,7 +383,6 @@
             color: var(--vert-olive-clair);
         }
 
-
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -359,7 +400,6 @@
                 gap: 20px;
             }
         }
-
 
         @media (max-width: 768px) {
             header {
@@ -418,7 +458,7 @@
 <body>
 
     <header>
-        <a href="/" class="logo-container">
+        <a href="/en" class="logo-container">
             <img src="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png" alt="LOGOTO Logo" class="logo-img">
             <div class="logo-text">Logoto</div>
         </a>
@@ -456,7 +496,6 @@
                 <span id="status-emoji">⚡ </span>Used on <span id="server-count">many</span> servers
             </div>
         </div>
-
 
         <div class="features-grid">
             <div class="feature-card">
@@ -497,14 +536,12 @@
                     const countSpan = document.getElementById('server-count');
                     const emojiSpan = document.getElementById('status-emoji');
                     
-
                     if (data.server && data.server !== "fallback") {
                         countSpan.textContent = `over ${data.server}`;
                     } else {
                         countSpan.textContent = "many";
                     }
 
-           
                     if (data.online === false) {
                         emojiSpan.textContent = "☁️ ";
                     } else {
@@ -514,13 +551,12 @@
             })
             .catch(err => {
                 console.error("Unable to load stats:", err);
-        
                 document.getElementById('status-emoji').textContent = "☁️ ";
             });
+
         window.addEventListener("DOMContentLoaded", () => {
-    document.getElementById('year').textContent = new Date().getFullYear();
-    updateContent();
-});
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
     </script>
 
 </body>
