@@ -306,10 +306,10 @@
         }
 
         .mini-tabs {
-            display: none; /* Masqué sans JS car tous les contenus d'images s'affichent à la suite */
+            display: none;
         }
 
-        /* --- AVEC JAVASCRIPT : MODE ONGLETS DYNAMIQUE (BEAU SITE INTERACTIF) --- */
+        /* --- AVEC JAVASCRIPT : MODE ONGLETS DYNAMIQUE --- */
         body.js-enabled .doc-section {
             display: none;
             margin-bottom: 0;
@@ -668,7 +668,7 @@
                     <li><code>/setup</code> : Première commande à faire. Crée automatiquement la catégorie et les salons nécessaires (Logoto, log-logoto) pour un démarrage rapide.</li>
                 </ul>
                 <div class="note">
-                    <strong>NOTE IMPORTANTE :</strong> Le salon nommé <code>log-logoto</code> <strong>doit impérativement exister</strong> sur votre serveur pour assurer le suivi technique.
+                    <strong>NOTE IMPORTANTE :</strong> Le salon nommé <code>log-logoto</code> <strong>doit impérativement exister</strong> sur votre serveur pour assurer le suivi technique et la configuration du fuseau horaire.
                     <br><br>
                     Le bot utilise ce salon pour envoyer ses messages techniques quotidiens de chargement (<code>l-Loading</code>, <code>n-Loading</code>, <code>b-Loading</code> ou <code>i-Loading</code>). Attention, <strong>ces messages ne sont envoyés que si un changement est effectivement programmé le jour même</strong>. S'il n'y a aucun événement, aucun log n'est posté. La commande <code>/setup</code> s'occupe de créer ce salon proprement pour vous.
                 </div>
@@ -680,7 +680,7 @@
                 <p>Logoto surveille de manière autonome la présence de salons textuels spécifiques au sein de votre serveur Discord pour planifier et exécuter vos mises à jour esthétiques.</p>
                 
                 <div class="note" style="margin-bottom: 20px; background-color: #2b3a2e; border-left: 5px solid var(--vert-olive-clair);">
-                    <strong>Planification horaire :</strong> Par défaut, toutes les mises à jour s'exécutent chaque jour à <strong>00h00 UTC</strong> (si aucun décalage n'est spécifié). Vous pouvez modifier l'heure de déclenchement directement dans le sujet du salon (voir la rubrique <a href="#timezone" style="color: var(--vert-olive-clair); font-weight: bold;">Fuseau horaire</a>).
+                    <strong>Planification horaire :</strong> Par défaut, toutes les mises à jour s'exécutent chaque jour à <strong>00h00 UTC</strong> (si aucun décalage n'est spécifié). Vous pouvez modifier l'heure de déclenchement globale du serveur directement dans le sujet du salon <code>log-logoto</code> (voir la rubrique <a href="#timezone" style="color: var(--vert-olive-clair); font-weight: bold;">Fuseau horaire</a>).
                 </div>
 
                 <h2>Règles de priorité et limites</h2>
@@ -695,20 +695,20 @@
             <!-- SECTION 3: TIMEZONE -->
             <section id="timezone" class="doc-section">
                 <h1>Fuseau Horaire (Timezone)</h1>
-                <p>Par défaut, Logoto déclenche la modification à <strong>00h00 UTC</strong> s'il n'y a aucune précision dans le sujet du salon.</p>
-                <p>Pour ajuster l'heure de déclenchement selon votre fuseau horaire, il suffit d'ajouter le décalage souhaité <strong>à la toute fin du sujet de votre salon</strong> d'événement (Channel Topic), séparé par un espace après votre lien ou votre texte.</p>
+                <p>Par défaut, Logoto déclenche les modifications du serveur à <strong>00h00 UTC</strong> s'il n'y a aucune précision dans le sujet du salon de log.</p>
+                <p>Pour ajuster l'heure de déclenchement selon votre fuseau horaire, il suffit d'ajouter la valeur du décalage souhaité <strong>dans le sujet du salon <code>log-logoto</code></strong> (Channel Topic).</p>
 
                 <h2>Formats de décalage acceptés</h2>
                 <ul class="command-list">
-                    <li><strong>Ne rien mettre</strong> ou mettre <code>+0</code> ou <code>+00</code> : Exécution à 00h00 UTC (par défaut).</li>
+                    <li><strong>Ne rien mettre</strong> ou inscrire <code>+0</code> : Exécution à 00h00 UTC (par défaut).</li>
                     <li><strong>Décalages positifs :</strong> <code>+1</code>, <code>+2</code>, <code>+3</code>, <code>+4</code>, <code>+5</code>, <code>+6</code>, <code>+7</code>, <code>+8</code>, <code>+9</code>, <code>+10</code>, <code>+11</code>, <code>+12</code></li>
                     <li><strong>Décalages négatifs :</strong> <code>-1</code>, <code>-2</code>, <code>-3</code>, <code>-4</code>, <code>-6</code>, <code>-7</code>, <code>-8</code>, <code>-9</code>, <code>-10</code>, <code>-11</code></li>
                 </ul>
 
                 <div class="note">
                     <strong>Exemple d'utilisation :</strong><br>
-                    Pour programmer un logo avec un lien image et appliquer le fuseau UTC+2 (Heure d'été en France), indiquez ceci dans le sujet du salon :<br>
-                    <code>https://raw.githubusercontent.com/utilisateur/depot/main/logo.png +2</code>
+                    Pour que les événements de votre serveur se déclenchent à l'heure française d'été (UTC+2), écrivez simplement ceci dans le sujet du salon <code>log-logoto</code> :<br>
+                    <code>+2</code>
                 </div>
             </section>
 
@@ -769,10 +769,10 @@
                                 </ul>
                             </li>
                             <li><strong>Planifiez le Changement :</strong>
-                                <ul><li>Modifiez le <strong>Sujet du Salon</strong> (Channel Topic) du salon textuel créé à l'étape 1, collez l'<strong>URL permanente de l'image</strong>, puis ajoutez éventuellement le fuseau horaire (ex: <code>+2</code>).</li></ul>
+                                <ul><li>Modifiez le <strong>Sujet du Salon</strong> (Channel Topic) du salon textuel créé à l'étape 1 et collez-y uniquement l'<strong>URL permanente de l'image</strong>.</li></ul>
                             </li>
                             <li><strong>Résultat :</strong>
-                                <ul><li>Le bot changera automatiquement la photo de profil du serveur au jour et au mois indiqués à l'heure du fuseau configuré. En cas de doublons de salons de logo, celui placé le plus haut l'emportera.</li></ul>
+                                <ul><li>Le bot changera automatiquement la photo de profil du serveur au jour et au mois indiqués. En cas de doublons de salons de logo, celui placé le plus haut l'emportera.</li></ul>
                             </li>
                         </ol>
                     </div>
@@ -787,10 +787,10 @@
                             </li>
                             <li><strong>Planifiez le Changement :</strong>
                                 <ul><li>Modifiez le <strong>Sujet du Salon</strong> (Channel Topic) du salon créé.</li>
-                                <li>Écrivez textuellement le <strong>nouveau nom complet</strong> que devra prendre le serveur, suivi si nécessaire de votre fuseau (ex: <code>Mon Serveur +1</code>).</li></ul>
+                                <li>Écrivez textuellement le <strong>nouveau nom complet</strong> que devra prendre le serveur.</li></ul>
                             </li>
                             <li><strong>Résultat :</strong>
-                                <ul><li>Le bot appliquera automatiquement le nouveau nom au jour et au mois spécifiés à l'heure du fuseau configuré (limité à un seul changement de nom par jour, priorité au salon le plus haut).</li></ul>
+                                <ul><li>Le bot appliquera automatiquement le nouveau nom au jour et au mois spécifiés (limité à un seul changement de nom par jour, priorité au salon le plus haut).</li></ul>
                             </li>
                         </ol>
                     </div>
@@ -811,10 +811,10 @@
                                 </ul>
                             </li>
                             <li><strong>Planifiez le Changement :</strong>
-                                <ul><li>Collez ce lien permanent d'image dans le <strong>Sujet du Salon</strong> (Channel Topic), suivi éventuellement du fuseau (ex: <code>+2</code>).</li></ul>
+                                <ul><li>Collez ce lien permanent d'image directement dans le <strong>Sujet du Salon</strong> (Channel Topic).</li></ul>
                             </li>
                             <li><strong>Résultat :</strong>
-                                <ul><li>Logoto appliquera la bannière en arrière-plan au jour choisi à l'heure du fuseau configuré. Si plusieurs salons de bannières existent, celui situé le plus haut dans la liste sera traité.</li></ul>
+                                <ul><li>Logoto appliquera la bannière en arrière-plan au jour choisi. Si plusieurs salons de bannières existent, celui situé le plus haut dans la liste sera traité.</li></ul>
                             </li>
                         </ol>
                     </div>
@@ -835,10 +835,10 @@
                                 </ul>
                             </li>
                             <li><strong>Planifiez le Changement :</strong>
-                                <ul><li>Collez le lien permanent de l'image de fond directement dans le <strong>Sujet du Salon</strong> (Channel Topic), suivi éventuellement du fuseau (ex: <code>+2</code>).</li></ul>
+                                <ul><li>Collez le lien permanent de l'image de fond directement dans le <strong>Sujet du Salon</strong> (Channel Topic).</li></ul>
                             </li>
                             <li><strong>Résultat :</strong>
-                                <ul><li>Dès l'arrivée du jour choisi à l'heure du fuseau configuré, l'illustration viendra habiller vos fiches d'invitations web (priorité absolue au salon le plus haut en cas de doublons).</li></ul>
+                                <ul><li>Dès l'arrivée du jour choisi, l'illustration viendra habiller vos fiches d'invitations web (priorité absolue au salon le plus haut en cas de doublons).</li></ul>
                             </li>
                         </ol>
                     </div>
@@ -909,7 +909,6 @@
     </footer>
 
     <script>
-        // Dès que le navigateur humain exécute le JS, on active la mise en page interactive par onglets !
         document.body.classList.add('js-enabled');
 
         function updateSectionFromHash() {
@@ -919,7 +918,6 @@
                 currentHash = "setup";
             }
 
-            // Gestion de l'affichage des sections principales
             document.querySelectorAll('.doc-section').forEach(sec => {
                 sec.classList.remove('active');
             });
@@ -928,7 +926,6 @@
                 activeSec.classList.add('active');
             }
 
-            // Mettre en surbrillance l'onglet dans la sidebar
             document.querySelectorAll("#sidebar-menu a").forEach(link => {
                 if (link.getAttribute("href") === `#${currentHash}`) {
                     link.classList.add("active-link");
@@ -938,7 +935,6 @@
             });
         }
 
-        // Interactivité des cartes d'événements
         document.querySelectorAll('.event-card').forEach(card => {
             card.addEventListener('click', () => {
                 document.querySelectorAll('.event-card').forEach(c => c.classList.remove('active-card'));
@@ -955,7 +951,6 @@
             });
         });
 
-        // Interactivité des onglets d'hébergement d'images
         document.querySelectorAll('.mini-tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.mini-tab-btn').forEach(b => b.classList.remove('active-mini'));
