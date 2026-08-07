@@ -7,48 +7,56 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 let serverCount = "0";
-let lastUpdate = Date.now(); // Enregistre l'heure du dernier ping
+let lastUpdate = Date.now();
 const SECRET_KEY = process.env.SECRET_KEY;
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Serveur de fichiers statiques (CSS, JS, images) avec option de cache
+app.use(express.static(path.join(__dirname, 'public'), {
+    maxAge: '1d'
+}));
+
+// ------------- FICHIERS MOTEURS DE RECHERCHE (SEO) -------------
+app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
+});
+
+app.get('/sitemap.xml', (req, res) => {
+    res.type('application/xml');
+    res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
+});
+// -------------------------------------------------------------
 
 // ------------- UTILITAIRE & ROUTES API FUSEAU / DATE 00H -------------
 function getDateAtMidnightZone() {
     const now = new Date();
     const utcHour = now.getUTCHours();
     
-    // Offset du fuseau à 00h (ex: +2, -3, etc.)
     let offset = (24 - utcHour) % 24;
     if (offset > 12) offset -= 24;
 
-    // Calcul de la date exacte dans le fuseau (gère les mois à 28/30/31j et bissextiles)
     const targetDate = new Date(now.getTime() + (offset * 3600 * 1000));
-    
     return { offset, targetDate };
 }
 
 app.get('/api/fuzeau00h', (req, res) => {
     const { offset } = getDateAtMidnightZone();
     const formattedOffset = offset >= 0 ? `+${offset}` : `${offset}`;
-    
-    res.setHeader('Content-Type', 'text/plain');
-    res.send(formattedOffset);
+    res.type('text/plain').send(formattedOffset);
 });
 
 app.get('/api/jour00h', (req, res) => {
     const { targetDate } = getDateAtMidnightZone();
-    res.setHeader('Content-Type', 'text/plain');
-    res.send(targetDate.getUTCDate().toString());
+    res.type('text/plain').send(targetDate.getUTCDate().toString());
 });
 
 app.get('/api/mois00h', (req, res) => {
     const { targetDate } = getDateAtMidnightZone();
-    res.setHeader('Content-Type', 'text/plain');
-    res.send((targetDate.getUTCMonth() + 1).toString());
+    res.type('text/plain').send((targetDate.getUTCMonth() + 1).toString());
 });
 // ----------------------------------------------------------------------
 
-// Route POST - Inchangée et robuste
+// Route POST Compteur Serveur
 app.post('/api/serveur-counte', (req, res) => {
     const clientKey = req.headers['key'];
     
@@ -74,7 +82,7 @@ app.post('/api/serveur-counte', (req, res) => {
 
     if (incomingCount !== null && incomingCount !== undefined) {
         serverCount = String(incomingCount).trim();
-        lastUpdate = Date.now(); // Met à jour le timestamp d'activité
+        lastUpdate = Date.now();
 
         console.log(`[Bot] Compteur mis à jour avec succès : ${serverCount}`);
         return res.json({ success: true, message: "Compteur mis a jour", current: serverCount });
@@ -84,9 +92,8 @@ app.post('/api/serveur-counte', (req, res) => {
     res.status(400).json({ error: "Donnees manquantes" });
 });
 
-// Route GET - Retour à la logique d'origine avec l'ajout d'online
+// Route GET Stats
 app.get('/api/stats', (req, res) => {
-    // Calcul de l'inactivité (10 minutes = 600 000 ms)
     const tenMinutes = 10 * 60 * 1000;
     const isOnline = (Date.now() - lastUpdate) < tenMinutes;
 
@@ -100,19 +107,17 @@ app.get('/api/stats', (req, res) => {
     });
 });
 
-// Redirection d'accueil selon la langue
+// ------------- REDIRECTIONS DE LANGUE -------------
 app.get(['/', '/index.html'], (req, res) => {
     const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
     res.redirect(`/${targetLang}`);
 });
 
-// Redirection de la documentation selon la langue
 app.get(['/help', '/help.html'], (req, res) => {
     const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
     res.redirect(`/${targetLang}/help`);
 });
 
-// ------------- NOUVELLES REDIRECTIONS LÉGALES -------------
 app.get(['/legal', '/legal.html'], (req, res) => {
     const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
     res.redirect(`/${targetLang}/legal`);
@@ -127,32 +132,33 @@ app.get(['/privacy', '/privacy.html'], (req, res) => {
     const targetLang = req.acceptsLanguages(['fr', 'en']) || 'en';
     res.redirect(`/${targetLang}/legal#privacy`);
 });
-// ---------------------------------------------------------
+// --------------------------------------------------
 
-// Gestion des fichiers statiques restants
+// ROUTAGE ET CHARGEMENT DES PAGES HTML
 app.get('/*', (req, res, next) => {
     let reqPath = req.params[0] || req.path;
     if (reqPath.endsWith('/')) {
         reqPath += 'index';
     }
     const filePath = path.join(__dirname, 'public', `${reqPath}.html`);
+    
     res.sendFile(filePath, (err) => {
         if (err) {
             const indexPath = path.join(__dirname, 'public', reqPath, 'index.html');
             res.sendFile(indexPath, (err2) => {
                 if (err2) {
-                    next();
+                    next(); // Passe au middleware 404
                 }
             });
         }
     });
 });
 
-// Gestion de la page 404
+// GESTION ERREUR 404 (Code statut HTTP 404 explicite)
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
 app.listen(PORT, () => {
-    console.log(`Serveur lance sur le port ${PORT}`);
+    console.log(`Serveur lancé sur le port ${PORT}`);
 });
