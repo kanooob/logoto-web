@@ -3,14 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logoto - Automatisez l'image de votre serveur</title>
 
+    <!-- SEO Principal -->
+    <title>Logoto | Bot Discord d'Automatisation d'Identité Visuelle</title>
+    <meta name="description" content="Automatisez l'image de votre serveur Discord. Changez et planifiez automatiquement votre logo, bannière, nom et fond d'invitation sans effort.">
+    <link rel="canonical" href="https://logoto.onrender.com/fr">
+
+    <!-- Directives Robots -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+
+    <!-- Liens Multilingues (Hreflang) -->
+    <link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr">
+    <link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en">
+    <link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/fr">
+
+    <!-- Open Graph (Discord, Facebook, LinkedIn) -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Logoto">
+    <meta property="og:url" content="https://logoto.onrender.com/fr">
+    <meta property="og:title" content="Logoto | Bot Discord d'Automatisation d'Identité Visuelle">
+    <meta property="og:description" content="Automatisez l'image de votre serveur Discord. Changez et planifiez automatiquement votre logo, bannière, nom et fond d'invitation sans effort.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
+    <meta property="og:image:alt" content="Logo Officiel du Bot Logoto">
+    <meta property="og:locale" content="fr_FR">
+    <meta name="theme-color" content="#8c935d">
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Logoto | Bot Discord d'Automatisation d'Identité Visuelle">
+    <meta name="twitter:description" content="Automatisez l'image de votre serveur Discord. Changez et planifiez automatiquement votre logo, bannière, nom et fond d'invitation sans effort.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
+
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
 
-    <meta property="og:title" content="LOGOTO - Automatisez l'image de votre serveur">
-    <meta property="og:description" content="Générez et changez automatiquement le logo, la bannière et le nom de votre serveur Discord en un clic.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
-    <meta name="theme-color" content="#8c935d">
+    <!-- Données Structurées Schema.org (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Logoto",
+      "operatingSystem": "Discord",
+      "applicationCategory": "UtilitiesApplication",
+      "description": "Bot Discord permettant de planifier et d'automatiser les changements de logo, nom, bannière et fond d'invitation de votre serveur.",
+      "image": "https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png",
+      "url": "https://logoto.onrender.com/fr",
+      "inLanguage": "fr-FR",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      }
+    }
+    </script>
 
     <style>
         :root {
@@ -118,22 +164,24 @@
             font-weight: bold;
             cursor: pointer;
             font-size: 14px;
-            padding: 5px;
+            padding: 10px 5px;
             text-decoration: none;
         }
 
         .lang-dropdown {
-            display: none;
+            opacity: 0;
+            visibility: hidden;
             position: absolute;
             top: 100%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateY(5px);
             background-color: var(--gris-footer);
             border: 1px solid var(--vert-olive);
             border-radius: 4px;
-            min-width: 50px;
+            min-width: 60px;
             text-align: center;
             z-index: 10;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
         }
 
         .lang-dropdown a {
@@ -149,8 +197,11 @@
             background-color: var(--vert-olive);
         }
 
-        .lang-container:hover .lang-dropdown {
-            display: block;
+        .lang-container:hover .lang-dropdown,
+        .lang-container:focus-within .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
 
         .btn-nav {
@@ -407,7 +458,7 @@
 <body>
 
     <header>
-        <a href="/" class="logo-container">
+        <a href="/fr" class="logo-container">
             <img src="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png" alt="Logo LOGOTO" class="logo-img">
             <div class="logo-text">Logoto</div>
         </a>
@@ -471,7 +522,7 @@
             <div class="footer-links">
                 <a href="https://logoto.betteruptime.com/" target="_blank" rel="noopener">Statut</a>
                 <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener">GitHub</a>
-                <a href="/fr/legal#tos">UGC</a>
+                <a href="/fr/legal#tos">CGU</a>
                 <a href="/fr/legal#privacy">Confidentialité</a>
             </div>
         </div>
@@ -500,14 +551,12 @@
             })
             .catch(err => {
                 console.error("Impossible de charger les statistiques :", err);
-
                 document.getElementById('status-emoji').textContent = "☁️ ";
             });
+
         window.addEventListener("DOMContentLoaded", () => {
-    // Mise à jour automatique de l'année dans le footer
-    document.getElementById('year').textContent = new Date().getFullYear();
-    updateContent();
-});
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
     </script>
 
 </body>
