@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aide et Commandes Logoto</title>
-    <meta name="description" content="Guide officiel du bot Discord Logoto. Découvrez toutes les commandes (/setup, /help, /add-an-event) pour automatiser le changement de logo, nom, bannière et image d'invitation de votre serveur.">
+    <meta name="description" content="Guide officiel du bot Discord Logoto. Découvrez toutes les commandes (/setup, /help, /add-an-event, /timezone) pour automatiser le changement de logo, nom, bannière et image d'invitation de votre serveur.">
     <link rel="canonical" href="https://logoto.onrender.com/fr/help">
 
     <link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr/help">
@@ -649,6 +649,7 @@
         <aside class="sidebar" id="sidebar-menu">
             <a href="#setup" class="setup">Setup</a>
             <a href="#how-it-works">Fonctionnement</a>
+            <a href="#timezone">Fuseau horaire</a>
             <a href="#commands">Commandes</a>
             <a href="#events">Ajouter un événement</a>
             <a href="#links">Liens d'images</a>
@@ -679,32 +680,48 @@
                 <p>Logoto surveille de manière autonome la présence de salons textuels spécifiques au sein de votre serveur Discord pour planifier et exécuter vos mises à jour esthétiques.</p>
                 
                 <div class="note" style="margin-bottom: 20px; background-color: #2b3a2e; border-left: 5px solid var(--vert-olive-clair);">
-                    <strong>Planification horaire :</strong> Toutes les mises à jour et vérifications automatiques configurées sur votre serveur s'exécutent chaque jour précisément à <strong>00h00 UTC</strong>.
+                    <strong>Planification horaire :</strong> Par défaut, toutes les mises à jour et vérifications automatiques configurées sur votre serveur s'exécutent chaque jour à <strong>00h00 UTC</strong> (modifiable via la section <a href="#timezone" style="color: var(--vert-olive-clair); font-weight: bold;">Fuseau horaire</a>).
                 </div>
 
                 <h2>Règles de priorité et limites</h2>
                 <p>Pour garantir la stabilité du serveur et respecter les quotas de l'API Discord, Logoto applique des règles strictes de gestion quotidienne :</p>
                 <ol>
                     <li><strong>Un seul changement par type et par jour :</strong> Le nom du serveur peut changer une fois par jour, le logo une fois, la bannière une fois, et le fond d'invitation une fois.</li>
-                    <li><strong>Modifications simultanées :</strong> Il est tout à fait possible de changer le logo ET le nom (ou tout autre élément) le même jour. Les deux actions s'exécuteront à 00h00 UTC.</li>
+                    <li><strong>Modifications simultanées :</strong> Il est tout à fait possible de changer le logo ET le nom (ou tout autre élément) le même jour. Les deux actions s'exécuteront à l'heure planifiée.</li>
                     <li><strong>Gestion des doublons (Priorité visuelle) :</strong> Si vous avez créé par erreur plusieurs salons pour le même élément le même jour (par exemple deux salons <code>l-25-12</code> avec des logos différents), <strong>c'est le salon situé le plus haut dans la liste de vos catégories Discord qui prime</strong> et qui sera appliqué par le bot.</li>
                 </ol>
             </section>
 
-            <!-- SECTION 3: COMMANDS -->
+            <!-- SECTION 3: TIMEZONE -->
+            <section id="timezone" class="doc-section">
+                <h1>Fuseau Horaire (Timezone)</h1>
+                <p>Par défaut, Logoto exécute toutes les mises à jour programmées à <strong>00h00 UTC</strong>. Si votre serveur se situe dans une autre région du monde, vous pouvez ajuster le fuseau horaire afin que les événements se déclenchent exactement à minuit dans votre heure locale.</p>
+                
+                <h2>Configuration de l'heure d'exécution</h2>
+                <ul class="command-list">
+                    <li><code>/timezone region:</code> : Permet de définir le fuseau horaire de votre serveur Discord (ex: <code>Europe/Paris</code>, <code>America/New_York</code>).</li>
+                </ul>
+
+                <div class="note">
+                    <strong>À savoir :</strong> La modification du fuseau horaire recalcule automatiquement l'heure des prochains changements planifiés. Assurez-vous d'utiliser une région valide au format officiel IANA (ex: <code>Continent/Ville</code>).
+                </div>
+            </section>
+
+            <!-- SECTION 4: COMMANDS -->
             <section id="commands" class="doc-section">
                 <h1>Les Commandes du Bot Logoto</h1>
                 <p>Découvrez la liste complète des commandes intégrées disponibles directement avec le système de Slash Commands de Discord :</p>
                 <ul class="command-list">
                     <li><code>/setup</code> : Crée les salons requis (Logoto, log-logoto) pour un démarrage rapide, indispensable pour le bon fonctionnement du bot.</li>
                     <li><code>/add-an-event type: jour: mois:</code> : Crée un salon d'événement avec les options : [type] (obligatoire) pour le type d'événement (logo/name/banner/image invite), [day] (obligatoire) pour le jour de changement, et [month] (obligatoire) pour le mois de changement.</li>
+                    <li><code>/timezone region:</code> : Définit ou modifie le fuseau horaire utilisé pour le déclenchement quotidien des événements.</li>
                     <li><code>/about</code> : Affiche les informations sur le bot, les liens d'invitation et les options de support.</li>
                     <li><code>/help</code> : Affiche ce message d'aide (ou cette page de documentation).</li>
                     <li><code>/ping</code> : Obtenez le ping du bot.</li>
                 </ul>
             </section>
 
-            <!-- SECTION 4: EVENTS -->
+            <!-- SECTION 5: EVENTS -->
             <section id="events" class="doc-section">
                 <h1>Ajouter un événement</h1>
                 <p>Découvrez les détails de mise en place ci-dessous pour chaque type d'élément graphique ou textuel planifiable sur votre serveur Discord :</p>
@@ -751,7 +768,7 @@
                                 <ul><li>Modifiez le <strong>Sujet du Salon</strong> (Channel Topic) du salon textuel créé à l'étape 1 et collez l'<strong>URL permanente de l'image</strong> dedans.</li></ul>
                             </li>
                             <li><strong>Résultat :</strong>
-                                <ul><li>Le bot changera automatiquement la photo de profil du serveur au jour et au mois indiqués à 00h00 UTC. En cas de doublons de salons de logo, celui placé le plus haut l'emportera.</li></ul>
+                                <ul><li>Le bot changera automatiquement la photo de profil du serveur au jour et au mois indiqués à l'heure configurée. En cas de doublons de salons de logo, celui placé le plus haut l'emportera.</li></ul>
                             </li>
                         </ol>
                     </div>
@@ -769,7 +786,7 @@
                                 <li>Écrivez textuellement le <strong>nouveau nom complet</strong> que devra prendre le serveur directement dans le sujet.</li></ul>
                             </li>
                             <li><strong>Résultat :</strong>
-                                <ul><li>Le bot appliquera automatiquement le nouveau nom au jour et au mois spécifiés à 00h00 UTC (limité à un seul changement de nom par jour, priorité au salon le plus haut).</li></ul>
+                                <ul><li>Le bot appliquera automatiquement le nouveau nom au jour et au mois spécifiés à l'heure configurée (limité à un seul changement de nom par jour, priorité au salon le plus haut).</li></ul>
                             </li>
                         </ol>
                     </div>
@@ -793,7 +810,7 @@
                                 <ul><li>Collez simplement ce lien permanent d'image dans le <strong>Sujet du Salon</strong> (Channel Topic).</li></ul>
                             </li>
                             <li><strong>Résultat :</strong>
-                                <ul><li>Logoto appliquera la bannière en arrière-plan au jour choisi à 00h00 UTC. Si plusieurs salons de bannières existent, celui situé le plus haut dans la liste sera traité.</li></ul>
+                                <ul><li>Logoto appliquera la bannière en arrière-plan au jour choisi à l'heure configurée. Si plusieurs salons de bannières existent, celui situé le plus haut dans la liste sera traité.</li></ul>
                             </li>
                         </ol>
                     </div>
@@ -817,14 +834,14 @@
                                 <ul><li>Collez le lien permanent de l'image de fond directement dans le <strong>Sujet du Salon</strong> (Channel Topic).</li></ul>
                             </li>
                             <li><strong>Résultat :</strong>
-                                <ul><li>Dès l'arrivée du jour choisi à 00h00 UTC, l'illustration viendra habiller vos fiches d'invitations web (priorité absolue au salon le plus haut en cas de doublons).</li></ul>
+                                <ul><li>Dès l'arrivée du jour choisi à l'heure configurée, l'illustration viendra habiller vos fiches d'invitations web (priorité absolue au salon le plus haut en cas de doublons).</li></ul>
                             </li>
                         </ol>
                     </div>
                 </div>
             </section>
 
-            <!-- SECTION 5: LINKS -->
+            <!-- SECTION 6: LINKS -->
             <section id="links" class="doc-section">
                 <h1>Obtenir un lien d'image persistant</h1>
                 <p>Pour que Logoto puisse appliquer vos logos, bannières ou images d'invitation à l'avenir, l'URL que vous lui fournissez doit rester accessible de manière permanente. Comme <strong>les liens directs Discord expirent rapidement</strong>, vous devez utiliser une solution tierce d'hébergement permanent.</p>
