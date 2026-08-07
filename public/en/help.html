@@ -358,6 +358,7 @@
         body.js-enabled .mini-tab-content {
             display: none;
             margin-top: 10px;
+            animation: fadeIn 0.3s ease-out;
         }
 
         body.js-enabled .mini-tab-content.active-mini-content {
@@ -984,7 +985,7 @@
                 });
                 const activeContent = document.getElementById(methodId);
                 if (activeContent) {
-                    activeContent.classList.add('active-content');
+                    activeContent.classList.add('active-mini-content');
                 }
             });
         });
