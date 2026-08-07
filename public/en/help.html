@@ -3,29 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logoto Help & Commands</title>
+
+    <!-- Primary SEO -->
+    <title>Logoto Help & Commands | Discord Automation Bot</title>
     <meta name="description" content="Official configuration guide for the Logoto Discord bot. Explore all integrated commands (/setup, /help, /add-an-event) to effortlessly automate server icons, names, banners, and splashes.">
     <link rel="canonical" href="https://logoto.onrender.com/en/help">
 
+    <!-- Robots & Google Directives -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+
+    <!-- Multilingual Alternate Links -->
     <link rel="alternate" hreflang="fr" href="https://logoto.onrender.com/fr/help">
     <link rel="alternate" hreflang="en" href="https://logoto.onrender.com/en/help">
     <link rel="alternate" hreflang="x-default" href="https://logoto.onrender.com/fr/help">
 
+    <!-- Open Graph (Discord, Facebook, LinkedIn) -->
     <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Logoto">
     <meta property="og:url" content="https://logoto.onrender.com/en/help">
     <meta property="og:title" content="Help & Commands | Logoto Discord Bot">
     <meta property="og:description" content="The comprehensive step-by-step tutorial to configure your Discord server automation.">
     <meta property="og:image" content="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
+    <meta property="og:image:alt" content="Logoto Discord Bot Official Icon">
     <meta property="og:locale" content="en_US">
     <meta name="theme-color" content="#8c935d">
 
+    <!-- Twitter / X Cards -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Help & Commands | Logoto Discord Bot">
     <meta name="twitter:description" content="The comprehensive step-by-step tutorial to configure your Discord server automation.">
     <meta name="twitter:image" content="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
 
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png">
 
+    <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -34,6 +47,10 @@
       "description": "Learn how to easily deploy and run all Logoto actions to fully automate your Discord server's profiles, visual themes, and assets.",
       "image": "https://raw.githubusercontent.com/kanooob/logoto-web/refs/heads/main/icon.png",
       "inLanguage": "en-US",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://logoto.onrender.com/en/help"
+      },
       "author": {
         "@type": "Organization",
         "name": "Logoto",
@@ -520,7 +537,7 @@
 
         footer {
             background-color: var(--gris-footer);
-            padding: 25px 50px;
+            padding: 20px 50px;
             width: 100%;
             margin-top: auto;
         }
@@ -649,6 +666,7 @@
         <aside class="sidebar" id="sidebar-menu">
             <a href="#setup" class="setup">Setup</a>
             <a href="#how-it-works">How It Works</a>
+            <a href="#timezone">Time Zone</a>
             <a href="#commands">Commands</a>
             <a href="#events">Add an Event</a>
             <a href="#links">Image Links</a>
@@ -667,7 +685,7 @@
                     <li><code>/setup</code> : The essential first command. Automatically builds the required category and logging channels (Logoto, log-logoto) for a quick launch.</li>
                 </ul>
                 <div class="note">
-                    <strong>IMPORTANT NOTE:</strong> The channel named <code>log-logoto</code> <strong>must exist</strong> on your server to handle automatic operation diagnostics.
+                    <strong>IMPORTANT NOTE:</strong> The channel named <code>log-logoto</code> <strong>must exist</strong> on your server to handle automatic operation diagnostics and time zone configuration.
                     <br><br>
                     The bot uses this channel to post daily engineering load logs (<code>l-Loading</code>, <code>n-Loading</code>, <code>b-Loading</code>, or <code>i-Loading</code>). Note that <strong>these updates are only generated if an automated asset swap is actively scheduled for that specific date</strong>. If no event is registered, no text is sent. The <code>/setup</code> command configures this safely for you.
                 </div>
@@ -679,32 +697,52 @@
                 <p>Logoto autonomously scans for the presence of specific scheduled text channels inside your Discord server to index, stage, and execute your visual updates.</p>
                 
                 <div class="note" style="margin-bottom: 20px; background-color: #2b3a2e; border-left: 5px solid var(--vert-olive-clair);">
-                    <strong>Cron Schedule:</strong> All automated verifications and server adjustments apply systematically every day at exactly <strong>00:00 UTC</strong>.
+                    <strong>Schedule:</strong> By default, all automated verifications and server adjustments apply systematically every day at exactly <strong>00:00 UTC</strong> (if no offset is specified). You can customize your server's global execution time directly in the topic of the <code>log-logoto</code> channel (see the <a href="#timezone" style="color: var(--vert-olive-clair); font-weight: bold;">Time Zone</a> section).
                 </div>
 
                 <h2>Priority Rules & Limitations</h2>
                 <p>To preserve server stability and comply with standard Discord API rate limits, Logoto follows specific handling parameters:</p>
                 <ol>
                     <li><strong>One alteration per asset type daily:</strong> The server name can change once per day, the server icon once, the banner once, and the invitation background splash once.</li>
-                    <li><strong>Simultaneous edits:</strong> You can perfectly combine icon adjustments AND a server name update (or any other type) on the exact same calendar date. Both updates execute at 00:00 UTC.</li>
-                    <li><strong>Duplicate channels (Visual Priority):</strong> If you accidentially build multiple channels for the same asset type on the same date (e.g., two <code>l-25-12</code> channels containing different icons), <strong>the channel nested highest up in your Discord category list takes absolute priority</strong> and its asset will be applied.</li>
+                    <li><strong>Simultaneous edits:</strong> You can perfectly combine icon adjustments AND a server name update (or any other type) on the exact same calendar date. Both updates execute at the scheduled time.</li>
+                    <li><strong>Duplicate channels (Visual Priority):</strong> If you accidentally build multiple channels for the same asset type on the same date (e.g., two <code>l-25-12</code> channels containing different icons), <strong>the channel nested highest up in your Discord category list takes absolute priority</strong> and its asset will be applied.</li>
                 </ol>
             </section>
 
-            <!-- SECTION 3: COMMANDS -->
+            <!-- SECTION 3: TIMEZONE -->
+            <section id="timezone" class="doc-section">
+                <h1>Time Zone</h1>
+                <p>By default, Logoto executes server modifications at <strong>00:00 UTC</strong> if no custom value is specified in the log channel topic.</p>
+                <p>To adjust the execution time to match your local time zone, simply add your preferred UTC offset value into the <strong>Channel Topic</strong> of the <code>log-logoto</code> channel.</p>
+
+                <h2>Accepted Offset Formats</h2>
+                <ul class="command-list">
+                    <li><strong>Leave empty</strong> or enter <code>+0</code>: Execution at 00:00 UTC (default).</li>
+                    <li><strong>Positive offsets:</strong> <code>+1</code>, <code>+2</code>, <code>+3</code>, <code>+4</code>, <code>+5</code>, <code>+6</code>, <code>+7</code>, <code>+8</code>, <code>+9</code>, <code>+10</code>, <code>+11</code>, <code>+12</code></li>
+                    <li><strong>Negative offsets:</strong> <code>-1</code>, <code>-2</code>, <code>-3</code>, <code>-4</code>, <code>-6</code>, <code>-7</code>, <code>-8</code>, <code>-9</code>, <code>-10</code>, <code>-11</code></li>
+                </ul>
+
+                <div class="note">
+                    <strong>Usage Example:</strong><br>
+                    To trigger your server events aligned with Central European Summer Time (UTC+2), simply paste the following into the <code>log-logoto</code> channel topic:<br>
+                    <code>+2</code>
+                </div>
+            </section>
+
+            <!-- SECTION 4: COMMANDS -->
             <section id="commands" class="doc-section">
                 <h1>Logoto Bot Commands</h1>
                 <p>Explore the complete list of built-in features accessible straight out of the box using Discord's official Slash Commands:</p>
                 <ul class="command-list">
                     <li><code>/setup</code> : The essential first command. Automatically builds the required category and logging channels (Logoto, log-logoto) for a quick launch.</li>
-                    <li><code>/add-an-event type: day: month:</code> : Instantly creates a formatting-compliant text channel to schedule your future visual updates under the specified category.</li>
-                    <li><code>/about</code> : Returns technical data regarding the engine's real-time operational status, creator information, and cluster health.</li>
+                    <li><code>/add-an-event type: day: month:</code> : Instantly creates a formatting-compliant text channel to schedule future visual updates with parameters: [type] for event type (logo/name/banner/invite image), [day] for the change day, and [month] for the change month.</li>
+                    <li><code>/about</code> : Displays bot information, invite links, and support options.</li>
                     <li><code>/help</code> : Displays the operational dashboard commands directory (or opens this index).</li>
                     <li><code>/ping</code> : Tests connection latency between the bot framework and Discord's internal API gateways.</li>
                 </ul>
             </section>
 
-            <!-- SECTION 4: EVENTS -->
+            <!-- SECTION 5: EVENTS -->
             <section id="events" class="doc-section">
                 <h1>Add an Event</h1>
                 <p>Select a graphic or textual element below to display its detailed step-by-step scheduling implementation guide:</p>
@@ -751,7 +789,7 @@
                                 <ul><li>Open the settings of the channel created in step 1, select the <strong>Channel Topic</strong> input box, and paste your <strong>permanent direct asset URL</strong> inside.</li></ul>
                             </li>
                             <li><strong>Execution:</strong>
-                                <ul><li>The bot processes the file and updates the server's icon at exactly 00:00 UTC on the chosen date. In case of channel duplication, the highest channel takes priority.</li></ul>
+                                <ul><li>The bot processes the file and updates the server's icon at the scheduled time on the chosen date. In case of channel duplication, the highest channel takes priority.</li></ul>
                             </li>
                         </ol>
                     </div>
@@ -769,7 +807,7 @@
                                 <li>Type your <strong>complete new server text string</strong> directly into the <strong>Channel Topic</strong> text input area.</li></ul>
                             </li>
                             <li><strong>Execution:</strong>
-                                <ul><li>The bot updates the server title string at 00:00 UTC on the scheduled month and day (limited to one name switch daily, top channel rule applies).</li></ul>
+                                <ul><li>The bot updates the server title string at the scheduled time on the specified month and day (limited to one name switch daily, top channel rule applies).</li></ul>
                             </li>
                         </ol>
                     </div>
@@ -793,7 +831,7 @@
                                 <ul><li>Paste this permanent direct image link into your channel's <strong>Channel Topic</strong> configuration box.</li></ul>
                             </li>
                             <li><strong>Execution:</strong>
-                                <ul><li>Logoto applies the graphic asset to your server banner at 00:00 UTC. If multiple banner event channels exist for this day, only the highest one is compiled.</li></ul>
+                                <ul><li>Logoto applies the graphic asset to your server banner at the scheduled time. If multiple banner event channels exist for this day, only the highest one is compiled.</li></ul>
                             </li>
                         </ol>
                     </div>
@@ -817,14 +855,14 @@
                                 <ul><li>Paste your permanent direct image URL straight into the channel's <strong>Channel Topic</strong> input area.</li></ul>
                             </li>
                             <li><strong>Execution:</strong>
-                                <ul><li>As soon as the target day reaches 00:00 UTC, the illustration rolls out onto your web invite screens (highest listed channel takes priority if duplicate channels exist).</li></ul>
+                                <ul><li>As soon as the target day reaches the scheduled time, the illustration rolls out onto your web invite screens (highest listed channel takes priority if duplicate channels exist).</li></ul>
                             </li>
                         </ol>
                     </div>
                 </div>
             </section>
 
-            <!-- SECTION 5: LINKS -->
+            <!-- SECTION 6: LINKS -->
             <section id="links" class="doc-section">
                 <h1>Get a Permanent Image Link</h1>
                 <p>For Logoto to properly retrieve and deploy your icons, banners, or splashes down the line, the provided URL destination must remain permanently online. Because <strong>direct Discord URLs break quickly</strong>, you must rely on a dedicated third-party asset hosting platform.</p>
@@ -880,9 +918,9 @@
             <p>&copy; <span id="year"></span> Logoto. All rights reserved.</p>
             <div class="footer-links">
                 <a href="https://logoto.betteruptime.com/" target="_blank" rel="noopener">Status</a>
+                <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <a href="/en/legal#tos">Terms of Service (ToS)</a>
                 <a href="/en/legal#privacy">Privacy Policy</a>
-                <a href="https://github.com/kanooob/Logoto" target="_blank" rel="noopener noreferrer">Source Code</a>
             </div>
         </div>
     </footer>
@@ -946,7 +984,7 @@
                 });
                 const activeContent = document.getElementById(methodId);
                 if (activeContent) {
-                    activeContent.classList.add('active-mini-content');
+                    activeContent.classList.add('active-content');
                 }
             });
         });
