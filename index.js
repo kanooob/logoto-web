@@ -43,7 +43,7 @@ app.get('/api/status', async (req, res) => {
     }
 
     try {
-        const response = await fetch('https://logoto.betteruptime.com/fr/index.json');
+        const response = await fetch('https://logoto.betteruptime.com/index.json');
         if (!response.ok) throw new Error('Erreur réseau BetterUptime');
 
         const json = await response.json();
