@@ -530,9 +530,7 @@
 
                 <div class="badge-servers">
                     <span id="bot-dot" class="status-dot"></span>
-                    <span id="bot-text">Vérification de Logoto Bot...</span>
-                    <span style="opacity: 0.3;">|</span>
-                    <strong id="bot-avail">--%</strong>
+                    <span id="bot-text">Fiabilité : --%</span>
                 </div>
             </div>
         </div>
@@ -601,24 +599,20 @@
             .then(data => {
                 const botDot = document.getElementById('bot-dot');
                 const botText = document.getElementById('bot-text');
-                const botAvail = document.getElementById('bot-avail');
 
                 if (data && data.success && data.services && data.services.length > 0) {
                     const bot = data.services[0];
                     const isOperational = bot.status === 'operational';
 
                     botDot.className = `status-dot ${isOperational ? 'online' : 'offline'}`;
-                    botText.textContent = isOperational ? 'Logoto Bot opérationnel' : 'Logoto Bot hors ligne';
-                    botAvail.textContent = `${bot.availability}%`;
+                    botText.textContent = `Fiabilité : ${bot.availability}%`;
                 } else {
-                    botText.textContent = 'Statut indisponible';
-                    botAvail.textContent = '--%';
+                    botText.textContent = 'Fiabilité : Indisponible';
                 }
             })
             .catch(err => {
                 console.error("Impossible de charger l'état du bot :", err);
-                document.getElementById('bot-text').textContent = 'Statut indisponible';
-                document.getElementById('bot-avail').textContent = '--%';
+                document.getElementById('bot-text').textContent = 'Fiabilité : Indisponible';
             });
 
         window.addEventListener("DOMContentLoaded", () => {
