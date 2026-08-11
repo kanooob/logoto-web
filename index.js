@@ -10,6 +10,12 @@ let serverCount = "0";
 let lastUpdate = Date.now();
 const SECRET_KEY = process.env.SECRET_KEY;
 
+// ------------- CACHE BETTER UPTIME -------------
+let uptimeCache = null;
+let uptimeCacheTime = 0;
+const UPTIME_CACHE_DURATION = 5 * 60 * 1000; // 5 minutes de cache
+// -----------------------------------------------
+
 // Serveur de fichiers statiques (CSS, JS, images) avec option de cache
 app.use(express.static(path.join(__dirname, 'public'), {
     maxAge: '1d'
@@ -26,6 +32,56 @@ app.get('/sitemap.xml', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'sitemap.xml'));
 });
 // -------------------------------------------------------------
+
+// ------------- ROUTE STATUS BETTER UPTIME (AVEC CACHE) -------------
+app.get('/api/status', async (req, res) => {
+    const now = Date.now();
+
+    // Si nous avons un cache valide (moins de 5 minutes), on le renvoie directement
+    if (uptimeCache && (now - uptimeCacheTime < UPTIME_CACHE_DURATION)) {
+        return res.json(uptimeCache);
+    }
+
+    try {
+        const response = await fetch('https://logoto.betteruptime.com/fr/index.json');
+        if (!response.ok) throw new Error('Erreur réseau BetterUptime');
+
+        const json = await response.json();
+
+        const services = json.data.map(item => ({
+            name: item.attributes.name,
+            status: item.attributes.status,
+            availability: item.attributes.availability,
+            ping: item.attributes.last_response_time || item.attributes.response_time || 0
+        }));
+
+        // Calcul des moyennes
+        const totalAvailability = services.reduce((acc, s) => acc + (parseFloat(s.availability) || 0), 0);
+        const totalPing = services.reduce((acc, s) => acc + (parseInt(s.ping) || 0), 0);
+
+        uptimeCache = {
+            success: true,
+            globalAvailability: services.length ? (totalAvailability / services.length).toFixed(2) : "100",
+            globalPing: services.length ? Math.round(totalPing / services.length) : 0,
+            services: services,
+            cachedAt: new Date().toISOString()
+        };
+
+        uptimeCacheTime = now;
+        res.json(uptimeCache);
+
+    } catch (error) {
+        console.error("Erreur récupération BetterUptime:", error.message);
+
+        // Si BetterUptime échoue mais qu'on a un vieux cache, on renvoie le vieux cache en fallback
+        if (uptimeCache) {
+            return res.json(uptimeCache);
+        }
+
+        res.status(500).json({ success: false, error: 'Impossible de récupérer le statut' });
+    }
+});
+// ------------------------------------------------------------------
 
 // ------------- UTILITAIRE & ROUTES API FUSEAU / DATE 00H -------------
 function getDateAtMidnightZone() {
