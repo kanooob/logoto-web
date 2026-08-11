@@ -301,6 +301,13 @@
             transform: translateY(-2px);
         }
 
+        .badges-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
         .badge-servers {
             border: 1px solid rgba(140, 147, 93, 0.4);
             background-color: rgba(140, 147, 93, 0.1);
@@ -311,7 +318,28 @@
             opacity: 0.9;
             font-weight: 600;
             letter-spacing: 0.5px;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #888;
+            box-shadow: 0 0 6px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .status-dot.online {
+            background-color: var(--vert-status);
+            box-shadow: 0 0 8px rgba(67, 181, 129, 0.5);
+        }
+
+        .status-dot.offline {
+            background-color: var(--rouge-status);
+            box-shadow: 0 0 8px rgba(240, 71, 71, 0.5);
         }
 
         .features-grid {
@@ -353,59 +381,6 @@
             opacity: 0.8;
             line-height: 1.5;
         }
-
-        /* ------------- SECTION STATUT BOT (COMPACT) ------------- */
-        .status-section {
-            width: 100%;
-            margin-top: 25px;
-        }
-
-        .bot-status-card {
-            background-color: var(--gris-card);
-            border-radius: 20px;
-            padding: 8px 18px;
-            border: 1px solid rgba(140, 147, 93, 0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .status-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #888;
-            box-shadow: 0 0 6px rgba(0,0,0,0.3);
-            flex-shrink: 0;
-        }
-
-        .status-dot.online {
-            background-color: var(--vert-status);
-            box-shadow: 0 0 8px rgba(67, 181, 129, 0.5);
-        }
-
-        .status-dot.offline {
-            background-color: var(--rouge-status);
-            box-shadow: 0 0 8px rgba(240, 71, 71, 0.5);
-        }
-
-        .service-title {
-            font-weight: 600;
-            font-size: 13px;
-        }
-
-        .service-details {
-            font-size: 13px;
-            opacity: 0.7;
-        }
-        /* ----------------------------------------------- */
 
         footer {
             background-color: var(--gris-footer);
@@ -503,12 +478,6 @@
                 width: 100%;
             }
 
-            .bot-status-card {
-                flex-direction: row;
-                align-items: center;
-                gap: 8px;
-            }
-
             .footer-content {
                 flex-direction: column;
                 gap: 15px;
@@ -554,8 +523,17 @@
                 <a href="/fr/help" class="btn btn-secondary">En savoir plus</a>
             </div>
 
-            <div class="badge-servers">
-                <span id="status-emoji">⚡ </span>Utilisé sur <span id="server-count">plusieurs</span> serveurs
+            <div class="badges-container">
+                <div class="badge-servers">
+                    <span id="status-emoji">⚡ </span>Utilisé sur <span id="server-count">plusieurs</span> serveurs
+                </div>
+
+                <div class="badge-servers">
+                    <span id="bot-dot" class="status-dot"></span>
+                    <span id="bot-text">Vérification de Logoto Bot...</span>
+                    <span style="opacity: 0.3;">|</span>
+                    <strong id="bot-avail">--%</strong>
+                </div>
             </div>
         </div>
 
@@ -576,21 +554,6 @@
                 <p>Fini les modifications manuelles répétitives. Offrez à votre communauté une expérience visuelle toujours fraîche, sans effort de modération.</p>
             </div>
         </div>
-
-        <!-- ENCADRÉ STATUT LOGOTO BOT -->
-        <section class="status-section">
-            <div class="bot-status-card">
-                <div class="status-info">
-                    <span id="bot-dot" class="status-dot"></span>
-                    <span class="service-title" id="bot-text">Vérification de Logoto Bot...</span>
-                </div>
-                <span style="opacity: 0.3;">|</span>
-                <div class="service-details">
-                    <strong id="bot-avail">--%</strong>
-                </div>
-            </div>
-        </section>
-
     </main>
 
     <footer>
