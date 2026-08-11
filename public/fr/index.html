@@ -354,36 +354,23 @@
             line-height: 1.5;
         }
 
-        /* ------------- SECTION STATUT DE SERVICE ------------- */
+        /* ------------- SECTION STATUT BOT ------------- */
         .status-section {
             width: 100%;
-            margin-top: 60px;
-            text-align: left;
+            margin-top: 50px;
         }
 
-        .status-section h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-
-        .status-card {
+        .bot-status-card {
             background-color: var(--gris-card);
             border-radius: 12px;
-            padding: 20px 24px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 28px;
+            border: 1px solid rgba(140, 147, 93, 0.3);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
         }
 
         .status-info {
@@ -398,6 +385,7 @@
             border-radius: 50%;
             background-color: #888;
             box-shadow: 0 0 8px rgba(0,0,0,0.3);
+            flex-shrink: 0;
         }
 
         .status-dot.online {
@@ -410,28 +398,17 @@
             box-shadow: 0 0 10px rgba(240, 71, 71, 0.5);
         }
 
-        .service-name {
+        .service-title {
             font-weight: 700;
             font-size: 16px;
         }
 
         .service-details {
             font-size: 14px;
-            opacity: 0.7;
+            opacity: 0.85;
             text-align: right;
         }
-
-        .global-status-banner {
-            background-color: var(--gris-card);
-            border-radius: 12px;
-            padding: 16px 24px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(140, 147, 93, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        /* ----------------------------------------------------- */
+        /* ----------------------------------------------- */
 
         footer {
             background-color: var(--gris-footer);
@@ -477,7 +454,7 @@
         }
 
         @media (max-width: 900px) {
-            .features-grid, .status-grid {
+            .features-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
@@ -529,10 +506,15 @@
                 width: 100%;
             }
 
-            .global-status-banner {
+            .bot-status-card {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
+                align-items: center;
+                gap: 8px;
+                text-align: center;
+            }
+
+            .service-details {
+                text-align: center;
             }
 
             .footer-content {
@@ -603,22 +585,16 @@
             </div>
         </div>
 
-        <!-- SECTION ÉTAT DES SERVICES -->
+        <!-- ENCADRÉ STATUT LOGOTO BOT -->
         <section class="status-section">
-            <h2>📡 État des Services</h2>
-            
-            <div class="global-status-banner">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <span id="global-dot" class="status-dot"></span>
-                    <strong id="global-status-text">Chargement de l'état des services...</strong>
+            <div class="bot-status-card">
+                <div class="status-info">
+                    <span id="bot-dot" class="status-dot"></span>
+                    <span class="service-title" id="bot-text">Vérification de Logoto Bot...</span>
                 </div>
-                <div style="font-size: 14px; opacity: 0.8;">
-                    Disponibilité : <strong id="global-avail">--%</strong> | Latence : <strong id="global-ping">-- ms</strong>
+                <div class="service-details">
+                    Disponibilité : <strong id="bot-avail">--%</strong>
                 </div>
-            </div>
-
-            <div class="status-grid" id="services-container">
-                <!-- Les 2 cartes de services seront insérées dynamiquement par le script JS -->
             </div>
         </section>
 
@@ -637,7 +613,7 @@
     </footer>
 
     <script>
-        // Charging Stats
+        // Chargement des statistiques serveurs
         fetch('/api/stats')
             .then(response => response.json())
             .then(data => {
@@ -663,53 +639,28 @@
                 document.getElementById('status-emoji').textContent = "☁️ ";
             });
 
-        // Chargement du statut Better Uptime
+        // Chargement du statut unique du Bot
         fetch('/api/status')
             .then(res => res.json())
             .then(data => {
-                if (data && data.success) {
-                    document.getElementById('global-avail').textContent = `${data.globalAvailability}%`;
-                    document.getElementById('global-ping').textContent = `${data.globalPing} ms`;
+                const botDot = document.getElementById('bot-dot');
+                const botText = document.getElementById('bot-text');
+                const botAvail = document.getElementById('bot-avail');
 
-                    const globalDot = document.getElementById('global-dot');
-                    const globalText = document.getElementById('global-status-text');
+                if (data && data.success && data.services && data.services.length > 0) {
+                    const bot = data.services[0];
+                    const isOperational = bot.status === 'operational';
 
-                    const container = document.getElementById('services-container');
-                    container.innerHTML = '';
-
-                    let allOk = true;
-
-                    data.services.forEach(service => {
-                        const isOperational = service.status === 'operational';
-                        if (!isOperational) allOk = false;
-
-                        const card = document.createElement('div');
-                        card.className = 'status-card';
-                        card.innerHTML = `
-                            <div class="status-info">
-                                <span class="status-dot ${isOperational ? 'online' : 'offline'}"></span>
-                                <span class="service-name">${service.name}</span>
-                            </div>
-                            <div class="service-details">
-                                <div>${isOperational ? 'Operationnel' : 'Inaccessible'}</div>
-                                <div style="font-size: 12px; opacity: 0.6;">${service.ping} ms | ${service.availability}%</div>
-                            </div>
-                        `;
-                        container.appendChild(card);
-                    });
-
-                    if (allOk) {
-                        globalDot.className = 'status-dot online';
-                        globalText.textContent = 'Tous les systèmes sont opérationnels';
-                    } else {
-                        globalDot.className = 'status-dot offline';
-                        globalText.textContent = 'Certains services rencontrent un problème';
-                    }
+                    botDot.className = `status-dot ${isOperational ? 'online' : 'offline'}`;
+                    botText.textContent = isOperational ? 'Logoto Bot est opérationnel' : 'Logoto Bot rencontre un problème';
+                    botAvail.textContent = `${bot.availability}%`;
+                } else {
+                    botText.textContent = 'Impossible de vérifier le statut du bot';
                 }
             })
             .catch(err => {
-                console.error("Impossible de charger l'état des services :", err);
-                document.getElementById('global-status-text').textContent = 'Impossible de vérifier le statut';
+                console.error("Impossible de charger l'état du bot :", err);
+                document.getElementById('bot-text').textContent = 'Statut du bot indisponible';
             });
 
         window.addEventListener("DOMContentLoaded", () => {
