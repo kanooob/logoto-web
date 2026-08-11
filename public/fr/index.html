@@ -67,6 +67,8 @@
             --gris-discord: #36393f; 
             --gris-footer: #2f3136;
             --gris-card: #2f3136;
+            --vert-status: #43b581;
+            --rouge-status: #f04747;
         }
 
         * {
@@ -230,6 +232,7 @@
             max-width: 1200px;
             margin: 0 auto;
             animation: fadeInUp 0.8s ease-out;
+            width: 100%;
         }
 
         .hero-section {
@@ -351,6 +354,85 @@
             line-height: 1.5;
         }
 
+        /* ------------- SECTION STATUT DE SERVICE ------------- */
+        .status-section {
+            width: 100%;
+            margin-top: 60px;
+            text-align: left;
+        }
+
+        .status-section h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .status-card {
+            background-color: var(--gris-card);
+            border-radius: 12px;
+            padding: 20px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .status-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #888;
+            box-shadow: 0 0 8px rgba(0,0,0,0.3);
+        }
+
+        .status-dot.online {
+            background-color: var(--vert-status);
+            box-shadow: 0 0 10px rgba(67, 181, 129, 0.5);
+        }
+
+        .status-dot.offline {
+            background-color: var(--rouge-status);
+            box-shadow: 0 0 10px rgba(240, 71, 71, 0.5);
+        }
+
+        .service-name {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .service-details {
+            font-size: 14px;
+            opacity: 0.7;
+            text-align: right;
+        }
+
+        .global-status-banner {
+            background-color: var(--gris-card);
+            border-radius: 12px;
+            padding: 16px 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(140, 147, 93, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* ----------------------------------------------------- */
+
         footer {
             background-color: var(--gris-footer);
             padding: 20px 50px;
@@ -395,7 +477,7 @@
         }
 
         @media (max-width: 900px) {
-            .features-grid {
+            .features-grid, .status-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
@@ -445,6 +527,12 @@
             .btn {
                 text-align: center;
                 width: 100%;
+            }
+
+            .global-status-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
             }
 
             .footer-content {
@@ -514,6 +602,26 @@
                 <p>Fini les modifications manuelles répétitives. Offrez à votre communauté une expérience visuelle toujours fraîche, sans effort de modération.</p>
             </div>
         </div>
+
+        <!-- SECTION ÉTAT DES SERVICES -->
+        <section class="status-section">
+            <h2>📡 État des Services</h2>
+            
+            <div class="global-status-banner">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <span id="global-dot" class="status-dot"></span>
+                    <strong id="global-status-text">Chargement de l'état des services...</strong>
+                </div>
+                <div style="font-size: 14px; opacity: 0.8;">
+                    Disponibilité : <strong id="global-avail">--%</strong> | Latence : <strong id="global-ping">-- ms</strong>
+                </div>
+            </div>
+
+            <div class="status-grid" id="services-container">
+                <!-- Les 2 cartes de services seront insérées dynamiquement par le script JS -->
+            </div>
+        </section>
+
     </main>
 
     <footer>
@@ -529,6 +637,7 @@
     </footer>
 
     <script>
+        // Charging Stats
         fetch('/api/stats')
             .then(response => response.json())
             .then(data => {
@@ -552,6 +661,55 @@
             .catch(err => {
                 console.error("Impossible de charger les statistiques :", err);
                 document.getElementById('status-emoji').textContent = "☁️ ";
+            });
+
+        // Chargement du statut Better Uptime
+        fetch('/api/status')
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.success) {
+                    document.getElementById('global-avail').textContent = `${data.globalAvailability}%`;
+                    document.getElementById('global-ping').textContent = `${data.globalPing} ms`;
+
+                    const globalDot = document.getElementById('global-dot');
+                    const globalText = document.getElementById('global-status-text');
+
+                    const container = document.getElementById('services-container');
+                    container.innerHTML = '';
+
+                    let allOk = true;
+
+                    data.services.forEach(service => {
+                        const isOperational = service.status === 'operational';
+                        if (!isOperational) allOk = false;
+
+                        const card = document.createElement('div');
+                        card.className = 'status-card';
+                        card.innerHTML = `
+                            <div class="status-info">
+                                <span class="status-dot ${isOperational ? 'online' : 'offline'}"></span>
+                                <span class="service-name">${service.name}</span>
+                            </div>
+                            <div class="service-details">
+                                <div>${isOperational ? 'Operationnel' : 'Inaccessible'}</div>
+                                <div style="font-size: 12px; opacity: 0.6;">${service.ping} ms | ${service.availability}%</div>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+
+                    if (allOk) {
+                        globalDot.className = 'status-dot online';
+                        globalText.textContent = 'Tous les systèmes sont opérationnels';
+                    } else {
+                        globalDot.className = 'status-dot offline';
+                        globalText.textContent = 'Certains services rencontrent un problème';
+                    }
+                }
+            })
+            .catch(err => {
+                console.error("Impossible de charger l'état des services :", err);
+                document.getElementById('global-status-text').textContent = 'Impossible de vérifier le statut';
             });
 
         window.addEventListener("DOMContentLoaded", () => {
