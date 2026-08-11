@@ -48,25 +48,27 @@ app.get('/api/status', async (req, res) => {
 
         const json = await response.json();
 
-        // 1. Filtrer les elements du tableau "included" correspondant aux ressources/moniteurs
-        const resources = (json.included || []).filter(item => item.type === 'status_page_resource');
+        // 1. Filtrer pour garder uniquement la ressource "Logoto Bot"
+        const resources = (json.included || []).filter(item => 
+            item.type === 'status_page_resource' && 
+            item.attributes && 
+            item.attributes.public_name === 'Logoto Bot'
+        );
 
-        // 2. Formater les donnees pour le front-end
+        // 2. Formater le tableau des services
         const services = resources.map(item => {
             const attr = item.attributes || {};
-            // Transformation du taux (ex: 0.986009 -> 98.60)
             const availPct = attr.availability ? (attr.availability * 100).toFixed(2) : "100.00";
             
             return {
-                name: attr.public_name || 'Service',
+                name: attr.public_name || 'Logoto Bot',
                 status: attr.status || 'operational',
                 availability: availPct
             };
         });
 
-        // 3. Calcul de la disponibilite globale moyenne
-        const totalAvailability = services.reduce((acc, s) => acc + parseFloat(s.availability), 0);
-        const globalAvail = services.length ? (totalAvailability / services.length).toFixed(2) : "100.00";
+        // 3. Calcul de la disponibilite globale (basee uniquement sur Logoto Bot)
+        const globalAvail = services.length ? services[0].availability : "100.00";
 
         uptimeCache = {
             success: true,
