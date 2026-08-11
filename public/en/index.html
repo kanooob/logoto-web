@@ -67,6 +67,8 @@
             --gris-discord: #36393f; 
             --gris-footer: #2f3136;
             --gris-card: #2f3136;
+            --vert-status: #43b581;
+            --rouge-status: #f04747;
         }
 
         * {
@@ -230,6 +232,7 @@
             max-width: 1200px;
             margin: 0 auto;
             animation: fadeInUp 0.8s ease-out;
+            width: 100%;
         }
 
         .hero-section {
@@ -298,6 +301,13 @@
             transform: translateY(-2px);
         }
 
+        .badges-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
         .badge-servers {
             border: 1px solid rgba(140, 147, 93, 0.4);
             background-color: rgba(140, 147, 93, 0.1);
@@ -308,7 +318,28 @@
             opacity: 0.9;
             font-weight: 600;
             letter-spacing: 0.5px;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #888;
+            box-shadow: 0 0 6px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .status-dot.online {
+            background-color: var(--vert-status);
+            box-shadow: 0 0 8px rgba(67, 181, 129, 0.5);
+        }
+
+        .status-dot.offline {
+            background-color: var(--rouge-status);
+            box-shadow: 0 0 8px rgba(240, 71, 71, 0.5);
         }
 
         .features-grid {
@@ -492,8 +523,15 @@
                 <a href="/en/help" class="btn btn-secondary">Learn more</a>
             </div>
 
-            <div class="badge-servers">
-                <span id="status-emoji">⚡ </span>Used on <span id="server-count">many</span> servers
+            <div class="badges-container">
+                <div class="badge-servers">
+                    <span id="status-emoji">⚡ </span>Used on <span id="server-count">many</span> servers
+                </div>
+
+                <div class="badge-servers">
+                    <span id="bot-dot" class="status-dot"></span>
+                    <span id="bot-text">Reliability: --%</span>
+                </div>
             </div>
         </div>
 
@@ -552,6 +590,27 @@
             .catch(err => {
                 console.error("Unable to load stats:", err);
                 document.getElementById('status-emoji').textContent = "☁️ ";
+            });
+
+        fetch('/api/status')
+            .then(res => res.json())
+            .then(data => {
+                const botDot = document.getElementById('bot-dot');
+                const botText = document.getElementById('bot-text');
+
+                if (data && data.success && data.services && data.services.length > 0) {
+                    const bot = data.services[0];
+                    const isOperational = bot.status === 'operational';
+
+                    botDot.className = `status-dot ${isOperational ? 'online' : 'offline'}`;
+                    botText.textContent = `Reliability: ${bot.availability}%`;
+                } else {
+                    botText.textContent = 'Reliability: Unavailable';
+                }
+            })
+            .catch(err => {
+                console.error("Unable to load bot status:", err);
+                document.getElementById('bot-text').textContent = 'Reliability: Unavailable';
             });
 
         window.addEventListener("DOMContentLoaded", () => {
