@@ -33,11 +33,11 @@ app.get('/sitemap.xml', (req, res) => {
 });
 // -------------------------------------------------------------
 
-// ------------- ROUTE STATUS BETTER UPTIME (AVEC CACHE) -------------
+// ------------- ROUTE STATUS BETTER UPTIME -------------
 app.get('/api/status', async (req, res) => {
     const now = Date.now();
 
-    // Si nous avons un cache valide (moins de 5 minutes), on le renvoie directement
+    // Verification du cache (5 minutes)
     if (uptimeCache && (now - uptimeCacheTime < UPTIME_CACHE_DURATION)) {
         return res.json(uptimeCache);
     }
@@ -48,21 +48,29 @@ app.get('/api/status', async (req, res) => {
 
         const json = await response.json();
 
-        const services = json.data.map(item => ({
-            name: item.attributes.name,
-            status: item.attributes.status,
-            availability: item.attributes.availability,
-            ping: item.attributes.last_response_time || item.attributes.response_time || 0
-        }));
+        // 1. Filtrer les elements du tableau "included" correspondant aux ressources/moniteurs
+        const resources = (json.included || []).filter(item => item.type === 'status_page_resource');
 
-        // Calcul des moyennes
-        const totalAvailability = services.reduce((acc, s) => acc + (parseFloat(s.availability) || 0), 0);
-        const totalPing = services.reduce((acc, s) => acc + (parseInt(s.ping) || 0), 0);
+        // 2. Formater les donnees pour le front-end
+        const services = resources.map(item => {
+            const attr = item.attributes || {};
+            // Transformation du taux (ex: 0.986009 -> 98.60)
+            const availPct = attr.availability ? (attr.availability * 100).toFixed(2) : "100.00";
+            
+            return {
+                name: attr.public_name || 'Service',
+                status: attr.status || 'operational',
+                availability: availPct
+            };
+        });
+
+        // 3. Calcul de la disponibilite globale moyenne
+        const totalAvailability = services.reduce((acc, s) => acc + parseFloat(s.availability), 0);
+        const globalAvail = services.length ? (totalAvailability / services.length).toFixed(2) : "100.00";
 
         uptimeCache = {
             success: true,
-            globalAvailability: services.length ? (totalAvailability / services.length).toFixed(2) : "100",
-            globalPing: services.length ? Math.round(totalPing / services.length) : 0,
+            globalAvailability: globalAvail,
             services: services,
             cachedAt: new Date().toISOString()
         };
@@ -73,7 +81,6 @@ app.get('/api/status', async (req, res) => {
     } catch (error) {
         console.error("Erreur récupération BetterUptime:", error.message);
 
-        // Si BetterUptime échoue mais qu'on a un vieux cache, on renvoie le vieux cache en fallback
         if (uptimeCache) {
             return res.json(uptimeCache);
         }
